@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autres Créations — Ewen-M-Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --void:#060606;--charbon:#0f0f0f;--surface:#161616;
+  --acier:#b4bac2;--acier-vif:#d8dde3;
+  --bronze:#8a6535;--bronze-clair:#b8874a;--or:#d4aa6e;
+  --creme:#f5f0e8;
+  --fd:'Cinzel',serif;--fb:'Cormorant Garamond',serif;--fu:'Raleway',sans-serif;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{background:var(--void);color:var(--creme);font-family:var(--fb);overflow-x:hidden;cursor:none}
+.cur,.cur-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+.cur{width:6px;height:6px;background:var(--or)}
+.cur-ring{width:26px;height:26px;border:1px solid rgba(212,170,110,.45);transition:width .3s,height .3s,border-color .3s}
+body:has(a:hover) .cur-ring{width:40px;height:40px;border-color:var(--or)}
+#loader{position:fixed;inset:0;background:var(--void);z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transition:opacity .9s,visibility .9s}
+#loader.out{opacity:0;visibility:hidden}
+.ld-logo{font-family:var(--fd);font-size:.8rem;letter-spacing:.5em;color:var(--creme);opacity:0;animation:fdIn .5s ease .4s forwards}
+.ld-bar{width:0;height:1px;background:var(--bronze-clair);animation:grow 1.4s cubic-bezier(.4,0,.2,1) .6s forwards}
+@keyframes fdIn{to{opacity:1}}@keyframes grow{to{width:80px}}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:2rem 3.5rem;display:flex;align-items:center;justify-content:space-between;transition:background .5s,padding .4s,border-color .5s;border-bottom:1px solid transparent}
+nav.on{background:rgba(6,6,6,.94);backdrop-filter:blur(14px);padding:1.2rem 3.5rem;border-bottom-color:rgba(138,101,53,.18)}
+.nav-logo{font-family:var(--fd);font-size:.78rem;letter-spacing:.42em;color:var(--creme);text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-family:var(--fu);font-size:.67rem;font-weight:300;letter-spacing:.22em;color:var(--acier);text-decoration:none;text-transform:uppercase;position:relative;transition:color .3s}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--bronze-clair);transition:width .35s}
+.nav-links a:hover{color:var(--creme)}.nav-links a:hover::after{width:100%}
+.nav-links a.active{color:var(--or)}
+
+/* HERO */
+.hero{height:72vh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:8rem;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(165deg,#08080c 0%,#0e0c10 35%,#0c0a0a 65%,var(--void) 100%)}
+.hero-bg::before{content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 18% 60%,rgba(138,101,53,.07) 0%,transparent 48%),
+    radial-gradient(ellipse at 80% 30%,rgba(80,60,120,.05) 0%,transparent 42%)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,6,6,.25) 0%,transparent 35%,rgba(6,6,6,.75) 82%,rgba(6,6,6,1) 100%)}
+
+/* Grille de forge en arrière-plan */
+.hero-grid{position:absolute;inset:0;overflow:hidden;opacity:.022;pointer-events:none}
+.hero-grid::before{content:'';position:absolute;inset:-5%;
+  background:
+    repeating-linear-gradient(0deg,transparent 0%,transparent 49px,rgba(200,190,160,.9) 49px,rgba(200,190,160,.9) 50px),
+    repeating-linear-gradient(90deg,transparent 0%,transparent 49px,rgba(200,190,160,.9) 49px,rgba(200,190,160,.9) 50px)}
+.hero-content{text-align:center;position:relative;z-index:2}
+.h-eyebrow{font-family:var(--fu);font-size:.67rem;letter-spacing:.45em;color:var(--bronze-clair);text-transform:uppercase;margin-bottom:1.6rem;animation:up .7s ease .4s both}
+.h-title{font-family:var(--fb);font-size:clamp(3.2rem,7.5vw,6.5rem);font-weight:300;line-height:.95;color:var(--creme);letter-spacing:.03em;animation:up .7s ease .6s both}
+.h-title em{font-style:italic;color:var(--acier-vif)}
+.h-sub{font-family:var(--fb);font-size:1.1rem;font-style:italic;font-weight:300;color:var(--acier);margin-top:1.4rem;animation:up .7s ease .8s both}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* INTRO */
+.intro{max-width:780px;margin:0 auto;padding:8rem 5rem;text-align:center}
+.intro p{font-family:var(--fb);font-size:1.18rem;font-weight:300;line-height:1.95;color:var(--acier)}
+.intro em{font-style:italic;color:var(--creme)}
+.deco{width:52px;height:1px;background:var(--bronze);margin:2rem auto}
+
+/* FEATURED — Le Vendetta (modèle phare à venir) */
+.featured{display:grid;grid-template-columns:1fr 1fr;min-height:85vh;border-top:1px solid rgba(138,101,53,.12)}
+.featured-vis{position:relative;background:linear-gradient(155deg,#0a0808 0%,#141010 35%,#100e0c 65%,#080606 100%);overflow:hidden}
+.featured-vis::before{content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 30% 55%,rgba(180,30,30,.06) 0%,transparent 50%),
+    radial-gradient(ellipse at 70% 25%,rgba(138,101,53,.05) 0%,transparent 40%)}
+/* Flamme de forge pour le Vendetta */
+.forge-flame{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:40%;height:60%;
+  background:radial-gradient(ellipse at 50% 80%,rgba(180,60,10,.14) 0%,rgba(140,80,20,.07) 40%,transparent 70%);
+  animation:flame 3.5s ease-in-out infinite}
+@keyframes flame{0%,100%{opacity:.6;transform:translateX(-50%) scaleY(1)}30%{opacity:1;transform:translateX(-50%) scaleY(1.08)}65%{opacity:.45;transform:translateX(-50%) scaleY(.94)}}
+.featured-knife{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-22deg);width:88%;opacity:.055;pointer-events:none}
+.featured-badge{position:absolute;top:3rem;left:3rem;display:flex;align-items:center;gap:.8rem;z-index:2}
+.badge-dot{width:8px;height:8px;background:var(--bronze-clair);border-radius:50%;animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.badge-txt{font-family:var(--fu);font-size:.6rem;letter-spacing:.3em;color:var(--bronze-clair);text-transform:uppercase}
+.featured-vis-lbl{position:absolute;bottom:2rem;right:2rem;font-family:var(--fu);font-size:.58rem;letter-spacing:.3em;color:rgba(196,180,150,.25);text-transform:uppercase}
+
+.featured-txt{padding:8rem 5.5rem 8rem 5rem;background:var(--charbon);display:flex;flex-direction:column;justify-content:center}
+.s-num{font-family:var(--fu);font-size:.62rem;letter-spacing:.35em;color:var(--bronze-clair);text-transform:uppercase;display:block;margin-bottom:1rem}
+.s-title{font-family:var(--fb);font-size:clamp(2.5rem,4.5vw,4rem);font-weight:300;color:var(--creme);letter-spacing:.04em;line-height:1}
+.s-title em{font-style:italic;color:var(--acier-vif)}
+.featured-txt p{font-family:var(--fb);font-size:1.12rem;font-weight:300;line-height:1.92;color:var(--acier);margin-top:1.8rem}
+.featured-txt .hl{color:var(--creme);font-style:italic}
+.featured-specs{margin-top:3rem;padding-top:2.2rem;border-top:1px solid rgba(138,101,53,.2);display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.fspec-label{font-family:var(--fu);font-size:.57rem;letter-spacing:.28em;color:var(--bronze-clair);text-transform:uppercase;margin-bottom:.35rem}
+.fspec-val{font-family:var(--fb);font-size:1rem;font-weight:300;color:var(--creme)}
+.fspec-val em{font-style:italic;font-size:.88rem;color:var(--acier)}
+.notify-form{margin-top:3.5rem;display:flex;gap:0;max-width:400px}
+.notify-input{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(138,101,53,.3);border-right:none;padding:.85rem 1.2rem;font-family:var(--fu);font-size:.68rem;letter-spacing:.1em;color:var(--creme);outline:none;transition:border-color .3s}
+.notify-input::placeholder{color:rgba(180,186,194,.35)}
+.notify-input:focus{border-color:var(--bronze-clair)}
+.notify-btn{background:var(--bronze);border:1px solid var(--bronze);padding:.85rem 1.5rem;font-family:var(--fu);font-size:.65rem;letter-spacing:.25em;color:var(--void);text-transform:uppercase;cursor:none;transition:background .3s;white-space:nowrap}
+.notify-btn:hover{background:var(--bronze-clair);border-color:var(--bronze-clair)}
+.notify-legend{font-family:var(--fb);font-size:.85rem;font-style:italic;color:rgba(180,186,194,.45);margin-top:.8rem}
+
+/* GRILLE AUTRES CRÉATIONS */
+.others-section{padding:9rem 5rem;background:var(--void);border-top:1px solid rgba(138,101,53,.1)}
+.others-header{margin-bottom:5rem}
+.others-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.other-card{background:var(--charbon);padding:3.5rem 3rem 3rem;position:relative;overflow:hidden;transition:background .4s}
+.other-card:hover{background:var(--surface)}
+.other-card-num{position:absolute;top:2rem;right:2.5rem;font-family:var(--fd);font-size:4rem;color:rgba(255,255,255,.025);letter-spacing:.05em;pointer-events:none;line-height:1}
+.other-badge{display:inline-block;font-family:var(--fu);font-size:.55rem;letter-spacing:.25em;color:var(--bronze-clair);text-transform:uppercase;border:1px solid rgba(138,101,53,.3);padding:.25rem .8rem;margin-bottom:2rem}
+.other-badge.soon{color:var(--acier);border-color:rgba(180,186,194,.2)}
+.other-badge.concept{color:rgba(140,160,200,.8);border-color:rgba(120,140,180,.2)}
+/* Couteau miniature dans la card */
+.card-knife{width:100%;height:60px;margin-bottom:2.5rem;position:relative;overflow:hidden}
+.other-name{font-family:var(--fb);font-size:2rem;font-weight:300;color:var(--creme);letter-spacing:.06em;line-height:1;margin-bottom:.6rem}
+.other-sub{font-family:var(--fu);font-size:.6rem;letter-spacing:.22em;color:var(--bronze-clair);text-transform:uppercase;margin-bottom:1.2rem}
+.other-desc{font-family:var(--fb);font-size:.98rem;font-style:italic;font-weight:300;color:var(--acier);line-height:1.75}
+.other-line{width:36px;height:1px;background:rgba(138,101,53,.4);margin:2rem 0}
+.other-status{display:flex;align-items:center;gap:.7rem;font-family:var(--fu);font-size:.58rem;letter-spacing:.2em;color:var(--acier);text-transform:uppercase}
+.status-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.dot-forge{background:var(--bronze-clair);animation:blink 2.5s ease-in-out infinite}
+.dot-concept{background:rgba(140,160,200,.6)}
+.dot-etude{background:rgba(180,186,194,.4)}
+
+/* TIMELINE */
+.timeline{padding:7rem 5rem;background:var(--charbon);border-top:1px solid rgba(138,101,53,.1)}
+.timeline-inner{max-width:900px;margin:0 auto}
+.tl-header{text-align:center;margin-bottom:5rem}
+.tl-track{position:relative;padding-left:3rem}
+.tl-track::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,rgba(138,101,53,.4) 0%,rgba(138,101,53,.15) 80%,transparent 100%)}
+.tl-item{position:relative;padding:0 0 4rem 3.5rem}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{position:absolute;left:-5px;top:.4rem;width:11px;height:11px;border-radius:50%;border:1px solid var(--bronze-clair);background:var(--void)}
+.tl-dot.active{background:var(--bronze-clair);box-shadow:0 0 12px rgba(184,135,74,.35)}
+.tl-item-tag{font-family:var(--fu);font-size:.58rem;letter-spacing:.3em;color:var(--bronze-clair);text-transform:uppercase;margin-bottom:.6rem}
+.tl-item-name{font-family:var(--fb);font-size:1.7rem;font-weight:300;color:var(--creme);margin-bottom:.6rem}
+.tl-item-name em{font-style:italic;color:var(--acier-vif)}
+.tl-item-desc{font-family:var(--fb);font-size:1rem;font-weight:300;font-style:italic;color:var(--acier);line-height:1.8;max-width:580px}
+
+/* NOTIFICATION / CONTACT */
+.notif-section{padding:8rem 5rem;background:var(--void);text-align:center;border-top:1px solid rgba(138,101,53,.1)}
+.notif-inner{max-width:600px;margin:0 auto}
+.notif-section h2{font-family:var(--fb);font-size:clamp(2rem,4vw,3.2rem);font-weight:300;color:var(--creme);line-height:1.15;margin-bottom:1.2rem}
+.notif-section h2 em{font-style:italic;color:var(--acier-vif)}
+.notif-section p{font-family:var(--fb);font-size:1.05rem;font-style:italic;color:var(--acier);margin-bottom:3rem;line-height:1.85}
+.notif-form{display:flex;gap:0;justify-content:center;max-width:480px;margin:0 auto}
+.notif-input{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(138,101,53,.28);border-right:none;padding:.9rem 1.4rem;font-family:var(--fu);font-size:.68rem;letter-spacing:.1em;color:var(--creme);outline:none;transition:border-color .3s}
+.notif-input::placeholder{color:rgba(180,186,194,.32)}
+.notif-input:focus{border-color:var(--bronze-clair)}
+.notif-btn{background:transparent;border:1px solid var(--bronze);padding:.9rem 2rem;font-family:var(--fu);font-size:.65rem;letter-spacing:.28em;color:var(--creme);text-transform:uppercase;cursor:none;transition:background .35s,color .35s;white-space:nowrap}
+.notif-btn:hover{background:var(--bronze);color:var(--void)}
+.notif-legend{font-family:var(--fb);font-size:.85rem;font-style:italic;color:rgba(180,186,194,.38);margin-top:1rem}
+
+/* MODELES EN CATALOGUE */
+.catalog{padding:0 5rem 8rem;background:var(--void)}
+.catalog-header{margin-bottom:3.5rem;padding-top:5rem;border-top:1px solid rgba(138,101,53,.1)}
+.catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.cat-item{background:var(--charbon);padding:2.5rem;text-decoration:none;display:block;transition:background .3s;cursor:none;position:relative;overflow:hidden}
+.cat-item:hover{background:var(--surface)}
+.cat-item-num{font-family:var(--fu);font-size:.58rem;letter-spacing:.3em;color:var(--bronze-clair);text-transform:uppercase;margin-bottom:.6rem}
+.cat-item-name{font-family:var(--fb);font-size:1.6rem;font-weight:300;color:var(--creme);margin-bottom:.4rem}
+.cat-item-desc{font-family:var(--fb);font-size:.9rem;font-style:italic;color:var(--acier)}
+.cat-item-arr{position:absolute;bottom:2rem;right:2rem;width:28px;height:28px;border:1px solid rgba(138,101,53,.25);display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.8);transition:opacity .3s,transform .3s}
+.cat-item:hover .cat-item-arr{opacity:1;transform:scale(1)}
+.cat-item-arr svg{width:11px;height:11px;stroke:var(--or);fill:none;stroke-width:1.5}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .85s ease,transform .85s ease}
+.reveal.vis{opacity:1;transform:none}
+.r1{transition-delay:.12s}.r2{transition-delay:.24s}.r3{transition-delay:.36s}
+
+footer{border-top:1px solid rgba(138,101,53,.18);padding:2.8rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:var(--void)}
+.f-logo{font-family:var(--fd);font-size:.78rem;letter-spacing:.42em;color:var(--creme)}
+.f-tag{font-family:var(--fb);font-size:.9rem;font-style:italic;color:var(--acier);font-weight:300}
+.f-social{display:flex;gap:1.2rem}
+.f-social a{width:36px;height:36px;border:1px solid rgba(138,101,53,.28);display:flex;align-items:center;justify-content:center;transition:border-color .3s,background .3s;cursor:none}
+.f-social a:hover{border-color:var(--bronze-clair);background:rgba(138,101,53,.1)}
+.f-social svg{width:15px;height:15px;fill:var(--acier);transition:fill .3s}
+.f-social a:hover svg{fill:var(--bronze-clair)}
+.f-copy{font-family:var(--fu);font-size:.58rem;letter-spacing:.15em;color:rgba(196,180,150,.22);text-align:center;padding:.8rem 3.5rem 1.6rem;background:var(--void)}
+
+@media(max-width:1100px){
+  .featured{grid-template-columns:1fr}
+  .featured-vis{min-height:50vw}
+  .others-grid{grid-template-columns:1fr 1fr}
+  .catalog-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  nav{padding:1.4rem 1.5rem}.nav-links{display:none}
+  .intro{padding:5rem 2rem}
+  .featured-txt{padding:5rem 2rem}
+  .others-section{padding:6rem 2rem}
+  .others-grid{grid-template-columns:1fr}
+  .timeline{padding:5rem 2rem}
+  .tl-track{padding-left:2rem}
+  .tl-item{padding-left:2.5rem}
+  .notif-section{padding:5rem 2rem}
+  .notif-form{flex-direction:column;max-width:100%}
+  .notif-input{border-right:1px solid rgba(138,101,53,.28);border-bottom:none}
+  .catalog{padding:0 2rem 5rem}
+  .catalog-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:1.5rem;text-align:center;padding:2rem 1.5rem}
+}
+</style>
+</head>
+<body>
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="curR"></div>
+<div id="loader"><div class="ld-logo">EWEN·M·ATELIER</div><div class="ld-bar"></div></div>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">EWEN·M·ATELIER</a>
+  <ul class="nav-links">
+    <li><a href="index.html#modeles">Modèles</a></li>
+    <li><a href="personnalisation.html">Personnalisation</a></li>
+    <li><a href="index.html#artisan">L'Artisan</a></li>
+    <li><a href="autres-modeles.html" class="active">Autres créations</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="h-eyebrow">Ewen-M-Atelier · L'Atelier en mouvement</div>
+    <h1 class="h-title">Autres<br><em>Créations</em></h1>
+    <p class="h-sub">Ce qui naît dans le silence de la forge</p>
+  </div>
+</section>
+
+<!-- INTRO -->
+<div class="intro reveal">
+  <div class="deco"></div>
+  <p>Un coutelier ne s'arrête jamais. Entre deux commandes, dans les marges du temps, <em>de nouvelles formes émergent</em>. Esquisses au crayon sur papier kraft, silhouettes imaginées dans la lueur du four, profils qui hantent l'esprit jusqu'à ce qu'ils trouvent leur acier. Voici ce qui se forge, lentement, à l'atelier.</p>
+  <div class="deco"></div>
+</div>
+
+<!-- FEATURED: LE VENDETTA -->
+<section class="featured">
+  <div class="featured-vis">
+    <div class="forge-flame"></div>
+    <div class="featured-badge">
+      <div class="badge-dot"></div>
+      <span class="badge-txt">En forge · Bientôt disponible</span>
+    </div>
+    <!-- Couteau Vendetta SVG — profil stiletto/dagger -->
+    <svg class="featured-knife" viewBox="0 0 700 130" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <defs>
+        <linearGradient id="vblade" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#6a6870"/>
+          <stop offset="40%" stop-color="#b8b4c0"/>
+          <stop offset="70%" stop-color="#dcdae8"/>
+          <stop offset="100%" stop-color="#9890a0"/>
+        </linearGradient>
+      </defs>
+      <!-- Manche — corne noire -->
+      <path d="M22 55 L115 52 L115 78 L22 74 Q14 70 14 64 Q14 58 22 55Z" fill="#141010"/>
+      <path d="M35 53 L35 76" stroke="#2a2424" stroke-width=".9" opacity=".6"/>
+      <path d="M65 52 L65 77" stroke="#2a2424" stroke-width=".9" opacity=".6"/>
+      <path d="M95 52 L95 77" stroke="#2a2424" stroke-width=".9" opacity=".6"/>
+      <!-- Rivets argent -->
+      <circle cx="50" cy="64" r="5.5" fill="#686068"/><circle cx="50" cy="64" r="3" fill="#908898"/>
+      <circle cx="86" cy="63" r="5.5" fill="#686068"/><circle cx="86" cy="63" r="3" fill="#908898"/>
+      <!-- Mitre style stiletto -->
+      <path d="M113 44 L128 48 L128 82 L113 76 Q108 70 108 63 Q108 56 113 44Z" fill="#7a7080"/>
+      <!-- Lame stiletto symétrique — fine et effilee -->
+      <path d="M128 63 L650 53 Q680 63 650 73 L128 63Z" fill="url(#vblade)"/>
+      <!-- Faux tranchant haut -->
+      <path d="M140 60 L650 52" stroke="rgba(220,218,230,.25)" stroke-width=".6"/>
+      <!-- Faux tranchant bas -->
+      <path d="M140 66 L650 74" stroke="rgba(220,218,230,.15)" stroke-width=".5"/>
+      <!-- Fuller central double -->
+      <path d="M155 60 Q400 55 620 56" stroke="rgba(60,58,70,.8)" stroke-width="1.2"/>
+      <path d="M155 66 Q400 71 620 70" stroke="rgba(60,58,70,.8)" stroke-width="1.2"/>
+      <!-- Pointe acérée -->
+      <path d="M642 54 Q680 63 642 72 L660 63Z" fill="#c0b8cc"/>
+    </svg>
+    <div class="featured-vis-lbl">Le Vendetta · Esquisse</div>
+  </div>
+
+  <div class="featured-txt reveal">
+    <span class="s-num">La Création Phare</span>
+    <h2 class="s-title">Le<br><em>Vendetta</em></h2>
+    <div style="width:52px;height:1px;background:var(--bronze);margin:1.8rem 0"></div>
+    <p>Le Vendetta est né d'une obsession : <span class="hl">créer un couteau à lame double symétrique d'une finesse absolue</span>, inspiré des poignards corses du XVIIIe siècle. Une lame à double tranchant d'une élégance coupante, portée par une mitre forgée et un manche en corne noire.</p>
+    <p>Son profil stiletto effilé — presque agressif dans sa pureté géométrique — contraste avec la sobriété totale de sa finition. Ici, <span class="hl">aucun ornement ne vient parasiter la perfection de la forme</span>. Seule la lumière parle, glissant sur les deux tranchants comme sur un objet du passé retrouvé.</p>
+    <div class="featured-specs">
+      <div>
+        <div class="fspec-label">Profil</div>
+        <div class="fspec-val">Stiletto <em>symétrique</em></div>
+      </div>
+      <div>
+        <div class="fspec-label">Lame estimée</div>
+        <div class="fspec-val">14 <em>cm</em></div>
+      </div>
+      <div>
+        <div class="fspec-label">Acier envisagé</div>
+        <div class="fspec-val">RWL-34 <em>ou Damas</em></div>
+      </div>
+      <div>
+        <div class="fspec-label">Manche</div>
+        <div class="fspec-val">Corne noire <em>/ Ébène</em></div>
+      </div>
+      <div>
+        <div class="fspec-label">Tranchant</div>
+        <div class="fspec-val">Double <em>bilatéral</em></div>
+      </div>
+      <div>
+        <div class="fspec-label">Statut</div>
+        <div class="fspec-val"><em>En forge</em></div>
+      </div>
+    </div>
+    <div class="notify-form" style="margin-top:3rem">
+      <input class="notify-input" type="email" placeholder="votre@email.fr">
+      <button class="notify-btn">Être notifié</button>
+    </div>
+    <p class="notify-legend">Vous serez contacté en priorité à sa mise en commande.</p>
+  </div>
+</section>
+
+<!-- AUTRES CRÉATIONS EN COURS -->
+<section class="others-section">
+  <div class="others-header reveal">
+    <span class="s-num" style="display:block;margin-bottom:1rem">À l'atelier</span>
+    <h2 class="s-title">D'autres formes<br><em>cherchent leur acier</em></h2>
+    <div style="width:52px;height:1px;background:var(--bronze);margin:1.8rem 0"></div>
+  </div>
+  <div class="others-grid">
+
+    <!-- Le Corse -->
+    <div class="other-card reveal">
+      <div class="other-card-num">I</div>
+      <div class="other-badge">En étude</div>
+      <div class="card-knife">
+        <svg width="100%" height="60" viewBox="0 0 340 60" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <path d="M10 30 L70 28 L70 42 L10 40 Q6 38 6 35 Q6 32 10 30Z" fill="#2a2010"/>
+          <circle cx="30" cy="35" r="4" fill="#7a6030"/><circle cx="30" cy="35" r="2" fill="#9a8040"/>
+          <circle cx="54" cy="34" r="4" fill="#7a6030"/><circle cx="54" cy="34" r="2" fill="#9a8040"/>
+          <path d="M69 24 L78 24 L78 46 L69 46 Q65 40 65 35 Q65 30 69 24Z" fill="#606870"/>
+          <path d="M78 33 L315 24 Q330 32 314 40 L78 37Z" fill="#909498"/>
+          <path d="M78 33 L313 25" stroke="rgba(200,210,220,.2)" stroke-width=".4"/>
+        </svg>
+      </div>
+      <div class="other-name">Le Corse</div>
+      <div class="other-sub">Couteau de tradition insulaire</div>
+      <div class="other-desc">Inspiré des couteaux de bergers corses — manche en bois d'arbousier, lame fine en carbone. La mémoire d'une île dans un objet de poche.</div>
+      <div class="other-line"></div>
+      <div class="other-status">
+        <div class="status-dot dot-etude"></div>
+        Étude de forme · Esquisse en cours
+      </div>
+    </div>
+
+    <!-- Le Nomade -->
+    <div class="other-card reveal r1">
+      <div class="other-card-num">II</div>
+      <div class="other-badge">En étude</div>
+      <div class="card-knife">
+        <svg width="100%" height="60" viewBox="0 0 340 60" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <path d="M10 30 L75 27 L75 43 L10 40 Q6 37 6 35 Q6 32 10 30Z" fill="#1a2428"/>
+          <circle cx="32" cy="35" r="4" fill="#404848"/><circle cx="32" cy="35" r="2" fill="#606868"/>
+          <circle cx="58" cy="34" r="4" fill="#404848"/><circle cx="58" cy="34" r="2" fill="#606868"/>
+          <path d="M73 23 L84 23 L84 47 L73 47 Q68 40 68 35 Q68 30 73 23Z" fill="#788088"/>
+          <path d="M84 33 L300 22 Q320 32 298 42 L84 37Z" fill="#8890a0"/>
+          <!-- Fuller -->
+          <path d="M96 32 Q240 27 285 28" stroke="rgba(60,65,78,.9)" stroke-width="1.2"/>
+        </svg>
+      </div>
+      <div class="other-name">Le Nomade</div>
+      <div class="other-sub">Couteau de voyage minimaliste</div>
+      <div class="other-desc">Un couteau de poche au design épuré, pensé pour le voyageur : léger, compact, discret. Manche en titane anodisé, lame en N690 brossé. L'essentiel, rien d'autre.</div>
+      <div class="other-line"></div>
+      <div class="other-status">
+        <div class="status-dot dot-etude"></div>
+        Étude de forme · Prototype à venir
+      </div>
+    </div>
+
+    <!-- La Faucille -->
+    <div class="other-card reveal r2">
+      <div class="other-card-num">III</div>
+      <div class="other-badge concept">Concept</div>
+      <div class="card-knife">
+        <svg width="100%" height="60" viewBox="0 0 340 60" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <path d="M10 32 L68 29 L68 44 L10 42 Q6 39 6 37 Q6 33 10 32Z" fill="#300808"/>
+          <circle cx="28" cy="37" r="4" fill="#681a1a"/><circle cx="28" cy="37" r="2" fill="#882828"/>
+          <circle cx="52" cy="36" r="4" fill="#681a1a"/><circle cx="52" cy="36" r="2" fill="#882828"/>
+          <path d="M66 23 L78 23 L78 46 L66 46 Q62 40 62 35 Q62 30 66 23Z" fill="#707888"/>
+          <!-- Lame courbée type yatagan -->
+          <path d="M78 35 Q180 22 290 28 Q310 30 310 35 Q310 42 290 44 Q180 50 78 40 Z" fill="#909898"/>
+          <path d="M78 35 Q180 22 290 28" stroke="rgba(200,210,220,.2)" stroke-width=".5"/>
+        </svg>
+      </div>
+      <div class="other-name">La Faucille</div>
+      <div class="other-sub">Lame courbée · Concept</div>
+      <div class="other-desc">Une lame à courbure inversée inspirée des yatagans ottomans — tranchant sur l'intrados, dos convexe. Un défi de forge, une invitation à repenser la géométrie du couteau.</div>
+      <div class="other-line"></div>
+      <div class="other-status">
+        <div class="status-dot dot-concept"></div>
+        Concept · À l'étude technique
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TIMELINE DE L'ATELIER -->
+<section class="timeline">
+  <div class="timeline-inner">
+    <div class="tl-header reveal">
+      <span class="s-num" style="display:block;text-align:center;margin-bottom:1rem">Feuille de route</span>
+      <h2 class="s-title" style="text-align:center">Ce qui vient,<br><em>dans l'ordre de la forge</em></h2>
+      <div style="width:52px;height:1px;background:var(--bronze);margin:1.8rem auto"></div>
+    </div>
+    <div class="tl-track reveal">
+      <div class="tl-item">
+        <div class="tl-dot active"></div>
+        <div class="tl-item-tag">En forge · Priorité 1</div>
+        <div class="tl-item-name">Le <em>Vendetta</em></div>
+        <div class="tl-item-desc">La lame double symétrique est en cours de conception. Les premiers prototypes de la géométrie stiletto sont testés sur carbone XC75. Mise en commande prévue dès validation du prototype final.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-item-tag">Étude avancée · Priorité 2</div>
+        <div class="tl-item-name">Le <em>Corse</em></div>
+        <div class="tl-item-desc">Les proportions sont arrêtées. Recherche de l'arbousier idéal en cours — le bois doit être suffisamment dense, avec une densité de veines au cm² qui permette un travail fin sans risque de rupture.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-item-tag">Prototype · Priorité 3</div>
+        <div class="tl-item-name">Le <em>Nomade</em></div>
+        <div class="tl-item-desc">Esquisse finale validée. L'enjeu technique est l'intégration d'un système de blocage discret adapté à une lame de seulement 7 cm. Travail sur le mécanisme en cours.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-item-tag">Concept · Horizon lointain</div>
+        <div class="tl-item-name">La <em>Faucille</em></div>
+        <div class="tl-item-desc">Le concept est posé, le défi est immense. Une lame courbée à cette amplitude demande une maîtrise du recuit et du gabarit que l'atelier n'a pas encore pleinement atteinte. Un jour, peut-être.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOTIFICATION -->
+<section class="notif-section reveal">
+  <div class="notif-inner">
+    <h2>Soyez les premiers<br><em>à le savoir</em></h2>
+    <p>Laissez votre adresse. À chaque nouvelle création mise en commande, vous recevrez un message — rien d'autre. Pas de newsletter. Pas de publicité. Juste la forge qui parle.</p>
+    <div class="notif-form">
+      <input class="notif-input" type="email" placeholder="votre@email.fr">
+      <button class="notif-btn">Suivre l'atelier</button>
+    </div>
+    <p class="notif-legend">Désabonnement à tout moment — une adresse, une création, un message.</p>
+  </div>
+</section>
+
+<!-- CATALOGUE ACTUEL -->
+<div class="catalog">
+  <div class="catalog-header reveal">
+    <span class="s-num" style="display:block;margin-bottom:1rem">La Collection Actuelle</span>
+    <h2 class="s-title">Trois modèles<br><em>disponibles à la commande</em></h2>
+    <div style="width:52px;height:1px;background:var(--bronze);margin:1.8rem 0"></div>
+  </div>
+  <div class="catalog-grid">
+    <a href="l-ardent.html" class="cat-item reveal">
+      <div class="cat-item-num">Modèle · 01</div>
+      <div class="cat-item-name">Le Sgian Dubh</div>
+      <div class="cat-item-desc">Couteau de caractère · Acier XC75</div>
+      <div class="cat-item-arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+    <a href="le-veneur.html" class="cat-item reveal r1">
+      <div class="cat-item-num">Modèle · 02</div>
+      <div class="cat-item-name">Le Pataud</div>
+      <div class="cat-item-desc">Couteau de chasse · Acier 100C6</div>
+      <div class="cat-item-arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+    <a href="le-sabal.html" class="cat-item reveal r2">
+      <div class="cat-item-num">Modèle · 03</div>
+      <div class="cat-item-name">Le Sabal</div>
+      <div class="cat-item-desc">Couteau de nature · Acier N690</div>
+      <div class="cat-item-arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">EWEN·M·ATELIER</div>
+  <div class="f-tag">Coutellerie d'art · Thiers, France</div>
+  <div class="f-social">
+    <a href="https://instagram.com/ewen_m_atelier" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a href="https://facebook.com/ewenmatelier" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+  </div>
+</footer>
+<div class="f-copy">© 2024 Ewen-M-Atelier · Tous droits réservés · Thiers, France</div>
+
+<script>
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop)})();
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('out'),2100));
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('on',window.scrollY>70));
+const obs=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('vis')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

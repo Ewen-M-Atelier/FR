@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Sgian Dubh — Ewen-M-Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--void:#060606;--charbon:#0f0f0f;--surface:#161616;--acier:#b4bac2;--acier-vif:#d8dde3;--bronze:#8a6535;--bronze-clair:#b8874a;--or:#d4aa6e;--creme:#f5f0e8;--fd:'Cinzel',serif;--fb:'Cormorant Garamond',serif;--fu:'Raleway',sans-serif;--accent-h:#10101a;--accent-m:#181828;--accent-l:rgba(80,90,160,.08)}
+html{font-size:16px;scroll-behavior:smooth}
+body{background:var(--void);color:var(--creme);font-family:var(--fb);overflow-x:hidden;cursor:none}
+.cur,.cur-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+.cur{width:6px;height:6px;background:var(--or)}
+.cur-ring{width:26px;height:26px;border:1px solid rgba(212,170,110,.45);transition:width .3s,height .3s,border-color .3s}
+body:has(a:hover) .cur-ring{width:40px;height:40px;border-color:var(--or)}
+#loader{position:fixed;inset:0;background:var(--void);z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transition:opacity .9s,visibility .9s}
+#loader.out{opacity:0;visibility:hidden}
+.ld-logo{font-family:var(--fd);font-size:.8rem;letter-spacing:.5em;color:var(--creme);opacity:0;animation:fdIn .5s ease .4s forwards}
+.ld-bar{width:0;height:1px;background:var(--bronze-clair);animation:grow 1.4s cubic-bezier(.4,0,.2,1) .6s forwards}
+@keyframes fdIn{to{opacity:1}}@keyframes grow{to{width:80px}}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:2rem 3.5rem;display:flex;align-items:center;justify-content:space-between;transition:background .5s,padding .4s,border-color .5s;border-bottom:1px solid transparent}
+nav.on{background:rgba(6,6,6,.94);backdrop-filter:blur(14px);padding:1.2rem 3.5rem;border-bottom-color:rgba(138,101,53,.18)}
+.nav-logo{font-family:var(--fd);font-size:.78rem;letter-spacing:.42em;color:var(--creme);text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-family:var(--fu);font-size:.67rem;font-weight:300;letter-spacing:.22em;color:var(--acier);text-decoration:none;text-transform:uppercase;position:relative;transition:color .3s}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--bronze-clair);transition:width .35s}
+.nav-links a:hover{color:var(--creme)}.nav-links a:hover::after{width:100%}
+
+/* HERO */
+.hero{height:100vh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(160deg,var(--accent-h) 0%,var(--accent-m) 40%,#0c0c14 70%,var(--void) 100%)}
+.hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(60,80,180,.07) 0%,transparent 55%),radial-gradient(ellipse at 80% 30%,rgba(138,101,53,.06) 0%,transparent 45%)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,6,6,.3) 0%,transparent 40%,rgba(6,6,6,.7) 85%,rgba(6,6,6,1) 100%)}
+.hero-num{position:absolute;right:3rem;bottom:3rem;font-family:var(--fd);font-size:20vw;color:rgba(255,255,255,.018);letter-spacing:0;pointer-events:none;user-select:none;line-height:1}
+.hero-knife{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-18deg);width:90%;max-width:1000px;opacity:.05;pointer-events:none;transition:opacity 1s ease}
+.hero.loaded .hero-knife{opacity:.08}
+.hero-content{text-align:center;position:relative;z-index:2}
+.hero-back{position:absolute;top:calc(100px + 2rem);left:3.5rem;display:flex;align-items:center;gap:.8rem;font-family:var(--fu);font-size:.62rem;letter-spacing:.25em;color:var(--acier);text-decoration:none;text-transform:uppercase;transition:color .3s;z-index:3}
+.hero-back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;transition:transform .3s}
+.hero-back:hover{color:var(--bronze-clair)}.hero-back:hover svg{transform:translateX(-4px)}
+.h-eyebrow{font-family:var(--fu);font-size:.67rem;letter-spacing:.45em;color:var(--bronze-clair);text-transform:uppercase;margin-bottom:1.6rem;animation:up .7s ease 1.9s both}
+.h-title{font-family:var(--fb);font-size:clamp(4rem,9vw,8rem);font-weight:300;line-height:.9;color:var(--creme);letter-spacing:.03em;animation:up .7s ease 2.1s both}
+.h-title em{font-style:italic;color:var(--acier-vif)}
+.h-sub{font-family:var(--fu);font-size:.68rem;letter-spacing:.32em;color:var(--acier);text-transform:uppercase;margin-top:1.6rem;animation:up .7s ease 2.3s both}
+.h-scroll{display:flex;flex-direction:column;align-items:center;gap:.8rem;margin-top:3.5rem;animation:up .7s ease 2.6s both}
+.h-scroll-line{width:1px;height:54px;background:linear-gradient(to bottom,var(--bronze),transparent)}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* SPECS BAR */
+.specs-bar{background:var(--charbon);padding:2.5rem 5rem;display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-bottom:1px solid rgba(138,101,53,.12)}
+.spec{padding:0 2rem;border-right:1px solid rgba(138,101,53,.18);display:flex;flex-direction:column;gap:.5rem}
+.spec:first-child{padding-left:0}.spec:last-child{border-right:none}
+.spec-label{font-family:var(--fu);font-size:.58rem;letter-spacing:.3em;color:var(--bronze-clair);text-transform:uppercase}
+.spec-val{font-family:var(--fb);font-size:1.3rem;font-weight:300;color:var(--creme)}
+.spec-val em{font-style:italic;font-size:.95rem;color:var(--acier)}
+
+/* STORY */
+.story{display:grid;grid-template-columns:1fr 1fr;min-height:70vh}
+.story-txt{padding:8rem 5.5rem 8rem 5rem;background:var(--void);display:flex;flex-direction:column;justify-content:center}
+.s-num{font-family:var(--fu);font-size:.62rem;letter-spacing:.35em;color:var(--bronze-clair);text-transform:uppercase;display:block;margin-bottom:1rem}
+.s-title{font-family:var(--fb);font-size:clamp(2rem,3.5vw,3rem);font-weight:300;color:var(--creme);letter-spacing:.04em;line-height:1.1}
+.s-title em{font-style:italic;color:var(--acier-vif)}
+.deco{width:52px;height:1px;background:var(--bronze);margin:1.8rem 0}
+.story-txt p{font-family:var(--fb);font-size:1.1rem;font-weight:300;line-height:1.92;color:var(--acier);margin-top:1.6rem}
+.story-txt .hl{color:var(--creme);font-style:italic}
+.story-img{position:relative;background:linear-gradient(155deg,var(--accent-h) 0%,var(--accent-m) 45%,#0e0e18 100%);overflow:hidden}
+.story-img::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 40% 50%,rgba(60,80,180,.08) 0%,transparent 55%)}
+.story-img-lbl{position:absolute;bottom:2rem;right:2rem;font-family:var(--fu);font-size:.58rem;letter-spacing:.3em;color:rgba(196,180,150,.28);text-transform:uppercase}
+.story-img-knife{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-20deg);width:90%;opacity:.08;pointer-events:none}
+
+/* GALLERY */
+.gallery{padding:6rem 5rem;background:var(--charbon)}
+.gallery-header{margin-bottom:3.5rem}
+.gallery-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:400px;gap:2px}
+.gal-item{position:relative;overflow:hidden}
+.gal-item:nth-child(1){background:linear-gradient(145deg,var(--accent-h) 0%,var(--accent-m) 55%,var(--void) 100%)}
+.gal-item:nth-child(2){background:linear-gradient(145deg,#0e0e18 0%,#181828 55%,#0a0a14 100%)}
+.gal-item:nth-child(3){background:linear-gradient(145deg,#12121e 0%,#1c1c2c 55%,#0c0c18 100%)}
+.gal-item::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 40% 50%,rgba(60,80,180,.07) 0%,transparent 60%)}
+.gal-lbl{position:absolute;bottom:1.5rem;left:1.5rem;font-family:var(--fu);font-size:.58rem;letter-spacing:.28em;color:rgba(196,180,150,.3);text-transform:uppercase}
+
+/* PERSO CTA */
+.perso-cta{padding:7rem 5rem;background:var(--void);display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;border-top:1px solid rgba(138,101,53,.12)}
+.cta-txt .s-title{margin-top:1rem}
+.cta-txt p{font-family:var(--fb);font-size:1.1rem;font-style:italic;color:var(--acier);margin-top:2rem;line-height:1.8}
+.btn{display:inline-flex;align-items:center;gap:1rem;margin-top:2.5rem;padding:.85rem 2.8rem;border:1px solid var(--bronze);font-family:var(--fu);font-size:.68rem;font-weight:300;letter-spacing:.3em;color:var(--creme);text-decoration:none;text-transform:uppercase;transition:background .4s,color .4s;cursor:none}
+.btn:hover{background:var(--bronze);color:var(--void)}
+.btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;transition:transform .3s}
+.btn:hover svg{transform:translateX(4px)}
+.btn-outline{border-color:rgba(138,101,53,.4)}
+.cta-nav{display:grid;gap:2px}
+.model-nav-item{background:var(--charbon);padding:2rem 2.5rem;text-decoration:none;display:flex;align-items:center;justify-content:space-between;transition:background .3s;cursor:none}
+.model-nav-item:hover{background:var(--surface)}
+.mni-info{}
+.mni-tag{font-family:var(--fu);font-size:.58rem;letter-spacing:.3em;color:var(--bronze-clair);text-transform:uppercase;margin-bottom:.4rem}
+.mni-name{font-family:var(--fb);font-size:1.4rem;font-weight:300;color:var(--creme)}
+.mni-arr{width:30px;height:30px;border:1px solid rgba(138,101,53,.3);display:flex;align-items:center;justify-content:center}
+.mni-arr svg{width:12px;height:12px;stroke:var(--or);fill:none;stroke-width:1.5}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .85s ease,transform .85s ease}
+.reveal.vis{opacity:1;transform:none}
+.r1{transition-delay:.1s}.r2{transition-delay:.2s}
+
+/* FOOTER */
+footer{border-top:1px solid rgba(138,101,53,.18);padding:2.8rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:var(--void)}
+.f-logo{font-family:var(--fd);font-size:.78rem;letter-spacing:.42em;color:var(--creme)}
+.f-tag{font-family:var(--fb);font-size:.9rem;font-style:italic;color:var(--acier);font-weight:300}
+.f-social{display:flex;gap:1.2rem}
+.f-social a{width:36px;height:36px;border:1px solid rgba(138,101,53,.28);display:flex;align-items:center;justify-content:center;transition:border-color .3s,background .3s;cursor:none}
+.f-social a:hover{border-color:var(--bronze-clair);background:rgba(138,101,53,.1)}
+.f-social svg{width:15px;height:15px;fill:var(--acier);transition:fill .3s}
+.f-social a:hover svg{fill:var(--bronze-clair)}
+.f-copy{font-family:var(--fu);font-size:.58rem;letter-spacing:.15em;color:rgba(196,180,150,.22);text-align:center;padding:.8rem 3.5rem 1.6rem;background:var(--void)}
+@media(max-width:1100px){.story{grid-template-columns:1fr}.story-img{min-height:50vw}.gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}.gal-item:first-child{grid-column:1/-1;height:300px}.gal-item:not(:first-child){height:220px}.perso-cta{grid-template-columns:1fr;gap:3rem}.specs-bar{grid-template-columns:repeat(3,1fr);gap:2rem}}
+@media(max-width:768px){nav{padding:1.4rem 1.5rem}.nav-links{display:none}.specs-bar{grid-template-columns:1fr 1fr;padding:2rem 1.5rem}.story-txt{padding:5rem 2rem}.gallery{padding:4rem 1.5rem}.perso-cta{padding:5rem 2rem}footer{flex-direction:column;gap:1.5rem;text-align:center;padding:2rem 1.5rem}}
+</style>
+</head>
+<body>
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="curR"></div>
+<div id="loader"><div class="ld-logo">EWEN·M·ATELIER</div><div class="ld-bar"></div></div>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo">EWEN·M·ATELIER</a>
+  <ul class="nav-links">
+    <li><a href="index.html#modeles">Modèles</a></li>
+    <li><a href="personnalisation.html">Personnalisation</a></li>
+    <li><a href="index.html#artisan">L'Artisan</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="heroSec">
+  <div class="hero-bg"></div>
+  <div class="hero-num">01</div>
+  <a href="index.html#modeles" class="hero-back">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Tous les modèles
+  </a>
+  <div class="hero-content">
+    <div class="h-eyebrow">Modèle · 01 · Ewen-M-Atelier</div>
+    <h1 class="h-title">Le Sgian Dubh</em></h1>
+    <p class="h-sub">Couteau de caractère · Forgé à Thiers</p>
+    <div class="h-scroll"><div class="h-scroll-line"></div></div>
+  </div>
+</section>
+
+<!-- SPECS -->
+<div class="specs-bar">
+  <div class="spec"><span class="spec-label">Longueur lame</span><div class="spec-val">11 <em>cm</em></div></div>
+  <div class="spec"><span class="spec-label">Longueur totale</span><div class="spec-val">24 <em>cm</em></div></div>
+  <div class="spec"><span class="spec-label">Acier</span><div class="spec-val">XC75 <em>/ RWL-34</em></div></div>
+  <div class="spec"><span class="spec-label">Manche</span><div class="spec-val"><em>Bois exotique</em></div></div>
+  <div class="spec"><span class="spec-label">Type</span><div class="spec-val"><em>Chasse · Outdoor</em></div></div>
+</div>
+
+<!-- STORY -->
+<section class="story">
+  <div class="story-txt reveal">
+    <span class="s-num">Le Couteau</span>
+    <h2 class="s-title">Un caractère<br><em>forgé au feu</em></h2>
+    <div class="deco"></div>
+    <p>Le Sgian Dubh tient son nom de <span class="hl">la violence tranquille du feu qui l'a créé</span>. Ce couteau de chasse au profil affirmé incarne la tradition de la coutellerie thiernoise dans ce qu'elle a de plus authentique : une lame forgée pour durer, pensée pour servir.</p>
+    <p>Sa lame en acier XC75 carbone développe avec le temps une <span class="hl">patine naturelle unique</span> — la marque de l'usage, de la mémoire. Pour ceux qui ne recherchent pas l'objet parfait mais l'objet vivant.</p>
+    <p>Disponible en acier inoxydable RWL-34 pour ceux qui préfèrent l'entretien minimal à la patine. Les deux versions sont forgées, trempées et finies à la main dans l'atelier de Thiers.</p>
+  </div>
+  <div class="story-img">
+    <div class="story-img-lbl">Photographie · Le Sgian Dubh</div>
+    <img src="images/sgian-dubh-metal-arrondi-main.jpg" alt="Le Sgian Dubh - Vue générale" style="width:100%;height:100%;object-fit:cover;object-position:center">
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery reveal">
+  <div class="gallery-header">
+    <span class="s-num">Détails</span>
+    <h2 class="s-title">L'objet, <em>sous tous les angles</em></h2>
+    <div class="deco"></div>
+  </div>
+  <div class="gallery-grid">
+    <div class="gal-item">
+      <img src="images/sgian-dubh-face.jpg" alt="" style="width:100%;height:120%;object-fit:cover;object-position:center">
+      <div class="gal-lbl">Vue générale</div>
+    </div>
+    <div class="gal-item">
+      <img src="images/sgian-dubh-guillochage.jpg" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center">
+      <div class="gal-lbl">Détail guillochage</div>
+    </div>
+    <div class="gal-item">
+      <img src="images/sgian-dubh-anneau.jpg" alt="" style="width:110%;height:100%;object-fit:cover;object-position:center">
+      <div class="gal-lbl">Détail cran d'arrêt</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="perso-cta">
+  <div class="cta-txt reveal">
+    <span class="s-num">Personnaliser</span>
+    <h2 class="s-title">Votre Le Sgian Dubh,<br><em>votre signature</em></h2>
+    <p>Acier, finition, manche, mitres — chaque paramètre du Sgian Dubh peut être adapté à votre sensibilité pour créer un objet unique qui vous ressemble.</p>
+    <a href="personnalisation.html" class="btn">Voir toutes les options<svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <a href="index.html#contact" class="btn btn-outline" style="margin-top:1rem">Prendre contact</a>
+  </div>
+  <div class="cta-nav reveal r1">
+    <span class="s-num" style="padding:0 0 .5rem">Autres modèles</span>
+    <a href="sabal.html" class="model-nav-item">
+      <div class="mni-info"><div class="mni-tag">Modèle · 02</div><div class="mni-name">Le Sabal</div></div>
+      <div class="mni-arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+    <a href="pataud.html" class="model-nav-item">
+      <div class="mni-info"><div class="mni-tag">Modèle · 03</div><div class="mni-name">Le Pataud</div></div>
+      <div class="mni-arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="f-logo">EWEN·M·ATELIER</div>
+  <div class="f-tag">Coutellerie d'art · Thiers, France</div>
+  <div class="f-social">
+    <a href="https://instagram.com/ewen_m_atelier" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+    <a href="https://facebook.com/ewenmatelier" target="_blank" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+  </div>
+</footer>
+<div class="f-copy">© 2024 Ewen-M-Atelier · Tous droits réservés</div>
+
+<script>
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop)})();
+window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('out'),2100);document.getElementById('heroSec').classList.add('loaded')});
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('on',window.scrollY>70));
+const obs=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('vis')}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

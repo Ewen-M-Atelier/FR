@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personnalisation — Ewen-M-Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --void:#060606;--charbon:#0f0f0f;--surface:#161616;
+  --acier:#b4bac2;--acier-vif:#d8dde3;
+  --bronze:#8a6535;--bronze-clair:#b8874a;--or:#d4aa6e;
+  --bois:#3a2518;--creme:#f5f0e8;
+  --fd:'Cinzel',serif;--fb:'Cormorant Garamond',serif;--fu:'Raleway',sans-serif;
+  --nav-h:83px; /* hauteur de la barre de navigation fixe — recalculée en JS */
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{background:var(--void);color:var(--creme);font-family:var(--fb);overflow-x:hidden;cursor:none}
+.cur,.cur-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+.cur{width:6px;height:6px;background:var(--or)}
+.cur-ring{width:26px;height:26px;border:1px solid rgba(212,170,110,.45);transition:width .3s,height .3s,border-color .3s}
+body:has(a:hover) .cur-ring{width:40px;height:40px;border-color:var(--or)}
+#loader{position:fixed;inset:0;background:var(--void);z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transition:opacity .9s,visibility .9s}
+#loader.out{opacity:0;visibility:hidden}
+.ld-logo{font-family:var(--fd);font-size:.8rem;letter-spacing:.5em;color:var(--creme);opacity:0;animation:fdIn .5s ease .4s forwards}
+.ld-bar{width:0;height:1px;background:var(--bronze-clair);animation:grow 1.4s cubic-bezier(.4,0,.2,1) .6s forwards}
+@keyframes fdIn{to{opacity:1}}@keyframes grow{to{width:80px}}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:2rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(6,6,6,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(138,101,53,.18)}
+.nav-logo{font-family:var(--fd);font-size:.78rem;letter-spacing:.42em;color:var(--creme);text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-family:var(--fu);font-size:.67rem;font-weight:300;letter-spacing:.22em;color:var(--acier);text-decoration:none;text-transform:uppercase;position:relative;transition:color .3s}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--bronze-clair);transition:width .35s}
+.nav-links a:hover{color:var(--creme)}.nav-links a:hover::after{width:100%}
+.nav-links a.active{color:var(--or)}
+
+/* PAGE HERO */
+.page-hero{height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:7rem;background:linear-gradient(160deg,#0a0a0c 0%,#110f08 45%,#0c0b08 100%);position:relative;overflow:hidden}
+.page-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,6,6,.2) 0%,transparent 40%,rgba(6,6,6,.8) 100%)}
+.page-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 60%,rgba(138,101,53,.08) 0%,transparent 55%)}
+.ph-knife{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-8deg);width:85%;max-width:1000px;opacity:.035;pointer-events:none}
+.page-hero-content{text-align:center;position:relative;z-index:2}
+.ph-eyebrow{font-family:var(--fu);font-size:.67rem;letter-spacing:.45em;color:var(--bronze-clair);text-transform:uppercase;margin-bottom:1.6rem;animation:up .7s ease .3s both}
+.ph-title{font-family:var(--fb);font-size:clamp(3rem,7vw,6rem);font-weight:300;line-height:.95;color:var(--creme);letter-spacing:.03em;animation:up .7s ease .5s both}
+.ph-title em{font-style:italic;color:var(--acier-vif)}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* SIDEBAR NAV — position:fixed pour rester toujours visible */
+.layout{display:block;min-height:80vh}
+.sidebar{
+  background:var(--charbon);
+  padding:3rem 0 3rem 3rem;
+  border-right:1px solid rgba(138,101,53,.12);
+  position:fixed;          /* toujours visible, indépendamment du scroll */
+  top:var(--nav-h);        /* collé juste en dessous de la nav */
+  left:0;
+  width:240px;
+  height:calc(100vh - var(--nav-h));
+  overflow-y:auto;
+  z-index:90;              /* sous la nav (z-index:100) */
+}
+.sb-label{font-family:var(--fu);font-size:.58rem;letter-spacing:.38em;color:var(--bronze-clair);text-transform:uppercase;margin-bottom:2rem;display:block}
+.sb-links{list-style:none;display:flex;flex-direction:column;gap:.2rem}
+.sb-links a{font-family:var(--fb);font-size:1rem;font-weight:300;color:var(--acier);text-decoration:none;padding:.5rem 0;display:block;transition:color .3s;border-left:2px solid transparent;padding-left:1rem;margin-left:-1rem}
+.sb-links a:hover,.sb-links a.active{color:var(--creme);border-left-color:var(--bronze-clair)}
+.sb-num{font-family:var(--fu);font-size:.6rem;color:var(--bronze);margin-right:.5rem;letter-spacing:.1em}
+
+/* CONTENT — décalé de la largeur de la sidebar fixe */
+.content{background:var(--void);margin-left:240px}
+.cat-section{padding:6rem 6rem 5rem;border-bottom:1px solid rgba(138,101,53,.1)}
+.cat-section:last-child{border-bottom:none}
+.cat-header{display:flex;align-items:baseline;gap:1.5rem;margin-bottom:.8rem}
+.cat-num{font-family:var(--fu);font-size:.62rem;letter-spacing:.35em;color:var(--bronze-clair);text-transform:uppercase}
+.cat-title{font-family:var(--fb);font-size:clamp(1.8rem,3vw,2.8rem);font-weight:300;color:var(--creme);letter-spacing:.04em}
+.cat-title em{font-style:italic;color:var(--acier-vif)}
+.deco{width:52px;height:1px;background:var(--bronze);margin:1.5rem 0 2rem}
+.cat-intro{font-family:var(--fb);font-size:1.08rem;font-weight:300;line-height:1.9;color:var(--acier);max-width:700px;margin-bottom:3rem}
+.cat-intro em{font-style:italic;color:var(--creme)}
+
+/* OPTIONS GRID */
+.opts{display:grid;gap:2px}
+.opts-2{grid-template-columns:repeat(2,1fr)}
+.opts-3{grid-template-columns:repeat(3,1fr)}
+.opts-4{grid-template-columns:repeat(4,1fr)}
+.opt{background:var(--charbon);padding:2.5rem;transition:background .3s;position:relative;overflow:hidden}
+.opt:hover{background:var(--surface)}
+.opt-visual{height:80px;margin-bottom:2rem;border-radius:2px;overflow:hidden;position:relative}
+.opt-name{font-family:var(--fb);font-size:1.2rem;font-weight:300;color:var(--creme);margin-bottom:.5rem;letter-spacing:.04em}
+.opt-sub{font-family:var(--fu);font-size:.62rem;letter-spacing:.18em;color:var(--bronze-clair);text-transform:uppercase;margin-bottom:.8rem}
+.opt-desc{font-family:var(--fb);font-size:.95rem;font-style:italic;font-weight:300;color:var(--acier);line-height:1.7}
+.opt-badge{position:absolute;top:1.5rem;right:1.5rem;font-family:var(--fu);font-size:.55rem;letter-spacing:.2em;color:var(--bronze-clair);text-transform:uppercase;border:1px solid rgba(138,101,53,.35);padding:.25rem .7rem}
+
+/* VISUAL SWATCHES — CSS ART */
+/* Acier brossé */
+.v-acier-carbone{background:repeating-linear-gradient(90deg,#1a1c20 0%,#2a2d33 4px,#1a1c20 5px);position:relative}
+.v-acier-carbone::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(180,185,195,.06) 0%,rgba(180,185,195,.18) 50%,rgba(180,185,195,.04) 100%)}
+.v-rwl34{background:repeating-linear-gradient(88deg,#18191f 0%,#252830 6px,#18191f 7px)}
+.v-rwl34::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(200,210,230,.05) 0%,rgba(200,210,230,.2) 55%,rgba(200,210,230,.04) 100%)}
+.v-n690{background:linear-gradient(135deg,#1c2028 0%,#282e38 40%,#1c2028 100%)}
+.v-n690::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(210,225,240,.18) 0%,transparent 65%)}
+.v-damas{background:linear-gradient(160deg,#12120e 0%,#1e1c16 100%);position:relative;overflow:hidden}
+.v-damas::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(30deg,transparent 0%,transparent 8px,rgba(160,150,120,.08) 8px,rgba(160,150,120,.08) 9px),repeating-linear-gradient(-30deg,transparent 0%,transparent 12px,rgba(140,130,100,.06) 12px,rgba(140,130,100,.06) 13px)}
+.v-damas::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(180,165,125,.06) 0%,rgba(180,165,125,.2) 50%,rgba(180,165,125,.06) 100%)}
+
+/* Finitions */
+.v-brosse{background:repeating-linear-gradient(0deg,#1e2028 0%,#2a2d35 3px,#1e2028 4px)}
+.v-brosse::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(200,210,220,.06) 0%,rgba(200,210,220,.22) 45%,rgba(200,210,220,.06) 100%)}
+.v-jp{background:#0e0c08;position:relative;overflow:hidden}
+.v-jp::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 30%,rgba(180,100,30,.2) 0%,transparent 35%),radial-gradient(ellipse at 70% 60%,rgba(200,200,220,.1) 0%,transparent 25%),radial-gradient(ellipse at 55% 20%,rgba(20,80,120,.15) 0%,transparent 30%),radial-gradient(ellipse at 40% 75%,rgba(160,180,60,.1) 0%,transparent 28%)}
+.v-jp::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0%,transparent 15px,rgba(0,0,0,.2) 15px,rgba(0,0,0,.2) 16px)}
+
+/* Mitres */
+.v-classique-mitre{background:linear-gradient(135deg,#888e98 0%,#adb2bc 45%,#7c8290 100%)}
+.v-classique-mitre::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(255,255,255,.12) 0%,rgba(255,255,255,.06) 50%,transparent 100%)}
+.v-bronze-mitre{background:linear-gradient(135deg,#7a5528 0%,#a87840 45%,#6a4820 100%)}
+.v-bronze-mitre::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(212,170,110,.15) 0%,rgba(212,170,110,.08) 50%,transparent 100%)}
+.v-bronze-patine{background:linear-gradient(135deg,#4a5830 0%,#7a6030 45%,#3a4820 100%)}
+.v-bronze-patine::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(150,180,100,.12) 0%,rgba(180,150,70,.1) 50%,transparent 100%)}
+
+/* Manches */
+.v-olivier{background:linear-gradient(150deg,#7a5a28 0%,#9a7038 35%,#6a4e20 55%,#8a6030 100%);position:relative}
+.v-olivier::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(20deg,transparent 0%,transparent 8px,rgba(0,0,0,.15) 8px,rgba(0,0,0,.15) 9px)}
+.v-noyer{background:linear-gradient(150deg,#4a2e14 0%,#5e3a1a 35%,#3c2410 55%,#503418 100%);position:relative}
+.v-noyer::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(15deg,transparent 0%,transparent 6px,rgba(0,0,0,.2) 6px,rgba(0,0,0,.2) 7px)}
+.v-ebene{background:linear-gradient(150deg,#0e0c0a 0%,#181410 35%,#0a0808 55%,#141210 100%)}
+.v-ebene::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(200,200,200,.04) 0%,rgba(200,200,200,.08) 50%,rgba(200,200,200,.04) 100%)}
+.v-wenge{background:linear-gradient(150deg,#251a0c 0%,#342414 35%,#1c1208 55%,#2a1c10 100%);position:relative}
+.v-wenge::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(8deg,transparent 0%,transparent 10px,rgba(0,0,0,.3) 10px,rgba(0,0,0,.3) 11px)}
+
+/* Ressort */
+.v-ressort-simple{background:linear-gradient(135deg,#18191f 0%,#242630 100%);display:flex;align-items:center;justify-content:center}
+.v-ressort-guilloché{background:linear-gradient(135deg,#16161c 0%,#202030 100%);position:relative;overflow:hidden}
+.v-ressort-guilloché::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent 0%,transparent 4px,rgba(180,170,140,.06) 4px,rgba(180,170,140,.06) 5px),repeating-linear-gradient(-45deg,transparent 0%,transparent 4px,rgba(180,170,140,.04) 4px,rgba(180,170,140,.04) 5px)}
+
+/* Faux tranchant */
+.v-uni{background:linear-gradient(160deg,#1a1c22 0%,#252830 100%);position:relative}
+.v-uni::after{content:'';position:absolute;bottom:40%;left:10%;right:10%;height:1px;background:rgba(200,210,220,.25)}
+.v-bi{background:linear-gradient(160deg,#1a1c22 0%,#252830 100%);position:relative}
+.v-bi::after{content:'';position:absolute;bottom:40%;left:10%;right:10%;height:1px;background:rgba(200,210,220,.25)}
+.v-bi::before{content:'';position:absolute;top:40%;left:10%;right:10%;height:1px;background:rgba(200,210,220,.25)}
+
+/* Guilloché lame */
+.v-lame-simple{background:repeating-linear-gradient(90deg,#1e2028 0%,#282c36 4px,#1e2028 5px)}
+.v-lame-guilloché{background:linear-gradient(135deg,#16161c 0%,#202030 100%);position:relative;overflow:hidden}
+.v-lame-guilloché::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0%,transparent 6px,rgba(180,175,145,.08) 6px,rgba(180,175,145,.08) 7px),repeating-linear-gradient(90deg,transparent 0%,transparent 10px,rgba(180,175,145,.05) 10px,rgba(180,175,145,.05) 11px)}
+
+/* INNER SVG for ressort demo */
+.rsort-svg{width:100%;height:100%;position:absolute;inset:0}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.reveal.vis{opacity:1;transform:none}
+
+/* FOOTER */
+footer{border-top:1px solid rgba(138,101,53,.18);padding:2.8rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:var(--void)}
+.f-logo{font-family:var(--fd);font-size:.78rem;letter-spacing:.42em;color:var(--creme)}
+.f-tag{font-family:var(--fb);font-size:.9rem;font-style:italic;color:var(--acier);font-weight:300}
+.f-social{display:flex;gap:1.2rem}
+.f-social a{width:36px;height:36px;border:1px solid rgba(138,101,53,.28);display:flex;align-items:center;justify-content:center;transition:border-color .3s,background .3s;cursor:none}
+.f-social a:hover{border-color:var(--bronze-clair);background:rgba(138,101,53,.1)}
+.f-social svg{width:15px;height:15px;fill:var(--acier);transition:fill .3s}
+.f-social a:hover svg{fill:var(--bronze-clair)}
+.f-copy{font-family:var(--fu);font-size:.58rem;letter-spacing:.15em;color:rgba(196,180,150,.22);text-align:center;padding:.8rem 3.5rem 1.6rem;background:var(--void)}
+
+.cta-bar{padding:5rem 6rem;background:var(--charbon);text-align:center;border-top:1px solid rgba(138,101,53,.12)}
+.cta-bar h2{font-family:var(--fb);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:300;color:var(--creme);margin-bottom:1rem}
+.cta-bar h2 em{font-style:italic;color:var(--acier-vif)}
+.cta-bar p{font-family:var(--fb);font-size:1rem;font-style:italic;color:var(--acier);margin-bottom:2.5rem}
+.btn{display:inline-flex;align-items:center;gap:1rem;padding:.85rem 2.8rem;border:1px solid var(--bronze);font-family:var(--fu);font-size:.68rem;font-weight:300;letter-spacing:.3em;color:var(--creme);text-decoration:none;text-transform:uppercase;transition:background .4s,color .4s;cursor:none}
+.btn:hover{background:var(--bronze);color:var(--void)}
+
+@media(max-width:1024px){
+  .sidebar{position:relative;top:auto;width:100%;height:auto;display:block;padding:2rem 2rem 1.5rem}
+  .content{margin-left:0}
+  .cat-section{padding:4rem 2.5rem 3rem}
+  .cat-sticky{position:relative;top:auto}
+  .opts-4{grid-template-columns:repeat(2,1fr)}
+  .opts-3{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){nav{padding:1.4rem 1.5rem}.nav-links{display:none}.opts-2,.opts-3,.opts-4{grid-template-columns:1fr}footer{flex-direction:column;gap:1.8rem;text-align:center}}
+
+/* ENTÊTE COLLANT — englobe numéro + titre + ligne + intro */
+.cat-sticky{
+  position:sticky;
+  top:var(--nav-h);        /* s'arrête juste sous la nav, ne la masque plus */
+  background:var(--void);
+  z-index:50;              /* sous la nav (100) et sous la sidebar (90) */
+  padding-top:1.8rem;
+  padding-bottom:.5rem;
+  margin-bottom:2.5rem;
+}
+/* cat-header redevient un simple conteneur flex, sans sticky propre */
+.cat-header{display:flex;align-items:baseline;gap:1.5rem;margin-bottom:.8rem}
+</style>
+</head>
+<body>
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="curR"></div>
+<div id="loader"><div class="ld-logo">EWEN·M·ATELIER</div><div class="ld-bar"></div></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">EWEN·M·ATELIER</a>
+  <ul class="nav-links">
+    <li><a href="index.html#modeles">Modèles</a></li>
+    <li><a href="personnalisation.html" class="active">Personnalisation</a></li>
+    <li><a href="index.html#artisan">L'Artisan</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <svg class="ph-knife" viewBox="0 0 700 130" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <defs><linearGradient id="hbp" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#8a8e96"/><stop offset="45%" stop-color="#c8ccd4"/><stop offset="100%" stop-color="#a0a4ac"/></linearGradient></defs>
+    <path d="M22 56 L130 51 L130 79 L22 76 Q14 72 14 66 Q14 60 22 56Z" fill="#5a3820"/>
+    <circle cx="52" cy="65" r="5.5" fill="#c4a040"/><circle cx="52" cy="65" r="3" fill="#e0bc60"/>
+    <circle cx="90" cy="64" r="5.5" fill="#c4a040"/><circle cx="90" cy="64" r="3" fill="#e0bc60"/>
+    <path d="M128 45 L142 45 L142 85 L128 85 Q122 76 122 65 Q122 54 128 45Z" fill="#9aa0aa"/>
+    <rect x="118" y="50" width="10" height="30" rx="1.5" fill="#888e98"/>
+    <path d="M142 62 L660 46 Q685 57 660 68 L142 68Z" fill="url(#hbp)"/>
+    <path d="M160 63 Q420 56 630 58" stroke="rgba(70,75,85,.9)" stroke-width="1.5"/>
+  </svg>
+  <div class="page-hero-content">
+    <div class="ph-eyebrow">Votre couteau, votre signature</div>
+    <h1 class="ph-title">Personnali<em>sation</em></h1>
+  </div>
+</section>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <span class="sb-label">Sommaire</span>
+    <ul class="sb-links">
+      <li><a href="#acier"><span class="sb-num">01</span>Acier de la lame</a></li>
+      <li><a href="#finition"><span class="sb-num">02</span>Finition de la lame</a></li>
+      <li><a href="#mitre-av"><span class="sb-num">03</span>Mitre avant</a></li>
+      <li><a href="#mitre-ar"><span class="sb-num">04</span>Mitre arrière</a></li>
+      <li><a href="#manche"><span class="sb-num">05</span>Manche</a></li>
+      <li><a href="#ressort"><span class="sb-num">06</span>Ressort</a></li>
+      <li><a href="#guilloché"><span class="sb-num">07</span>Guilloché lame</a></li>
+      <li><a href="#faux-tranchant"><span class="sb-num">08</span>Faux tranchant</a></li>
+    </ul>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <!-- 01 ACIER -->
+    <section class="cat-section reveal" id="acier">
+      <div class="cat-sticky">
+        <div class="cat-header">
+          <span class="cat-num">01</span>
+          <h2 class="cat-title">Acier de <em>la lame</em></h2>
+        </div>
+        <div class="deco"></div>
+        <p class="cat-intro">Le choix de l'acier est la décision fondatrice de chaque couteau. Il définit le caractère de la lame — sa dureté, sa tenue de tranchant, sa résistance à la corrosion et son âme visuelle. <em>Chaque acier a sa propre personnalité.</em></p>
+      </div>
+      <div class="opts opts-2">
+        <div class="opt">
+          <div class="opt-visual v-acier-carbone"></div>
+          <div class="opt-badge">Standard</div>
+          <div class="opt-name">XC75 — Carbone</div>
+          <div class="opt-sub">Acier au carbone · 75 RC</div>
+          <div class="opt-desc">L'acier thiernois par excellence. Taille magnifiquement, patine avec le temps et développe une histoire propre à son usage. Pour ceux qui acceptent l'entretien en contrepartie d'un tranchant incomparable.</div>
+        </div>
+        <div class="opt">
+          <div class="opt-visual v-rwl34"></div>
+          <div class="opt-badge">Premium</div>
+          <div class="opt-name">RWL-34</div>
+          <div class="opt-sub">Acier inoxydable poudre · 62 HRC</div>
+          <div class="opt-desc">Acier suédois de haute technologie issu de la métallurgie des poudres. Excellente tenue de tranchant, résistance à la corrosion exceptionnelle. Le mariage de la performance et de la facilité d'entretien.</div>
+        </div>
+        <div class="opt">
+          <div class="opt-visual v-n690"></div>
+          <div class="opt-name">N690 — Inox</div>
+          <div class="opt-sub">Acier inoxydable autrichien · 60 HRC</div>
+          <div class="opt-desc">Acier Böhler de très bonne qualité, inoxydable et polyvalent. Idéal pour un couteau de travail quotidien alliant facilité d'affûtage et résistance à la rouille. Finition nette et brillante.</div>
+        </div>
+        <div class="opt">
+          <div class="opt-visual v-damas"></div>
+          <div class="opt-badge">Prestige</div>
+          <div class="opt-name">Damas forgé</div>
+          <div class="opt-sub">Acier lamellé · Motif unique</div>
+          <div class="opt-desc">Née du mariage de plusieurs aciers soudés et repliés à la forge, la lame damas révèle un motif unique — jamais deux semblables. Chaque couteau devient alors une œuvre d'art fonctionnelle dont le motif apparaît après mordançage.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 FINITION LAME -->
+    <section class="cat-section reveal" id="finition">
+      <div class="cat-sticky">
+        <div class="cat-header">
+          <span class="cat-num">02</span>
+          <h2 class="cat-title">Finition de <em>la lame</em></h2>
+        </div>
+        <div class="deco"></div>
+        <p class="cat-intro">La finition de la lame transforme un outil en objet de contemplation. Elle révèle le caractère de l'acier choisi et imprime la signature visuelle du couteau. <em>Trois univers esthétiques, trois atmosphères distinctes.</em></p>
+      </div>
+      <div class="opts opts-3">
+        <div class="opt">
+          <img src="images/acier-brossé.jpg" alt="acier brossé" class="opt-image">
+          <div class="opt-name">Brossé satiné</div>
+          <div class="opt-sub">Finition satin · Classique</div>
+          <div class="opt-desc">Lignes parallèles fines créant un reflet soyeux directionnel. La finition la plus élégante et la plus sobre — celle des grandes maisons.</div>
+        </div>
+        <div class="opt">
+          <img src="images/jackson-pollock.jpg" alt="Jackson Pollock" class="opt-image">
+          <div class="opt-badge">Exclusif</div>
+          <div class="opt-name">Jackson Pollock</div>
+          <div class="opt-sub">Peinture aléatoire · Unique</div>
+          <div class="opt-desc">Inspirée du maître de l'expressionnisme abstrait, cette finition projette de fines gouttelettes de peinture sur la lame. Chaque pièce est irréproductible — un tableau miniature sur acier poli.</div>
+        </div>
+        <div class="opt">
+          <img src="images/damas.jpg" alt="Damas révélé" class="opt-image">
+          <div class="opt-name">Damas révélé</div>
+          <div class="opt-sub">Motif acide · Prestige</div>
+          <div class="opt-desc">Sur acier damas uniquement. Le mordançage à l'acide révèle les couches alternées de métaux, dévoilant un paysage de vagues et de plis figés dans le temps.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 MITRE AVANT -->
+    <section class="cat-section reveal" id="mitre-av">
+      <div class="cat-sticky">
+        <div class="cat-header">
+          <span class="cat-num">03</span>
+          <h2 class="cat-title">Mitre <em>avant</em></h2>
+        </div>
+        <div class="deco"></div>
+        <p class="cat-intro">La mitre avant, pièce de jonction entre la lame et le manche, assure l'équilibre du couteau tout en affirmant son identité esthétique. <em>Elle est le cadre de la lame.</em></p>
+      </div>
+      <div class="opts opts-3">
+        <div class="opt">
+          <img src="images/mitre-simple.jpg" alt="acier brossé" class="opt-image">
+          <div class="opt-name">Classique</div>
+          <div class="opt-sub">Acier inox poli</div>
+          <div class="opt-desc">Mitre en acier inoxydable, polie miroir ou brossée selon la finition de la lame. Sobre et intemporelle — le choix de la tradition thiernoise.</div>
+        </div>
+        <div class="opt">
+          <img src="images/mitre-damas.jpg" alt="Damas" class="opt-image">
+          <div class="opt-name">Damas</div>
+          <div class="opt-sub">Acier lamellé mordancé</div>
+          <div class="opt-desc">Mitre taillée dans le même bloc damas que la lame, ou dans un damas complémentaire. Le motif se poursuit de la lame au manche en une continuité organique.</div>
+        </div>
+        <div class="opt">
+          <img src="images/mitre-bronze.jpg" alt="Bronze" class="opt-image">
+          <div class="opt-name">Bronze</div>
+          <div class="opt-sub">Bronze coulé ou usiné</div>
+          <div class="opt-desc">La chaleur dorée du bronze crée un contraste saisissant avec l'acier froid de la lame. Vieillit magnifiquement en développant une patine naturelle unique.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 MITRE ARRIÈRE -->
+    <section class="cat-section reveal" id="mitre-ar">
+      <div class="cat-sticky">
+        <div class="cat-header">
+          <span class="cat-num">04</span>
+          <h2 class="cat-title">Mitre <em>arrière</em></h2>
+        </div>
+        <div class="deco"></div>
+        <p class="cat-intro">La mitre arrière clôture le manche avec élégance. Elle peut dialoguer avec la mitre avant ou créer un jeu de contraste assumé. <em>La ponctuation finale du couteau.</em></p>
+      </div>
+      <div class="opts opts-3">
+        <div class="opt">
+          <div class="opt-visual v-classique-mitre"></div>
+          <div class="opt-name">Classique</div>
+          <div class="opt-sub">Acier inox poli</div>
+          <div class="opt-desc">Cohérente avec la mitre avant en classique, ou jouant un rôle de contre-point discret avec d'autres choix.</div>
+        </div>
+        <div class="opt">
+          <div class="opt-visual v-damas"></div>
+          <div class="opt-name">Damas</div>
+          <div class="opt-sub">Acier lamellé mordancé</div>
+          <div class="opt-desc">Ferme le manche avec le même caractère organique que la mitre avant en damas — une symétrie narrative.</div>
+        </div>
+        <div class="opt">
+          <div class="opt-visual v-bronze-patine"></div>
+          <div class="opt-name">Bronze patiné</div>
+          <div class="opt-sub">Traitement thermique ou chimique</div>
+          <div class="opt-desc">Bronze oxydé volontairement pour obtenir des teintes allant du vert-de-gris aux bruns profonds. Une touche d'ancienneté sur un objet neuf — le temps cristallisé.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 MANCHE -->
+    <section class="cat-section reveal" id="manche">
+      <div class="cat-sticky">
+        <div class="cat-header">
+          <span class="cat-num">05</span>
+          <h2 class="cat-title">Matière du <em>manche</em></h2>
+        </div>
+        <div class="deco"></div>
+        <p class="cat-intro">Le manche est l'interface entre la main et la lame. C'est lui qui vous habite au quotidien, lui que vous touchez avant de voir la lame. <em>Son choix est presque personnel, presque intime.</em></p>
+      </div>
+      <div class="opts opts-2" style="margin-bottom:2px">
+        <div class="opt">
+          <div class="opt-visual v-olivier"></div>
+          <div class="opt-name">Olivier</div>
+          <div class="opt-sub">Olea europaea · Méditerranéen</div>
+          <div class="opt-desc">Veiné de crème et d'or, l'olivier exhale une chaleur méditerranéenne. Dense et parfumé, il se polit avec le temps pour prendre un éclat cireux naturel.</div>
+        </div>
+        <div class="opt">
+          <div class="opt-visual v-noyer"></div>
+          <div class="opt-name">Noyer</div>
+          <div class="opt-sub">Juglans regia · Français</div>
+          <div class="opt-desc">Le bois noble par excellence de la coutellerie française. Grain fin, tons chocolatés, nuances variées. Robuste et élégant — il ne se démode jamais.</div>
+        </div>
+        <div class="opt">
+          <div class="opt-visual v-ebene"></div>
+          <div class="opt-name">Ébène</div>
+          <div class="opt-sub">Diospyros · Dense et précieux</div>
+          <div class="opt-desc">Le bois le plus dense, presque noir absolu. L'ébène s'associe à la lame acier avec une rigueur formelle et un luxe discret qui ne nécessite aucun ornement.</div>
+        </div>
+        <div class="opt">
+          <div class="opt-visual v-wenge"></div>
+          <div class="opt-name">Wengé</div>
+          <div class="opt-sub">Millettia laurentii · Africain</div>
+          <div class="opt-desc">Bois sombre aux veines presque noires sur fond brun foncé. Grain grossier et graphique, il donne au couteau un caractère affirmé, presque tribal dans son intensité.</div>
+        </div>
+      </div>
+      <div class="opts opts-3">
+        <div class="opt">
+          <div class="opt-visual v-jp"></div>
+          <div class="opt-badge">Exclusif</div>
+          <div class="opt-name">Jackson Pollock</div>
+          <div class="opt-sub">Peinture sur résine</div>
+          <div class="opt-desc">La technique de peinture gestuelle appliquée sur une base en résine stabilisée. Chaque manche est une peinture abstraite miniature — absolument unique.</div>
+        </div>
+        <div class="opt">
+          <div class="opt-visual v-bronze-mitre"></div>
+          <div class="opt-name">Bronze massif</div>
+          <div class="opt-sub">Coulé et usiné</div>
+          <div class="opt-desc">Manche intégralement en bronze pour les amateurs de matière noble et de poids équilibré. Sa chaleur dorée s'assombrit et se patine avec les années.</div>
+        </div>
+        <div class="opt">
+          <div class="opt-visual v-bronze-patine"></div>
+          <div class="opt-name">Bronze patiné</div>
+          <div class="opt-sub">Vieillissement maîtrisé</div>
+          <div class="opt-desc">Bronze traité pour révéler des nuances de verts, bruns et dorés — le résultat d'années de patine naturelle, obtenu dès la création. Un couteau qui semble avoir une histoire avant même d'en avoir vécu une.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 RESSORT -->
+    <section class="cat-section reveal" id="ressort">
+      <div class="cat-sticky">
+        <div class="cat-header">
+          <span class="cat-num">06</span>
+          <h2 class="cat-title">Ressort du <em>dos</em></h2>
+        </div>
+        <div class="deco"></div>
+        <p class="cat-intro">Le ressort courant le long du dos du manche est une surface discrète mais visible à chaque utilisation. Sur les couteaux pliant ou à dos, il peut recevoir un travail décoratif. <em>Un détail que l'on découvre au fil du temps.</em></p>
+      </div>
+      <div class="opts opts-2">
+        <div class="opt">
+          <div class="opt-visual v-ressort-simple">
+            <svg class="rsort-svg" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="35" width="160" height="10" rx="2" fill="rgba(180,186,194,.12)" stroke="rgba(180,186,194,.3)" stroke-width=".8"/>
+              <text x="100" y="23" fill="rgba(180,186,194,.35)" font-family="Raleway,sans-serif" font-size="7" letter-spacing="3" text-anchor="middle">RESSORT SIMPLE</text>
+            </svg>
+          </div>
+          <div class="opt-name">Simple</div>
+          <div class="opt-sub">Surface lisse polie</div>
+          <div class="opt-desc">Le ressort poli reprend la finition générale du couteau. Discret, il ne concurrence pas les autres éléments décoratifs. La sobriété de ceux qui savent.</div>
+        </div>
+        <div class="opt">
+          <div class="opt-visual v-ressort-guilloché">
+            <svg class="rsort-svg" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+              <defs><pattern id="gp" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 3 L3 0 L6 3 L3 6Z" fill="none" stroke="rgba(212,170,110,.2)" stroke-width=".5"/></pattern></defs>
+              <rect x="20" y="35" width="160" height="10" rx="2" fill="url(#gp)" stroke="rgba(212,170,110,.3)" stroke-width=".8"/>
+              <text x="100" y="23" fill="rgba(212,170,110,.4)" font-family="Raleway,sans-serif" font-size="7" letter-spacing="3" text-anchor="middle">GUILLOCHÉ</text>
+            </svg>
+          </div>
+          <div class="opt-badge">Artisanat</div>
+          <div class="opt-name">Guilloché</div>
+          <div class="opt-sub">Motif taillé à la main</div>
+          <div class="opt-desc">Travail de guillochage taillé au ciselet — motif en chevrons, losanges ou écailles de poisson. Un savoir-faire horloger appliqué à la coutellerie. Visible, tactile, éloquent.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 GUILLOCHÉ LAME -->
+    <section class="cat-section reveal" id="guilloché">
+      <div class="cat-sticky">
+        <div class="cat-header">
+          <span class="cat-num">07</span>
+          <h2 class="cat-title">Guilloché de <em>la lame</em></h2>
+        </div>
+        <div class="deco"></div>
+        <p class="cat-intro">Sur la planche de la lame — la zone plate non tranchante entre le dos et la griffe — un travail décoratif peut être réalisé. <em>Une signature supplémentaire du couteau.</em></p>
+      </div>
+      <div class="opts opts-2">
+        <div class="opt">
+          <div class="opt-visual v-lame-simple"></div>
+          <div class="opt-name">Lame simple</div>
+          <div class="opt-sub">Surface nue · Finition standard</div>
+          <div class="opt-desc">La lame laisse parler l'acier et sa finition seuls. Le choix de la pureté formelle — chaque centimètre carré consacré à la performance.</div>
+        </div>
+        <div class="opt">
+          <div class="opt-visual v-lame-guilloché"></div>
+          <div class="opt-badge">Prestige</div>
+          <div class="opt-name">Lame guillochée</div>
+          <div class="opt-sub">Motif ciselé sur planche</div>
+          <div class="opt-desc">La planche de la lame reçoit un guilloché fin, taillé en creux dans l'acier. Motif géométrique ou organique selon votre désir — une gravure que la lumière révèle différemment selon l'angle.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 FAUX TRANCHANT -->
+    <section class="cat-section reveal" id="faux-tranchant">
+      <div class="cat-sticky">
+        <div class="cat-header">
+          <span class="cat-num">08</span>
+          <h2 class="cat-title">Faux <em>tranchant</em></h2>
+        </div>
+        <div class="deco"></div>
+        <p class="cat-intro">Le faux tranchant est un biseau taillé sur le dos de la lame, lui conférant une finesse visuelle et aérodynamique supplémentaire. <em>Il transforme le profil de la lame et affine sa silhouette.</em></p>
+      </div>
+      <div class="opts opts-2">
+        <div class="opt">
+          <div class="opt-visual v-uni">
+            <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+              <path d="M30 55 L270 42 Q290 50 268 58 L30 58Z" fill="rgba(180,186,194,.08)" stroke="rgba(180,186,194,.2)" stroke-width=".5"/>
+              <path d="M30 55 L268 42" stroke="rgba(212,170,110,.35)" stroke-width="1"/>
+              <text x="150" y="28" fill="rgba(180,186,194,.3)" font-family="Raleway,sans-serif" font-size="7" letter-spacing="2" text-anchor="middle">UNILATÉRAL</text>
+            </svg>
+          </div>
+          <div class="opt-name">Unilatéral</div>
+          <div class="opt-sub">Biseau d'un seul côté</div>
+          <div class="opt-desc">Le faux tranchant est taillé sur un seul côté du dos de la lame. La silhouette prend un galbe asymétrique élégant. Affine visuellement la lame sans alourdir sa section.</div>
+        </div>
+        <div class="opt">
+          <div class="opt-visual v-bi">
+            <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+              <path d="M30 50 L270 38 Q290 45 268 52 L30 55Z" fill="rgba(180,186,194,.08)" stroke="rgba(180,186,194,.2)" stroke-width=".5"/>
+              <path d="M30 31 L270 39 Q290 45 268 38 L30 27Z" fill="rgba(180,186,194,.06)" stroke="rgba(180,186,194,.15)" stroke-width=".5"/>
+              <path d="M30 50 L268 38" stroke="rgba(212,170,110,.35)" stroke-width="1"/>
+              <path d="M30 31 L268 39" stroke="rgba(212,170,110,.25)" stroke-width=".8"/>
+              <text x="150" y="20" fill="rgba(180,186,194,.3)" font-family="Raleway,sans-serif" font-size="7" letter-spacing="2" text-anchor="middle">BILATÉRAL</text>
+            </svg>
+          </div>
+          <div class="opt-name">Bilatéral</div>
+          <div class="opt-sub">Biseau des deux côtés</div>
+          <div class="opt-desc">Le dos de la lame est biseauté symétriquement — une pointe de lance élaborée. La section transversale se rapproche d'un diamant effilé, pour une silhouette de lame d'une rare finesse.</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- CTA -->
+<div class="cta-bar reveal">
+  <h2>Votre couteau idéal <em>vous attend</em></h2>
+  <p>Chaque combinaison est unique. Prenez contact pour discuter de votre projet.</p>
+  <a href="index.html#contact" class="btn">Prendre contact</a>
+</div>
+
+<footer>
+  <div class="f-logo">EWEN·M·ATELIER</div>
+  <div class="f-tag">Coutellerie d'art · Thiers, France</div>
+  <div class="f-social">
+    <a href="https://instagram.com/ewen_m_atelier" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a href="https://facebook.com/ewenmatelier" target="_blank" aria-label="Facebook">
+      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+  </div>
+</footer>
+<div class="f-copy">© 2024 Ewen-M-Atelier · Tous droits réservés</div>
+
+<script>
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop)})();
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('out'),2100));
+
+/* Calcule la hauteur réelle de la nav et l'injecte en CSS variable */
+function updateNavHeight(){
+  const h=document.querySelector('nav').getBoundingClientRect().height;
+  document.documentElement.style.setProperty('--nav-h', h+'px');
+}
+updateNavHeight();
+window.addEventListener('resize', updateNavHeight);
+
+const obs=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('vis')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* Mise à jour du lien actif dans la sidebar selon la section visible */
+const sections=document.querySelectorAll('.cat-section');
+const links=document.querySelectorAll('.sb-links a');
+const navH=()=>parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))||83;
+const sObs=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      links.forEach(l=>l.classList.remove('active'));
+      const l=document.querySelector(`.sb-links a[href="#${entry.target.id}"]`);
+      if(l)l.classList.add('active');
+    }
+  });
+},{threshold:.25, rootMargin:`-${navH()}px 0px -40% 0px`});
+sections.forEach(s=>sObs.observe(s));
+</script>
+</body>
+</html>
