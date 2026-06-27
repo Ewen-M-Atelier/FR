@@ -1,0 +1,127 @@
+/* =====================================================
+   sabal.css — Couleurs et fond propres au Sabal
+   Chargé APRÈS base.css ET modele.css
+   =====================================================
+   Le Sabal (palmier des marais) : vert forêt profond,
+   nature, résilience. Toutes les couleurs d'accent
+   passent au vert sur cette page uniquement. */
+
+/* --- Variables d'accent vert ------------------------ */
+:root {
+    --accent-h:    #070e07;   /* noir verdâtre profond */
+    --accent-m:    #0f1a0f;   /* vert forêt très sombre */
+    --accent-d:    #0c1c0c;   /* vert nuit */
+    --vert:        #3a6e3a;   /* vert principal (remplace --bronze) */
+    --vert-clair:  #5a9a5a;   /* vert clair (remplace --bronze-clair) */
+    --vert-pale:   #8fc08f;   /* vert pâle (remplace --or) */
+}
+
+/* --- Curseur vert ----------------------------------- */
+/* Sur cette page, le curseur passe au vert */
+.cur        { background: var(--vert-pale); }
+.cur-ring   { border-color: rgba(95,170,95,.42); }
+body:has(a:hover) .cur-ring { border-color: var(--vert-pale); }
+
+/* --- Loader vert ------------------------------------ */
+.ld-bar { background: var(--vert-clair); }
+
+/* --- Nav : soulignement vert ----------------------- */
+.nav-links a::after { background: var(--vert-clair); }
+nav.on { border-bottom-color: rgba(58,110,58,.2); }
+
+/* --- Héros ------------------------------------------ */
+.hero-bg {
+    background: linear-gradient(165deg,
+        var(--accent-h) 0%, var(--accent-m) 35%, #0c1408 60%, var(--void) 100%);
+}
+.hero-bg::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse at 22% 58%, rgba(50,110,50,.13) 0%, transparent 52%),
+        radial-gradient(ellipse at 78% 28%, rgba(40,90,40,.07) 0%, transparent 42%),
+        radial-gradient(ellipse at 50% 80%, rgba(30,70,30,.06) 0%, transparent 38%);
+}
+
+/* Texture de nervures de palmier en filigrane */
+.hero-texture { position: absolute; inset: 0; overflow: hidden; opacity: .018; pointer-events: none; }
+.hero-texture::before {
+    content: ''; position: absolute; inset: -20%;
+    background:
+        repeating-linear-gradient(72deg,  transparent 0%, transparent 40px, rgba(150,220,150,.8) 40px, rgba(150,220,150,.8) 41px),
+        repeating-linear-gradient(-72deg, transparent 0%, transparent 60px, rgba(120,200,120,.6) 60px, rgba(120,200,120,.6) 61px);
+}
+
+.h-eyebrow     { color: var(--vert-clair); }
+.h-title em    { color: var(--vert-pale); }
+.h-scroll-line { background: linear-gradient(to bottom, var(--vert), transparent); }
+.hero-back:hover { color: var(--vert-pale); }
+
+/* --- Marquee vert ----------------------------------- */
+/* Le marquee du Sabal est vert au lieu de bronze */
+.mq {
+    background: var(--vert);
+    border-top-color:    rgba(100,180,100,.2);
+    border-bottom-color: rgba(100,180,100,.2);
+}
+
+/* --- Section récit ---------------------------------- */
+.s-num  { color: var(--vert-clair); }
+.s-title em { color: var(--vert-pale); }
+.deco { background: var(--vert); }
+
+.story-img {
+    background: linear-gradient(155deg,
+        var(--accent-h) 0%, var(--accent-d) 45%, #0a140a 75%, #060a06 100%);
+}
+.story-img::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse at 38% 48%, rgba(50,110,50,.14) 0%, transparent 52%),
+        radial-gradient(ellipse at 72% 22%, rgba(40,90,40,.07) 0%, transparent 38%);
+}
+
+/* Nervures de feuille de palmier sur l'image */
+.leaf-veins { position: absolute; inset: 0; overflow: hidden; opacity: .04; pointer-events: none; }
+.leaf-veins::before { content: ''; position: absolute; top: -10%; left: 40%; width: 2px; height: 120%; background: rgba(150,220,150,1); transform: rotate(8deg); }
+.leaf-veins::after  { content: ''; position: absolute; top: -10%; left: 55%; width: 1px; height: 110%; background: rgba(130,200,130,1); transform: rotate(14deg); }
+
+/* Lueur verte animée */
+.glow-vert {
+    position: absolute; bottom: 20%; left: 18%; width: 60%; height: 45%;
+    background: radial-gradient(ellipse, rgba(40,100,40,.1) 0%, transparent 70%);
+    animation: gv 5s ease-in-out infinite;
+}
+@keyframes gv { 0%,100% { opacity:.6; } 45% { opacity:1; } 72% { opacity:.4; } }
+
+/* --- Specs bar vert --------------------------------- */
+.specs-bar    { border-bottom-color: rgba(58,110,58,.15); }
+.spec         { border-right-color:  rgba(58,110,58,.2); }
+.spec-label   { color: var(--vert-clair); }
+
+/* --- Origine du nom --------------------------------- */
+.origin-eyebrow { color: var(--vert-clair); }
+.origin-title em { color: var(--vert-pale); }
+.origin-div  { background: rgba(58,110,58,.2); }
+.ospec       { border-left-color: rgba(58,110,58,.4); }
+.ospec-label { color: var(--vert-clair); }
+
+/* --- Boutons verts ---------------------------------- */
+.btn         { border-color: var(--vert); }
+.btn:hover   { background: var(--vert); }
+.btn-ghost   { border-color: rgba(58,110,58,.32); }
+
+/* --- Footer vert ------------------------------------ */
+.f-social a        { border-color: rgba(58,110,58,.28); }
+.f-social a:hover  { border-color: var(--vert-clair); background: rgba(58,110,58,.1); }
+.f-social a:hover svg { fill: var(--vert-clair); }
+footer             { border-top-color: rgba(58,110,58,.18); }
+.f-copy            { color: rgba(150,220,150,.18); }
+
+/* --- Galerie ---------------------------------------- */
+.gallery-grid { grid-template-columns: 1fr 1fr 2fr; grid-template-rows: 420px; }
+.gal-item:nth-child(1) { background: linear-gradient(145deg, var(--accent-h) 0%, var(--accent-m) 55%, var(--void) 100%); }
+.gal-item:nth-child(2) { background: linear-gradient(145deg, #080e08 0%, #101a10 55%, #060a06 100%); }
+.gal-item:nth-child(3) { background: linear-gradient(145deg, #0a1208 0%, #141e10 55%, #080c06 100%); }
+.gal-item::before { background: radial-gradient(ellipse at 45% 50%, rgba(50,110,50,.08) 0%, transparent 62%); }

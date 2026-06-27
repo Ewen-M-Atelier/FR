@@ -1,0 +1,739 @@
+/* =====================================================
+   index.css — Styles spécifiques à la page d'accueil
+   Ewen-M-Atelier · Coutellerie d'art · Thiers
+   =====================================================
+   Ce fichier est chargé APRÈS base.css.
+   Il contient uniquement les styles propres à index.html :
+     - Hero (section plein écran d'entrée)
+     - Bandeau défilant (marquee)
+     - Grille des 3 modèles
+     - Section "L'Atelier"
+     - Section "L'Artisan"
+     - Teaser personnalisation
+     - Teaser autres créations
+     - Section contact
+===================================================== */
+
+
+/* -------------------------------------------------------
+   HERO — Section plein écran d'entrée
+   -------------------------------------------------------
+   Occupe toute la hauteur de la fenêtre (100vh).
+   Contient : un fond dégradé, un SVG de couteau en filigrane,
+   et le texte centré "L'Art du Tranchant".
+------------------------------------------------------- */
+
+.hero {
+    height: 100vh;               /* toute la hauteur de la fenêtre */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;   /* le texte est en bas */
+    padding-bottom: 9rem;
+    overflow: hidden;            /* cache ce qui dépasse */
+}
+
+/* Fond du hero : dégradé sombre avec reflet chaud */
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, #090909 0%, #111009 40%, #0c0b08 70%, #070707 100%);
+}
+
+/* Halo doré/bronze en bas à gauche */
+.hero-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 25% 55%, rgba(138,101,53,.1) 0%, transparent 55%);
+}
+
+/* Dégradé de haut en bas pour assombrir les bords */
+.hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(6,6,6,.25) 0%, transparent 30%, rgba(6,6,6,.75) 85%, rgba(6,6,6,1) 100%);
+}
+
+/* SVG du couteau en arrière-plan (très transparent, décoratif) */
+.hero-knife {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) rotate(-12deg);
+    width: 80%;
+    max-width: 900px;
+    opacity: .04;       /* quasi-invisible : effet de texture */
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Contenu textuel du hero (au-dessus du fond) */
+.hero-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;         /* au-dessus du fond et du SVG */
+}
+
+/* Petit texte au-dessus du titre "Thiers · Artisanat d'Art" */
+.hero-eyebrow {
+    font-family: var(--fu);
+    font-size: .67rem;
+    letter-spacing: .45em;
+    color: var(--bronze-clair);
+    text-transform: uppercase;
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: up .7s ease 1.9s forwards;  /* apparaît après 1,9s */
+}
+
+/* Titre principal "L'Art du Tranchant" */
+.hero-title {
+    font-family: var(--fb);
+    /* clamp(min, préféré, max) : la taille s'adapte entre 3,8rem et 7,5rem */
+    font-size: clamp(3.8rem, 8.5vw, 7.5rem);
+    font-weight: 300;
+    line-height: .92;
+    color: var(--creme);
+    letter-spacing: .02em;
+    margin-bottom: 1.6rem;
+    opacity: 0;
+    animation: up .7s ease 2.1s forwards;
+}
+.hero-title em { font-style: italic; color: var(--acier-vif); }
+
+/* Sous-titre "Couteaux forgés à la main · Pièces uniques" */
+.hero-sub {
+    font-family: var(--fu);
+    font-size: .68rem;
+    letter-spacing: .32em;
+    color: var(--acier);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: up .7s ease 2.3s forwards;
+}
+
+/* Indicateur de défilement (texte + ligne verticale) */
+.hero-scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .8rem;
+    margin-top: 3rem;
+    opacity: 0;
+    animation: up .7s ease 2.6s forwards;
+}
+
+/* La ligne verticale qui pulse doucement */
+.scroll-line {
+    width: 1px;
+    height: 54px;
+    background: linear-gradient(to bottom, var(--bronze), transparent);
+    animation: pulse 2.5s ease-in-out infinite 3s;
+}
+
+.scroll-txt {
+    font-family: var(--fu);
+    font-size: .58rem;
+    letter-spacing: .3em;
+    color: rgba(180,186,194,.45);
+    text-transform: uppercase;
+}
+
+/* Animation : glissement vers le haut avec apparition */
+@keyframes up {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* Animation : pulsation de la ligne de défilement */
+@keyframes pulse {
+    0%, 100% { opacity: .6; }
+    50%       { opacity: 1; }
+}
+
+
+/* -------------------------------------------------------
+   MARQUEE — Bandeau de texte défilant
+   -------------------------------------------------------
+   Bande bronze avec du texte qui défile en boucle de
+   droite à gauche. Crée deux copies du texte dans le HTML
+   pour que le défilement soit continu sans saut.
+------------------------------------------------------- */
+
+.marquee {
+    background: var(--bronze);
+    padding: .8rem 0;
+    overflow: hidden;  /* cache le texte qui sort des bords */
+    border-top: 1px solid rgba(212,170,110,.25);
+    border-bottom: 1px solid rgba(212,170,110,.25);
+}
+
+/* Le conteneur qui se déplace (animation CSS) */
+.mq-track {
+    display: flex;
+    animation: mq 28s linear infinite;  /* 28 secondes, boucle infinie */
+    white-space: nowrap;                 /* empêche le retour à la ligne */
+    width: max-content;                  /* largeur = contenu */
+}
+
+.mq-item {
+    font-family: var(--fu);
+    font-size: .62rem;
+    font-weight: 300;
+    letter-spacing: .3em;
+    color: var(--creme);
+    padding: 0 3rem;
+    text-transform: uppercase;
+    opacity: .88;
+}
+
+/* Point séparateur entre les éléments */
+.mq-dot {
+    display: inline-block;
+    width: 3px; height: 3px;
+    background: var(--creme);
+    border-radius: 50%;
+    vertical-align: middle;
+    opacity: .5;
+    margin: 0 .5rem;
+}
+
+/* Le défilement : déplace le track de 0% à -50% de sa largeur.
+   Comme le texte est dupliqué, à -50% on revient visuellement au début. */
+@keyframes mq {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+
+/* -------------------------------------------------------
+   SECTION MODÈLES — Grille des 3 couteaux
+------------------------------------------------------- */
+
+.models {
+    padding: 9rem 0;
+    background: var(--charbon);
+}
+
+/* En-tête centré de la section */
+.models-hd {
+    text-align: center;
+    padding: 0 4rem;
+    margin-bottom: 5rem;
+}
+
+/* Grille : 3 colonnes égales séparées par 2px */
+.models-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+}
+
+/* Chaque carte de modèle (lien cliquable) */
+.mcard {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3/4;   /* format portrait */
+    text-decoration: none;
+    display: block;
+}
+
+/* Fond de la carte (image ou dégradé + zoom au survol) */
+.mcard-bg {
+    position: absolute;
+    inset: 0;
+    transition: transform .9s cubic-bezier(.25,.46,.45,.94);
+}
+
+/* Couleur de fond par carte si pas d'image (fallback) */
+.mcard:nth-child(1) .mcard-bg {
+    background:
+        linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.65)),
+        url("../images/sgian-dubh.jpg") center/cover no-repeat;
+}
+.mcard:nth-child(2) .mcard-bg {
+    background:
+        linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.65)),
+        url("../images/pataud.jpg") center/cover no-repeat;
+}
+.mcard:nth-child(3) .mcard-bg {
+    background:
+        linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.65)),
+        url("../images/sabal.jpg") center/cover no-repeat;
+}
+
+/* Reflet métallique diagonal sur le fond */
+.mcard-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(125deg, transparent 0%, rgba(196,180,150,.035) 45%, rgba(196,180,150,.07) 55%, transparent 100%);
+}
+
+/* Zoom du fond au survol */
+.mcard:hover .mcard-bg { transform: scale(1.06); }
+
+/* Dégradé du bas vers le haut pour que le texte soit lisible */
+.mcard-ov {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(6,6,6,.97) 0%, rgba(6,6,6,.45) 38%, rgba(6,6,6,.1) 65%, transparent 100%);
+    z-index: 1;
+}
+
+/* SVG du couteau en filigrane dans la carte */
+.mcard-knife {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%) rotate(-25deg);
+    width: 88%;
+    opacity: .055;
+    z-index: 1;
+    transition: opacity .6s, transform .9s;
+}
+.mcard:hover .mcard-knife {
+    opacity: .11;
+    transform: translate(-50%,-53%) rotate(-25deg) scale(1.04);
+}
+
+/* Zone de texte en bas de la carte */
+.mcard-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 2.5rem 2.5rem 3rem;
+    z-index: 2;
+}
+
+/* Label "Modèle · 01" */
+.mcard-tag {
+    font-family: var(--fu);
+    font-size: .58rem;
+    letter-spacing: .38em;
+    color: var(--bronze-clair);
+    text-transform: uppercase;
+    margin-bottom: .8rem;
+    display: block;
+}
+
+/* Nom du modèle ("Le Sgian Dubh") */
+.mcard-name {
+    font-family: var(--fb);
+    font-size: 2.4rem;
+    font-weight: 300;
+    color: var(--creme);
+    letter-spacing: .07em;
+    line-height: 1;
+    margin-bottom: .5rem;
+}
+
+/* Description courte : invisible, apparaît au survol */
+.mcard-desc {
+    font-family: var(--fb);
+    font-size: .95rem;
+    font-style: italic;
+    color: var(--acier);
+    font-weight: 300;
+    opacity: 0;
+    transform: translateY(7px);
+    transition: opacity .45s, transform .45s;
+}
+.mcard:hover .mcard-desc { opacity: 1; transform: none; }
+
+/* Flèche en haut à droite : invisible, apparaît au survol */
+.mcard-arr {
+    position: absolute;
+    top: 2.5rem; right: 2.5rem;
+    width: 34px; height: 34px;
+    border: 1px solid rgba(212,170,110,.28);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    opacity: 0;
+    transform: scale(.8);
+    transition: opacity .4s, transform .4s, border-color .3s;
+}
+.mcard-arr svg { width: 13px; height: 13px; stroke: var(--or); fill: none; stroke-width: 1.5; }
+.mcard:hover .mcard-arr { opacity: 1; transform: scale(1); border-color: rgba(212,170,110,.65); }
+
+
+/* -------------------------------------------------------
+   SECTION ATELIER — Présentation de l'atelier à Thiers
+   -------------------------------------------------------
+   Disposition en 2 colonnes : texte à gauche, image à droite
+------------------------------------------------------- */
+
+.atelier {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 82vh;
+}
+
+/* Colonne texte */
+.atelier-txt {
+    padding: 9rem 6rem 9rem 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--void);
+}
+
+.atelier-txt p {
+    font-family: var(--fb);
+    font-size: 1.12rem;
+    font-weight: 300;
+    line-height: 1.92;
+    color: var(--acier);
+    margin-top: 2.2rem;
+}
+
+/* Mots mis en valeur dans le texte (blanc + italique) */
+.atelier-txt .hl { color: var(--creme); font-style: italic; }
+
+/* Liste des 4 points forts de l'atelier */
+.atelier-facts {
+    margin-top: 2.8rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(138,101,53,.22);
+}
+
+/* Chaque point fort (point + texte) */
+.fact { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.1rem; }
+.fact-dot { width: 4px; height: 4px; background: var(--bronze-clair); border-radius: 50%; flex-shrink: 0; }
+.fact-txt { font-family: var(--fu); font-size: .68rem; letter-spacing: .18em; color: var(--acier); text-transform: uppercase; }
+
+/* Colonne image : fond dégradé chaud (ambiance forge) */
+.atelier-img {
+    position: relative;
+    background: linear-gradient(145deg, #1e170a 0%, #2a1e0c 30%, #1c1508 60%, #120e06 100%);
+    overflow: hidden;
+}
+
+/* Halos lumineux simulant la chaleur de la forge */
+.atelier-img::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 35% 65%, rgba(160,90,20,.15) 0%, transparent 55%),
+        radial-gradient(ellipse at 75% 20%, rgba(180,140,70,.06) 0%, transparent 40%);
+}
+
+/* Lueur animée de la forge (scintillement) */
+.forge {
+    position: absolute;
+    bottom: 18%; left: 15%;
+    width: 58%; height: 42%;
+    background: radial-gradient(ellipse, rgba(195,95,15,.16) 0%, transparent 70%);
+    animation: flicker 4.5s ease-in-out infinite;
+}
+
+/* Animation de scintillement irrégulier */
+@keyframes flicker {
+    0%,100% { opacity: .7;  transform: scale(1); }
+    25%      { opacity: 1;   transform: scale(1.06); }
+    55%      { opacity: .5;  transform: scale(.94); }
+    75%      { opacity: .88; transform: scale(1.02); }
+}
+
+/* Légende discrète en bas à droite de l'image */
+.atelier-img-lbl {
+    position: absolute;
+    bottom: 2rem; right: 2rem;
+    font-family: var(--fu);
+    font-size: .58rem;
+    letter-spacing: .3em;
+    color: rgba(196,180,150,.28);
+    text-transform: uppercase;
+}
+
+
+/* -------------------------------------------------------
+   SECTION ARTISAN — Portrait et biographie d'Ewen
+------------------------------------------------------- */
+
+.artisan {
+    padding: 9rem 0;
+    background: var(--charbon);
+    position: relative;
+    overflow: hidden;
+}
+
+/* "EWEN" en très grand en arrière-plan (presque invisible) */
+.artisan::before {
+    content: 'EWEN';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--fd);
+    font-size: 28vw;
+    color: rgba(255,255,255,.013);
+    letter-spacing: .15em;
+    pointer-events: none;
+    user-select: none;  /* non-sélectionnable par l'utilisateur */
+    white-space: nowrap;
+}
+
+/* Grille 3 colonnes : portrait | séparateur | texte */
+.artisan-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5rem;
+    display: grid;
+    grid-template-columns: 5fr 1px 7fr;  /* portrait plus petit que le texte */
+    gap: 6rem;
+    align-items: center;
+}
+
+/* Zone portrait (fond sombre avec image à insérer) */
+.artisan-portrait {
+    position: relative;
+    aspect-ratio: 3/4;   /* format portrait */
+    background: linear-gradient(160deg, #1a1a1a 0%, #242422 50%, #111111 100%);
+    overflow: hidden;
+}
+
+/* Dégradé en bas du portrait pour fondre l'image */
+.artisan-portrait::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 55%, rgba(15,15,15,.85) 100%);
+}
+
+/* Légende "Ewen · Maître Coutelier" en bas à gauche du portrait */
+.portrait-lbl {
+    position: absolute;
+    bottom: 1.5rem; left: 1.5rem;
+    z-index: 2;
+    font-family: var(--fu);
+    font-size: .58rem;
+    letter-spacing: .28em;
+    color: rgba(196,180,150,.38);
+    text-transform: uppercase;
+}
+
+/* Ligne séparatrice verticale entre portrait et texte */
+.artisan-div {
+    background: rgba(138,101,53,.25);
+    align-self: stretch;  /* s'étire sur toute la hauteur de la ligne */
+}
+
+.artisan-txt { position: relative; z-index: 2; }
+
+/* Citation d'Ewen en grand italique */
+.artisan-quote {
+    font-family: var(--fb);
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--creme);
+    line-height: 1.65;
+    margin-bottom: 2.8rem;
+}
+
+/* Guillemet ouvrant décoratif avant la citation */
+.artisan-quote::before {
+    content: '\201C';          /* caractère " (guillemet courbe) */
+    font-family: var(--fd);
+    font-size: 3.8rem;
+    color: var(--bronze);
+    line-height: 0;
+    vertical-align: -1.1rem;
+    margin-right: .25rem;
+}
+
+.artisan-bio {
+    font-family: var(--fb);
+    font-size: 1.08rem;
+    font-weight: 300;
+    line-height: 1.95;
+    color: var(--acier);
+}
+
+/* Signature manuscrite d'Ewen */
+.artisan-sig {
+    margin-top: 2.8rem;
+    font-family: var(--fb);
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--bronze-clair);
+    font-weight: 300;
+}
+
+
+/* -------------------------------------------------------
+   TEASER PERSONNALISATION — Section "Chaque couteau est unique"
+------------------------------------------------------- */
+
+.perso {
+    padding: 0;
+    background: var(--void);
+    border-top: 1px solid rgba(138,101,53,.14);
+    border-bottom: 1px solid rgba(138,101,53,.14);
+}
+
+/* Deux colonnes : image à gauche, texte à droite */
+.perso-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 56vh;
+}
+
+/* Colonne image (fond chaud avec SVG couteau) */
+.perso-img {
+    background: linear-gradient(155deg, #2a1c06 0%, #3a2810 35%, #2c2010 65%, #1a1406 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Halo lumineux sur l'image de gauche */
+.perso-img::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 42% 52%, rgba(175,115,35,.14) 0%, transparent 58%);
+}
+
+/* SVG couteau en filigrane sur l'image */
+.perso-img-knife {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%) rotate(-20deg);
+    width: 90%;
+    opacity: .07;
+    pointer-events: none;
+}
+
+/* Colonne texte */
+.perso-txt {
+    padding: 6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.perso-txt p {
+    font-family: var(--fb);
+    font-size: 1.1rem;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--acier);
+    margin-top: 2rem;
+}
+
+
+/* -------------------------------------------------------
+   TEASER AUTRES CRÉATIONS — Section "La collection s'agrandit"
+------------------------------------------------------- */
+
+.autres-teaser {
+    padding: 6rem 5rem;
+    background: var(--surface);
+    text-align: center;
+    border-top: 1px solid rgba(138,101,53,.12);
+}
+
+.autres-teaser p {
+    font-family: var(--fb);
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--acier);
+    margin-top: 1.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Le bouton est centré dans cette section */
+.autres-teaser .btn { margin: 2.5rem auto 0; }
+
+
+/* -------------------------------------------------------
+   SECTION CONTACT — 3 blocs d'informations
+------------------------------------------------------- */
+
+.contact {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 9rem 5rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4.5rem;
+}
+
+/* Titre de chaque bloc (Atelier, Contact, Réseaux) */
+.c-block-title {
+    font-family: var(--fu);
+    font-size: .6rem;
+    letter-spacing: .38em;
+    color: var(--bronze-clair);
+    text-transform: uppercase;
+    margin-bottom: 1.6rem;
+}
+
+.c-block p {
+    font-family: var(--fb);
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--acier);
+    line-height: 1.95;
+}
+
+.c-block a { color: var(--acier); text-decoration: none; transition: color .3s; }
+.c-block a:hover { color: var(--bronze-clair); }
+
+/* Bloc des icônes réseaux sociaux sur la page (séparé du footer) */
+.social {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 1rem 0 2rem;
+}
+
+.social a {
+    font-size: 1.8rem;
+    color: var(--acier);
+    transition: color .3s;
+    text-decoration: none;
+}
+
+.social a:hover { color: var(--bronze-clair); }
+
+
+/* -------------------------------------------------------
+   RESPONSIVE — Adaptations pour écrans moyens et petits
+------------------------------------------------------- */
+
+/* Tablettes et écrans moyens */
+@media (max-width: 1100px) {
+    /* Les cartes modèles passent en colonne */
+    .models-grid { grid-template-columns: 1fr; }
+    .mcard { aspect-ratio: 16/7; }  /* format paysage sur mobile */
+
+    /* L'atelier passe en colonne */
+    .atelier { grid-template-columns: 1fr; }
+    .atelier-img { min-height: 50vw; }
+
+    /* L'artisan : portrait en pleine largeur */
+    .artisan-inner { grid-template-columns: 1fr; padding: 0 2rem; }
+    .artisan-div { display: none; }  /* pas de séparateur vertical sur mobile */
+    .artisan-portrait { aspect-ratio: 16/9; }
+
+    /* La teaser perso passe en colonne */
+    .perso-inner { grid-template-columns: 1fr; }
+    .perso-img { min-height: 45vw; }
+
+    /* Le contact passe en colonne */
+    .contact { grid-template-columns: 1fr; gap: 3rem; padding: 6rem 2.5rem; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .hero { padding-bottom: 6rem; }
+    .atelier-txt { padding: 5rem 2rem; }
+    .perso-txt { padding: 4rem 2rem; }
+    .autres-teaser { padding: 5rem 2rem; }
+}

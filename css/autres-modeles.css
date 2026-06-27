@@ -1,0 +1,181 @@
+/* =====================================================
+   autres-modeles.css — Page "Autres Créations"
+   Chargé APRÈS base.css
+===================================================== */
+
+/* --- Hero ------------------------------------------ */
+.hero {
+    height: 72vh; position: relative;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-end;
+    padding-bottom: 8rem; overflow: hidden;
+}
+.hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(165deg, #08080c 0%, #0e0c10 35%, #0c0a0a 65%, var(--void) 100%);
+}
+.hero-bg::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse at 18% 60%, rgba(138,101,53,.07) 0%, transparent 48%),
+        radial-gradient(ellipse at 80% 30%, rgba(80,60,120,.05) 0%, transparent 42%);
+}
+.hero-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(6,6,6,.25) 0%, transparent 35%, rgba(6,6,6,.75) 82%, rgba(6,6,6,1) 100%);
+}
+/* Grille de forge très discrète en filigrane */
+.hero-grid { position:absolute; inset:0; overflow:hidden; opacity:.022; pointer-events:none; }
+.hero-grid::before { content:''; position:absolute; inset:-5%; background: repeating-linear-gradient(0deg,transparent 0%,transparent 49px,rgba(200,190,160,.9) 49px,rgba(200,190,160,.9) 50px),repeating-linear-gradient(90deg,transparent 0%,transparent 49px,rgba(200,190,160,.9) 49px,rgba(200,190,160,.9) 50px); }
+
+.hero-content { text-align:center; position:relative; z-index:2; }
+.h-eyebrow { font-family:var(--fu); font-size:.67rem; letter-spacing:.45em; color:var(--bronze-clair); text-transform:uppercase; margin-bottom:1.6rem; animation:up .7s ease .4s both; }
+.h-title   { font-family:var(--fb); font-size:clamp(3.2rem,7.5vw,6.5rem); font-weight:300; line-height:.95; color:var(--creme); letter-spacing:.03em; animation:up .7s ease .6s both; }
+.h-title em { font-style:italic; color:var(--acier-vif); }
+.h-sub     { font-family:var(--fb); font-size:1.1rem; font-style:italic; font-weight:300; color:var(--acier); margin-top:1.4rem; animation:up .7s ease .8s both; }
+@keyframes up { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+
+/* --- Intro texte ----------------------------------- */
+.intro { max-width:780px; margin:0 auto; padding:8rem 5rem; text-align:center; }
+.intro p { font-family:var(--fb); font-size:1.18rem; font-weight:300; line-height:1.95; color:var(--acier); }
+.intro em { font-style:italic; color:var(--creme); }
+.deco { width:52px; height:1px; background:var(--bronze); margin:2rem auto; }
+
+/* --- Modèle vedette (Le Vendetta) ------------------ */
+.featured {
+    display: grid; grid-template-columns:1fr 1fr;
+    min-height: 85vh;
+    border-top: 1px solid rgba(138,101,53,.12);
+}
+/* Colonne visuelle gauche */
+.featured-vis {
+    position: relative;
+    background: linear-gradient(155deg,#0a0808 0%,#141010 35%,#100e0c 65%,#080606 100%);
+    overflow: hidden;
+}
+.featured-vis::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 30% 55%,rgba(180,30,30,.06) 0%,transparent 50%),radial-gradient(ellipse at 70% 25%,rgba(138,101,53,.05) 0%,transparent 40%); }
+/* Flamme de forge animée */
+.forge-flame { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:40%; height:60%; background:radial-gradient(ellipse at 50% 80%,rgba(180,60,10,.14) 0%,rgba(140,80,20,.07) 40%,transparent 70%); animation:flame 3.5s ease-in-out infinite; }
+@keyframes flame { 0%,100%{opacity:.6;transform:translateX(-50%) scaleY(1)} 30%{opacity:1;transform:translateX(-50%) scaleY(1.08)} 65%{opacity:.45;transform:translateX(-50%) scaleY(.94)} }
+/* SVG couteau Vendetta en filigrane */
+.featured-knife { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-22deg); width:88%; opacity:.055; pointer-events:none; }
+/* Pastille "En forge · Bientôt disponible" */
+.featured-badge { position:absolute; top:3rem; left:3rem; display:flex; align-items:center; gap:.8rem; z-index:2; }
+.badge-dot  { width:8px; height:8px; background:var(--bronze-clair); border-radius:50%; animation:blink 2s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.badge-txt  { font-family:var(--fu); font-size:.6rem; letter-spacing:.3em; color:var(--bronze-clair); text-transform:uppercase; }
+.featured-vis-lbl { position:absolute; bottom:2rem; right:2rem; font-family:var(--fu); font-size:.58rem; letter-spacing:.3em; color:rgba(196,180,150,.25); text-transform:uppercase; }
+
+/* Colonne texte droite */
+.featured-txt { padding:8rem 5.5rem 8rem 5rem; background:var(--charbon); display:flex; flex-direction:column; justify-content:center; }
+.featured-txt p { font-family:var(--fb); font-size:1.12rem; font-weight:300; line-height:1.92; color:var(--acier); margin-top:1.8rem; }
+.featured-txt .hl { color:var(--creme); font-style:italic; }
+
+/* Grille de specs du Vendetta */
+.featured-specs { margin-top:3rem; padding-top:2.2rem; border-top:1px solid rgba(138,101,53,.2); display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+.fspec-label { font-family:var(--fu); font-size:.57rem; letter-spacing:.28em; color:var(--bronze-clair); text-transform:uppercase; margin-bottom:.35rem; }
+.fspec-val   { font-family:var(--fb); font-size:1rem; font-weight:300; color:var(--creme); }
+.fspec-val em { font-style:italic; font-size:.88rem; color:var(--acier); }
+
+/* Formulaire "Être notifié" */
+.notify-form  { margin-top:3.5rem; display:flex; max-width:400px; }
+.notify-input { flex:1; background:rgba(255,255,255,.05); border:1px solid rgba(138,101,53,.3); border-right:none; padding:.85rem 1.2rem; font-family:var(--fu); font-size:.68rem; letter-spacing:.1em; color:var(--creme); outline:none; transition:border-color .3s; }
+.notify-input::placeholder { color:rgba(180,186,194,.35); }
+.notify-input:focus { border-color:var(--bronze-clair); }
+.notify-btn   { background:var(--bronze); border:1px solid var(--bronze); padding:.85rem 1.5rem; font-family:var(--fu); font-size:.65rem; letter-spacing:.25em; color:var(--void); text-transform:uppercase; cursor:none; transition:background .3s; white-space:nowrap; }
+.notify-btn:hover { background:var(--bronze-clair); }
+.notify-legend { font-family:var(--fb); font-size:.85rem; font-style:italic; color:rgba(180,186,194,.45); margin-top:.8rem; }
+
+
+/* --- Grille des autres créations en cours ---------- */
+.others-section { padding:9rem 5rem; background:var(--void); border-top:1px solid rgba(138,101,53,.1); }
+.others-header  { margin-bottom:5rem; }
+.others-grid    { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+
+/* Chaque carte de création */
+.other-card { background:var(--charbon); padding:3.5rem 3rem 3rem; position:relative; overflow:hidden; transition:background .4s; }
+.other-card:hover { background:var(--surface); }
+/* Grand numéro romain en filigrane */
+.other-card-num { position:absolute; top:2rem; right:2.5rem; font-family:var(--fd); font-size:4rem; color:rgba(255,255,255,.025); pointer-events:none; line-height:1; }
+/* Badge de statut */
+.other-badge { display:inline-block; font-family:var(--fu); font-size:.55rem; letter-spacing:.25em; color:var(--bronze-clair); text-transform:uppercase; border:1px solid rgba(138,101,53,.3); padding:.25rem .8rem; margin-bottom:2rem; }
+.other-badge.concept { color:rgba(140,160,200,.8); border-color:rgba(120,140,180,.2); }
+/* Mini couteau SVG dans la carte */
+.card-knife { width:100%; height:60px; margin-bottom:2.5rem; position:relative; overflow:hidden; }
+
+.other-name { font-family:var(--fb); font-size:2rem; font-weight:300; color:var(--creme); letter-spacing:.06em; line-height:1; margin-bottom:.6rem; }
+.other-sub  { font-family:var(--fu); font-size:.6rem; letter-spacing:.22em; color:var(--bronze-clair); text-transform:uppercase; margin-bottom:1.2rem; }
+.other-desc { font-family:var(--fb); font-size:.98rem; font-style:italic; font-weight:300; color:var(--acier); line-height:1.75; }
+.other-line { width:36px; height:1px; background:rgba(138,101,53,.4); margin:2rem 0; }
+/* Pastille de statut */
+.other-status { display:flex; align-items:center; gap:.7rem; font-family:var(--fu); font-size:.58rem; letter-spacing:.2em; color:var(--acier); text-transform:uppercase; }
+.status-dot   { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+.dot-forge    { background:var(--bronze-clair); animation:blink 2.5s ease-in-out infinite; }
+.dot-concept  { background:rgba(140,160,200,.6); }
+.dot-etude    { background:rgba(180,186,194,.4); }
+
+
+/* --- Timeline de l'atelier ------------------------- */
+.timeline { padding:7rem 5rem; background:var(--charbon); border-top:1px solid rgba(138,101,53,.1); }
+.timeline-inner { max-width:900px; margin:0 auto; }
+.tl-header { text-align:center; margin-bottom:5rem; }
+/* Le trait vertical de la timeline */
+.tl-track { position:relative; padding-left:3rem; }
+.tl-track::before { content:''; position:absolute; left:0; top:0; bottom:0; width:1px; background:linear-gradient(to bottom,rgba(138,101,53,.4) 0%,rgba(138,101,53,.15) 80%,transparent 100%); }
+.tl-item { position:relative; padding:0 0 4rem 3.5rem; }
+.tl-item:last-child { padding-bottom:0; }
+/* Point sur le trait */
+.tl-dot { position:absolute; left:-5px; top:.4rem; width:11px; height:11px; border-radius:50%; border:1px solid var(--bronze-clair); background:var(--void); }
+.tl-dot.active { background:var(--bronze-clair); box-shadow:0 0 12px rgba(184,135,74,.35); }
+.tl-item-tag  { font-family:var(--fu); font-size:.58rem; letter-spacing:.3em; color:var(--bronze-clair); text-transform:uppercase; margin-bottom:.6rem; }
+.tl-item-name { font-family:var(--fb); font-size:1.7rem; font-weight:300; color:var(--creme); margin-bottom:.6rem; }
+.tl-item-name em { font-style:italic; color:var(--acier-vif); }
+.tl-item-desc { font-family:var(--fb); font-size:1rem; font-weight:300; font-style:italic; color:var(--acier); line-height:1.8; max-width:580px; }
+
+
+/* --- Section notification email -------------------- */
+.notif-section { padding:8rem 5rem; background:var(--void); text-align:center; border-top:1px solid rgba(138,101,53,.1); }
+.notif-inner   { max-width:600px; margin:0 auto; }
+.notif-section h2    { font-family:var(--fb); font-size:clamp(2rem,4vw,3.2rem); font-weight:300; color:var(--creme); line-height:1.15; margin-bottom:1.2rem; }
+.notif-section h2 em { font-style:italic; color:var(--acier-vif); }
+.notif-section p     { font-family:var(--fb); font-size:1.05rem; font-style:italic; color:var(--acier); margin-bottom:3rem; line-height:1.85; }
+.notif-form  { display:flex; justify-content:center; max-width:480px; margin:0 auto; }
+.notif-input { flex:1; background:rgba(255,255,255,.04); border:1px solid rgba(138,101,53,.28); border-right:none; padding:.9rem 1.4rem; font-family:var(--fu); font-size:.68rem; letter-spacing:.1em; color:var(--creme); outline:none; transition:border-color .3s; }
+.notif-input::placeholder { color:rgba(180,186,194,.32); }
+.notif-input:focus { border-color:var(--bronze-clair); }
+.notif-btn   { background:transparent; border:1px solid var(--bronze); padding:.9rem 2rem; font-family:var(--fu); font-size:.65rem; letter-spacing:.28em; color:var(--creme); text-transform:uppercase; cursor:none; transition:background .35s,color .35s; white-space:nowrap; }
+.notif-btn:hover { background:var(--bronze); color:var(--void); }
+.notif-legend { font-family:var(--fb); font-size:.85rem; font-style:italic; color:rgba(180,186,194,.38); margin-top:1rem; }
+
+
+/* --- Catalogue (3 modèles actuels) ----------------- */
+.catalog { padding:0 5rem 8rem; background:var(--void); }
+.catalog-header { margin-bottom:3.5rem; padding-top:5rem; border-top:1px solid rgba(138,101,53,.1); }
+.catalog-grid   { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+.cat-item { background:var(--charbon); padding:2.5rem; text-decoration:none; display:block; transition:background .3s; cursor:none; position:relative; }
+.cat-item:hover { background:var(--surface); }
+.cat-item-num  { font-family:var(--fu); font-size:.58rem; letter-spacing:.3em; color:var(--bronze-clair); text-transform:uppercase; margin-bottom:.6rem; }
+.cat-item-name { font-family:var(--fb); font-size:1.6rem; font-weight:300; color:var(--creme); margin-bottom:.4rem; }
+.cat-item-desc { font-family:var(--fb); font-size:.9rem; font-style:italic; color:var(--acier); }
+.cat-item-arr  { position:absolute; bottom:2rem; right:2rem; width:28px; height:28px; border:1px solid rgba(138,101,53,.25); display:flex; align-items:center; justify-content:center; opacity:0; transform:scale(.8); transition:opacity .3s,transform .3s; }
+.cat-item:hover .cat-item-arr { opacity:1; transform:scale(1); }
+.cat-item-arr svg { width:11px; height:11px; stroke:var(--or); fill:none; stroke-width:1.5; }
+
+/* --- Responsive ------------------------------------ */
+@media (max-width:1100px) {
+    .featured { grid-template-columns:1fr; }
+    .featured-vis { min-height:50vw; }
+    .others-grid { grid-template-columns:1fr 1fr; }
+    .catalog-grid { grid-template-columns:1fr 1fr; }
+    .timeline { padding:5rem 2rem; }
+}
+@media (max-width:768px) {
+    .others-section { padding:6rem 2rem; }
+    .others-grid { grid-template-columns:1fr; }
+    .featured-txt { padding:5rem 2rem; }
+    .notif-section { padding:5rem 2rem; }
+    .notif-form { flex-direction:column; max-width:100%; }
+    .notif-input { border-right:1px solid rgba(138,101,53,.28); border-bottom:none; }
+    .catalog { padding:0 2rem 5rem; }
+    .catalog-grid { grid-template-columns:1fr; }
+}

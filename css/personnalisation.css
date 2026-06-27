@@ -1,0 +1,283 @@
+/* =====================================================
+   personnalisation.css — Page Personnalisation
+   Chargé APRÈS base.css
+   =====================================================
+   Sections :
+     - Hero court (60vh au lieu de 100vh)
+     - Mise en page sidebar fixe + contenu défilant
+     - Sommaire (sidebar)
+     - Catégories avec en-tête collant
+     - Grilles d'options
+     - Swatches visuelles (imitations matières)
+     - CTA de bas de page
+===================================================== */
+
+
+/* --- HERO court (60vh) ----------------------------- */
+
+.page-hero {
+    height: 60vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-end;
+    padding-bottom: 7rem;
+    position: relative; overflow: hidden;
+    background: linear-gradient(160deg, #0a0a0c 0%, #110f08 45%, #0c0b08 100%);
+}
+.page-hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(6,6,6,.2) 0%, transparent 40%, rgba(6,6,6,.8) 100%);
+}
+.page-hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 60%, rgba(138,101,53,.08) 0%, transparent 55%);
+}
+/* Couteau SVG en filigrane dans le hero */
+.ph-knife {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%) rotate(-8deg);
+    width: 85%; max-width: 1000px;
+    opacity: .035; pointer-events: none;
+}
+.page-hero-content { text-align: center; position: relative; z-index: 2; }
+.ph-eyebrow {
+    font-family: var(--fu); font-size: .67rem; letter-spacing: .45em;
+    color: var(--bronze-clair); text-transform: uppercase;
+    margin-bottom: 1.6rem;
+    animation: up .7s ease .3s both;
+}
+.ph-title {
+    font-family: var(--fb);
+    font-size: clamp(3rem,7vw,6rem);
+    font-weight: 300; line-height: .95;
+    color: var(--creme); letter-spacing: .03em;
+    animation: up .7s ease .5s both;
+}
+.ph-title em { font-style: italic; color: var(--acier-vif); }
+@keyframes up { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
+
+
+/* --- MISE EN PAGE : sidebar fixe + contenu --------- */
+
+/* Le .layout est un simple bloc ; la sidebar est en position:fixed */
+.layout { display: block; min-height: 80vh; }
+
+/* SIDEBAR — toujours visible, ne défile pas */
+.sidebar {
+    background: var(--charbon);
+    padding: 3rem 0 3rem 3rem;
+    border-right: 1px solid rgba(138,101,53,.12);
+    position: fixed;                     /* reste en place */
+    top: var(--nav-h);                   /* juste sous la nav */
+    left: 0;
+    width: 240px;
+    height: calc(100vh - var(--nav-h));  /* prend toute la hauteur restante */
+    overflow-y: auto;                    /* défile si le sommaire est long */
+    z-index: 90;                         /* sous la nav (100) */
+}
+
+/* Titre du sommaire */
+.sb-label {
+    font-family: var(--fu); font-size: .58rem; letter-spacing: .38em;
+    color: var(--bronze-clair); text-transform: uppercase;
+    margin-bottom: 2rem; display: block;
+}
+
+/* Liste des liens du sommaire */
+.sb-links { list-style: none; display: flex; flex-direction: column; gap: .2rem; }
+
+/* Chaque lien du sommaire */
+.sb-links a {
+    font-family: var(--fb); font-size: 1rem; font-weight: 300;
+    color: var(--acier); text-decoration: none;
+    padding: .5rem 0 .5rem 1rem;
+    display: block; transition: color .3s;
+    border-left: 2px solid transparent;
+    margin-left: -1rem;
+}
+.sb-links a:hover,
+.sb-links a.active {
+    color: var(--creme);
+    border-left-color: var(--bronze-clair);
+}
+
+/* Numéro avant chaque lien */
+.sb-num { font-family: var(--fu); font-size: .6rem; color: var(--bronze); margin-right: .5rem; letter-spacing: .1em; }
+
+
+/* --- CONTENU — décalé de la largeur de la sidebar -- */
+
+.content { background: var(--void); margin-left: 240px; }
+
+
+/* --- SECTION DE CATÉGORIE -------------------------- */
+
+.cat-section { padding: 6rem 6rem 5rem; border-bottom: 1px solid rgba(138,101,53,.1); }
+.cat-section:last-child { border-bottom: none; }
+
+
+/* --- EN-TÊTE COLLANT DE CATÉGORIE ------------------
+   Reste visible pendant tout le défilement des options.
+   Se colle juste sous la nav (top:var(--nav-h)).
+   z-index:50 = sous la nav (100) et sous la sidebar (90) */
+
+.cat-sticky {
+    position: sticky;
+    top: var(--nav-h);
+    background: var(--void);
+    z-index: 50;
+    padding-top: 1.8rem;
+    padding-bottom: .5rem;
+    margin-bottom: 2.5rem;
+}
+
+.cat-header { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: .8rem; }
+.cat-num   { font-family: var(--fu); font-size: .62rem; letter-spacing: .35em; color: var(--bronze-clair); text-transform: uppercase; }
+.cat-title { font-family: var(--fb); font-size: clamp(1.8rem,3vw,2.8rem); font-weight: 300; color: var(--creme); letter-spacing: .04em; }
+.cat-title em { font-style: italic; color: var(--acier-vif); }
+
+.cat-intro {
+    font-family: var(--fb); font-size: 1.08rem; font-weight: 300;
+    line-height: 1.9; color: var(--acier); max-width: 700px;
+}
+.cat-intro em { font-style: italic; color: var(--creme); }
+
+
+/* --- GRILLES D'OPTIONS ----------------------------- */
+
+.opts     { display: grid; gap: 2px; }
+.opts-2   { grid-template-columns: repeat(2,1fr); }
+.opts-3   { grid-template-columns: repeat(3,1fr); }
+.opts-4   { grid-template-columns: repeat(4,1fr); }
+
+/* Chaque option */
+.opt {
+    background: var(--charbon);
+    padding: 2.5rem;
+    transition: background .3s;
+    position: relative; overflow: hidden;
+}
+.opt:hover { background: var(--surface); }
+
+/* Zone image/swatch en haut de chaque option
+   → remplacer le background-color par une vraie photo :
+   .v-acier-carbone { background: url('../images/acier-xc75.jpg') center/cover; } */
+.opt-visual { height: 80px; margin-bottom: 2rem; border-radius: 2px; overflow: hidden; position: relative; }
+
+/* Nom de l'option */
+.opt-name { font-family: var(--fb); font-size: 1.2rem; font-weight: 300; color: var(--creme); margin-bottom: .5rem; letter-spacing: .04em; }
+/* Label court (ex: "Acier inox · 60 HRC") */
+.opt-sub  { font-family: var(--fu); font-size: .62rem; letter-spacing: .18em; color: var(--bronze-clair); text-transform: uppercase; margin-bottom: .8rem; }
+/* Description longue */
+.opt-desc { font-family: var(--fb); font-size: .95rem; font-style: italic; font-weight: 300; color: var(--acier); line-height: 1.7; }
+/* Badge (Standard / Premium / Prestige) */
+.opt-badge {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    font-family: var(--fu); font-size: .55rem; letter-spacing: .2em;
+    color: var(--bronze-clair); text-transform: uppercase;
+    border: 1px solid rgba(138,101,53,.35); padding: .25rem .7rem;
+}
+
+
+/* --- SWATCHES VISUELLES CSS ------------------------
+   Ces fonds simulen les matières en attendant vos photos.
+   Chaque classe porte le nom de la matière qu'elle représente.
+   Pour remplacer par une vraie image :
+     .v-brosse { background: url('../images/finition-brosse.jpg') center/cover; }
+-------------------------------------------------------- */
+
+/* Acier carbone : rayures parallèles + reflet */
+.v-acier-carbone {
+    background: repeating-linear-gradient(90deg, #1a1c20 0%, #2a2d33 4px, #1a1c20 5px);
+}
+.v-acier-carbone::after { content:''; position:absolute; inset:0; background: linear-gradient(160deg,rgba(180,185,195,.06) 0%,rgba(180,185,195,.18) 50%,rgba(180,185,195,.04) 100%); }
+
+/* Acier RWL-34 poudre */
+.v-rwl34 {
+    background: repeating-linear-gradient(88deg, #18191f 0%, #252830 6px, #18191f 7px);
+}
+.v-rwl34::after { content:''; position:absolute; inset:0; background: linear-gradient(160deg,rgba(200,210,230,.05) 0%,rgba(200,210,230,.2) 55%,rgba(200,210,230,.04) 100%); }
+
+/* Acier N690 inox */
+.v-n690 { background: linear-gradient(135deg,#1c2028 0%,#282e38 40%,#1c2028 100%); }
+.v-n690::after { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 50% 40%,rgba(210,225,240,.18) 0%,transparent 65%); }
+
+/* Damas : motif tissé + reflet doré */
+.v-damas { background: linear-gradient(160deg,#12120e 0%,#1e1c16 100%); position:relative; overflow:hidden; }
+.v-damas::before { content:''; position:absolute; inset:0; background: repeating-linear-gradient(30deg,transparent 0%,transparent 8px,rgba(160,150,120,.08) 8px,rgba(160,150,120,.08) 9px),repeating-linear-gradient(-30deg,transparent 0%,transparent 12px,rgba(140,130,100,.06) 12px,rgba(140,130,100,.06) 13px); }
+.v-damas::after  { content:''; position:absolute; inset:0; background: linear-gradient(160deg,rgba(180,165,125,.06) 0%,rgba(180,165,125,.2) 50%,rgba(180,165,125,.06) 100%); }
+
+/* Finition brossée */
+.v-brosse { background: repeating-linear-gradient(0deg,#1e2028 0%,#2a2d35 3px,#1e2028 4px); }
+.v-brosse::after { content:''; position:absolute; inset:0; background: linear-gradient(90deg,rgba(200,210,220,.06) 0%,rgba(200,210,220,.22) 45%,rgba(200,210,220,.06) 100%); }
+
+/* Finition Jackson Pollock */
+.v-jp { background:#0e0c08; position:relative; overflow:hidden; }
+.v-jp::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 20% 30%,rgba(180,100,30,.2) 0%,transparent 35%),radial-gradient(ellipse at 70% 60%,rgba(200,200,220,.1) 0%,transparent 25%),radial-gradient(ellipse at 55% 20%,rgba(20,80,120,.15) 0%,transparent 30%),radial-gradient(ellipse at 40% 75%,rgba(160,180,60,.1) 0%,transparent 28%); }
+
+/* Mitres métalliques */
+.v-classique-mitre { background: linear-gradient(135deg,#888e98 0%,#adb2bc 45%,#7c8290 100%); }
+.v-classique-mitre::after { content:''; position:absolute; inset:0; background: linear-gradient(160deg,rgba(255,255,255,.12) 0%,rgba(255,255,255,.06) 50%,transparent 100%); }
+
+.v-bronze-mitre { background: linear-gradient(135deg,#7a5528 0%,#a87840 45%,#6a4820 100%); }
+.v-bronze-mitre::after { content:''; position:absolute; inset:0; background: linear-gradient(160deg,rgba(212,170,110,.15) 0%,rgba(212,170,110,.08) 50%,transparent 100%); }
+
+.v-bronze-patine { background: linear-gradient(135deg,#4a5830 0%,#7a6030 45%,#3a4820 100%); }
+.v-bronze-patine::after { content:''; position:absolute; inset:0; background: linear-gradient(160deg,rgba(150,180,100,.12) 0%,rgba(180,150,70,.1) 50%,transparent 100%); }
+
+/* Bois */
+.v-olivier { background: linear-gradient(150deg,#7a5a28 0%,#9a7038 35%,#6a4e20 55%,#8a6030 100%); position:relative; }
+.v-olivier::before { content:''; position:absolute; inset:0; background: repeating-linear-gradient(20deg,transparent 0%,transparent 8px,rgba(0,0,0,.15) 8px,rgba(0,0,0,.15) 9px); }
+
+.v-noyer { background: linear-gradient(150deg,#4a2e14 0%,#5e3a1a 35%,#3c2410 55%,#503418 100%); position:relative; }
+.v-noyer::before { content:''; position:absolute; inset:0; background: repeating-linear-gradient(15deg,transparent 0%,transparent 6px,rgba(0,0,0,.2) 6px,rgba(0,0,0,.2) 7px); }
+
+.v-ebene { background: linear-gradient(150deg,#0e0c0a 0%,#181410 35%,#0a0808 55%,#141210 100%); }
+.v-wenge { background: linear-gradient(150deg,#251a0c 0%,#342414 35%,#1c1208 55%,#2a1c10 100%); position:relative; }
+.v-wenge::before { content:''; position:absolute; inset:0; background: repeating-linear-gradient(8deg,transparent 0%,transparent 10px,rgba(0,0,0,.3) 10px,rgba(0,0,0,.3) 11px); }
+
+/* Ressort guilloché */
+.v-ressort-simple   { background: linear-gradient(135deg,#18191f 0%,#242630 100%); }
+.v-ressort-guilloché { background: linear-gradient(135deg,#16161c 0%,#202030 100%); position:relative; overflow:hidden; }
+.v-ressort-guilloché::before { content:''; position:absolute; inset:0; background: repeating-linear-gradient(45deg,transparent 0%,transparent 4px,rgba(180,170,140,.06) 4px,rgba(180,170,140,.06) 5px),repeating-linear-gradient(-45deg,transparent 0%,transparent 4px,rgba(180,170,140,.04) 4px,rgba(180,170,140,.04) 5px); }
+
+/* Lame simple vs guillochée */
+.v-lame-simple    { background: repeating-linear-gradient(90deg,#1e2028 0%,#282c36 4px,#1e2028 5px); }
+.v-lame-guilloché { background: linear-gradient(135deg,#16161c 0%,#202030 100%); position:relative; overflow:hidden; }
+.v-lame-guilloché::before { content:''; position:absolute; inset:0; background: repeating-linear-gradient(0deg,transparent 0%,transparent 6px,rgba(180,175,145,.08) 6px,rgba(180,175,145,.08) 7px),repeating-linear-gradient(90deg,transparent 0%,transparent 10px,rgba(180,175,145,.05) 10px,rgba(180,175,145,.05) 11px); }
+
+/* Faux tranchant */
+.v-uni { background: linear-gradient(160deg,#1a1c22 0%,#252830 100%); position:relative; }
+.v-uni::after  { content:''; position:absolute; bottom:40%; left:10%; right:10%; height:1px; background:rgba(200,210,220,.25); }
+.v-bi  { background: linear-gradient(160deg,#1a1c22 0%,#252830 100%); position:relative; }
+.v-bi::after   { content:''; position:absolute; bottom:40%; left:10%; right:10%; height:1px; background:rgba(200,210,220,.25); }
+.v-bi::before  { content:''; position:absolute; top:40%;    left:10%; right:10%; height:1px; background:rgba(200,210,220,.25); }
+
+
+/* --- CTA de bas de page ---------------------------- */
+.cta-bar {
+    padding: 5rem 6rem; background: var(--charbon);
+    text-align: center; border-top: 1px solid rgba(138,101,53,.12);
+}
+.cta-bar h2 { font-family: var(--fb); font-size: clamp(1.6rem,3vw,2.4rem); font-weight: 300; color: var(--creme); margin-bottom: 1rem; }
+.cta-bar h2 em { font-style: italic; color: var(--acier-vif); }
+.cta-bar p  { font-family: var(--fb); font-size: 1rem; font-style: italic; color: var(--acier); margin-bottom: 2.5rem; }
+
+
+/* --- RESPONSIVE ------------------------------------ */
+
+@media (max-width: 1024px) {
+    /* La sidebar redevient dans le flux (non-fixed) */
+    .sidebar { position: relative; top: auto; width: 100%; height: auto; padding: 2rem 2rem 1.5rem; }
+    .content  { margin-left: 0; }
+    /* Les en-têtes ne collent plus (pas de nav-h à calculer sur mobile) */
+    .cat-sticky { position: relative; top: auto; }
+    .cat-section { padding: 4rem 2.5rem 3rem; }
+    .opts-4 { grid-template-columns: repeat(2,1fr); }
+    .opts-3 { grid-template-columns: repeat(2,1fr); }
+}
+
+@media (max-width: 640px) {
+    .opts-2, .opts-3, .opts-4 { grid-template-columns: 1fr; }
+    .cta-bar { padding: 4rem 2rem; }
+}

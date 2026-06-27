@@ -1,496 +1,375 @@
 <!DOCTYPE html>
 <html lang="fr">
+<!--
+  =====================================================
+  index.html — Page d'accueil
+  Ewen-M-Atelier · Coutellerie d'Art · Thiers
+  =====================================================
+  CSS chargés (dans l'ordre) :
+    1. base.css    → styles communs à tout le site
+    2. index.css   → styles propres à cette page
+  JS chargé en fin de page :
+    1. main.js     → curseur, loader, nav, reveal
+  =====================================================
+-->
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ewen-M-Atelier — Coutellerie d'Art · Thiers</title>
-<meta name="description" content="Couteaux d'art fabriqués à la main à Thiers, capitale française de la coutellerie. Pièces uniques artisanales sur commande.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --void:#060606;
-  --charbon:#0f0f0f;
-  --surface:#161616;
-  --acier:#b4bac2;
-  --acier-vif:#d8dde3;
-  --bronze:#8a6535;
-  --bronze-clair:#b8874a;
-  --or:#d4aa6e;
-  --bois:#3a2518;
-  --bois-clair:#6b4226;
-  --creme:#f5f0e8;
-  --blanc:#faf8f5;
-  --fd:'Cinzel',serif;
-  --fb:'Cormorant Garamond',serif;
-  --fu:'Raleway',sans-serif;
-}
-html{font-size:16px;scroll-behavior:smooth}
-body{background:var(--void);color:var(--creme);font-family:var(--fb);overflow-x:hidden;cursor:none}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ewen-M-Atelier — Coutellerie d'Art · Thiers</title>
+  <meta name="description" content="Couteaux d'art forgés à la main à Thiers. Pièces uniques artisanales sur commande.">
 
-/* CURSOR */
-.cur,.cur-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
-.cur{width:6px;height:6px;background:var(--or);transition:width .2s,height .2s}
-.cur-ring{width:26px;height:26px;border:1px solid rgba(212,170,110,.45);transition:width .3s,height .3s,border-color .3s}
-body:has(a:hover) .cur-ring,body:has(button:hover) .cur-ring{width:40px;height:40px;border-color:var(--or)}
+  <!-- Polices Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
 
-/* LOADER */
-#loader{position:fixed;inset:0;background:var(--void);z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transition:opacity .9s ease,visibility .9s ease}
-#loader.out{opacity:0;visibility:hidden}
-.ld-logo{font-family:var(--fd);font-size:.8rem;letter-spacing:.5em;color:var(--creme);opacity:0;animation:fdIn .5s ease .4s forwards}
-.ld-bar{width:0;height:1px;background:var(--bronze-clair);animation:grow 1.4s cubic-bezier(.4,0,.2,1) .6s forwards}
-@keyframes fdIn{to{opacity:1}}
-@keyframes grow{to{width:80px}}
-
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:2rem 3.5rem;display:flex;align-items:center;justify-content:space-between;transition:background .5s,padding .4s,border-color .5s;border-bottom:1px solid transparent}
-nav.on{background:rgba(6,6,6,.94);backdrop-filter:blur(14px);padding:1.2rem 3.5rem;border-bottom-color:rgba(138,101,53,.18)}
-.nav-logo{font-family:var(--fd);font-size:.78rem;letter-spacing:.42em;color:var(--creme);text-decoration:none}
-.nav-links{display:flex;gap:2.5rem;list-style:none}
-.nav-links a{font-family:var(--fu);font-size:.67rem;font-weight:300;letter-spacing:.22em;color:var(--acier);text-decoration:none;text-transform:uppercase;position:relative;transition:color .3s}
-.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--bronze-clair);transition:width .35s}
-.nav-links a:hover{color:var(--creme)}
-.nav-links a:hover::after{width:100%}
-
-/* HERO */
-.hero{height:100vh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:9rem;overflow:hidden}
-.hero-bg
-{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(160deg,#090909 0%,#111009 40%,#0c0b08 70%,#070707 100%)
-}
-.hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 55%,rgba(138,101,53,.1) 0%,transparent 55%)}
-.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,6,6,.25) 0%,transparent 30%,rgba(6,6,6,.75) 85%,rgba(6,6,6,1) 100%)}
-.hero-knife{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-12deg);width:80%;max-width:900px;opacity:.04;z-index:1;pointer-events:none}
-.hero-content{text-align:center;position:relative;z-index:2}
-.hero-eyebrow{font-family:var(--fu);font-size:.67rem;letter-spacing:.45em;color:var(--bronze-clair);text-transform:uppercase;margin-bottom:1.8rem;opacity:0;animation:up .7s ease 1.9s forwards}
-.hero-title{font-family:var(--fb);font-size:clamp(3.8rem,8.5vw,7.5rem);font-weight:300;line-height:.92;color:var(--creme);letter-spacing:.02em;margin-bottom:1.6rem;opacity:0;animation:up .7s ease 2.1s forwards}
-.hero-title em{font-style:italic;color:var(--acier-vif)}
-.hero-sub{font-family:var(--fu);font-size:.68rem;letter-spacing:.32em;color:var(--acier);text-transform:uppercase;opacity:0;animation:up .7s ease 2.3s forwards}
-.hero-scroll{display:flex;flex-direction:column;align-items:center;gap:.8rem;margin-top:3rem;opacity:0;animation:up .7s ease 2.6s forwards}
-.scroll-line{width:1px;height:54px;background:linear-gradient(to bottom,var(--bronze),transparent);animation:pulse 2.5s ease-in-out infinite 3s}
-.scroll-txt{font-family:var(--fu);font-size:.58rem;letter-spacing:.3em;color:rgba(180,186,194,.45);text-transform:uppercase}
-@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
-
-/* MARQUEE */
-.marquee{background:var(--bronze);padding:.8rem 0;overflow:hidden;border-top:1px solid rgba(212,170,110,.25);border-bottom:1px solid rgba(212,170,110,.25)}
-.mq-track{display:flex;animation:mq 28s linear infinite;white-space:nowrap;width:max-content}
-.mq-item{font-family:var(--fu);font-size:.62rem;font-weight:300;letter-spacing:.3em;color:var(--creme);padding:0 3rem;text-transform:uppercase;opacity:.88}
-.mq-dot{display:inline-block;width:3px;height:3px;background:var(--creme);border-radius:50%;vertical-align:middle;opacity:.5;margin:0 .5rem}
-@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-/* SECTION UTIL */
-.s-num{font-family:var(--fu);font-size:.62rem;letter-spacing:.35em;color:var(--bronze-clair);text-transform:uppercase;display:block;margin-bottom:1.1rem}
-.s-title{font-family:var(--fb);font-size:clamp(2.1rem,4vw,3.6rem);font-weight:300;color:var(--creme);letter-spacing:.04em;line-height:1.1}
-.s-title em{font-style:italic;color:var(--acier-vif)}
-.deco-line{width:52px;height:1px;background:var(--bronze);margin:1.8rem 0}
-.deco-center{margin:1.8rem auto}
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .85s ease,transform .85s ease}
-.reveal.vis{opacity:1;transform:none}
-.r1{transition-delay:.1s}.r2{transition-delay:.2s}.r3{transition-delay:.3s}
-
-/* MODELS */
-.models{padding:9rem 0;background:var(--charbon)}
-.models-hd{text-align:center;padding:0 4rem;margin-bottom:5rem}
-.models-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
-.mcard{position:relative;overflow:hidden;aspect-ratio:3/4;text-decoration:none;display:block}
-.mcard-bg{position:absolute;inset:0;transition:transform .9s cubic-bezier(.25,.46,.45,.94)}
-.mcard:nth-child(1) .mcard-bg{
-    background:
-        linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.65)),
-        url("images/sgian-dubh.jpg") center center/cover no-repeat;
-}
-
-.mcard:nth-child(2) .mcard-bg{
-    background:
-        linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.65)),
-        url("images/pataud.jpg") center center/cover no-repeat;
-}
-
-.mcard:nth-child(3) .mcard-bg{
-    background:
-        linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.65)),
-        url("images/sabal.jpg") center center/cover no-repeat;
-}.mcard-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(125deg,transparent 0%,rgba(196,180,150,.035) 45%,rgba(196,180,150,.07) 55%,transparent 100%)}
-.mcard:hover .mcard-bg{transform:scale(1.06)}
-.mcard-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,6,.97) 0%,rgba(6,6,6,.45) 38%,rgba(6,6,6,.1) 65%,transparent 100%);z-index:1}
-.mcard-knife{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);width:88%;opacity:.055;z-index:1;transition:opacity .6s,transform .9s}
-.mcard:hover .mcard-knife{opacity:.11;transform:translate(-50%,-53%) rotate(-25deg) scale(1.04)}
-.mcard-content{position:absolute;bottom:0;left:0;right:0;padding:2.5rem 2.5rem 3rem;z-index:2}
-.mcard-tag{font-family:var(--fu);font-size:.58rem;letter-spacing:.38em;color:var(--bronze-clair);text-transform:uppercase;margin-bottom:.8rem;display:block}
-.mcard-name{font-family:var(--fb);font-size:2.4rem;font-weight:300;color:var(--creme);letter-spacing:.07em;line-height:1;margin-bottom:.5rem}
-.mcard-desc{font-family:var(--fb);font-size:.95rem;font-style:italic;color:var(--acier);font-weight:300;opacity:0;transform:translateY(7px);transition:opacity .45s,transform .45s}
-.mcard:hover .mcard-desc{opacity:1;transform:none}
-.mcard-arr{position:absolute;top:2.5rem;right:2.5rem;width:34px;height:34px;border:1px solid rgba(212,170,110,.28);display:flex;align-items:center;justify-content:center;z-index:2;opacity:0;transform:scale(.8);transition:opacity .4s,transform .4s,border-color .3s}
-.mcard-arr svg{width:13px;height:13px;stroke:var(--or);fill:none;stroke-width:1.5}
-.mcard:hover .mcard-arr{opacity:1;transform:scale(1);border-color:rgba(212,170,110,.65)}
-
-/* ATELIER */
-.atelier{display:grid;grid-template-columns:1fr 1fr;min-height:82vh}
-.atelier-txt{padding:9rem 6rem 9rem 5rem;display:flex;flex-direction:column;justify-content:center;background:var(--void)}
-.atelier-txt p{font-family:var(--fb);font-size:1.12rem;font-weight:300;line-height:1.92;color:var(--acier);margin-top:2.2rem}
-.atelier-txt .hl{color:var(--creme);font-style:italic}
-.atelier-facts{margin-top:2.8rem;padding-top:2rem;border-top:1px solid rgba(138,101,53,.22)}
-.fact{display:flex;align-items:center;gap:1rem;margin-bottom:1.1rem}
-.fact-dot{width:4px;height:4px;background:var(--bronze-clair);border-radius:50%;flex-shrink:0}
-.fact-txt{font-family:var(--fu);font-size:.68rem;letter-spacing:.18em;color:var(--acier);text-transform:uppercase}
-.atelier-img{
-    position:relative;
-
-    background:
-        linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.55)),
-        url("images/atelier.jpg") center center/cover no-repeat;
-
-    overflow:hidden;
-}
-.forge{position:absolute;bottom:18%;left:15%;width:58%;height:42%;background:radial-gradient(ellipse,rgba(195,95,15,.16) 0%,transparent 70%);animation:flicker 4.5s ease-in-out infinite}
-@keyframes flicker{0%,100%{opacity:.7;transform:scale(1)}25%{opacity:1;transform:scale(1.06)}55%{opacity:.5;transform:scale(.94)}75%{opacity:.88;transform:scale(1.02)}}
-.atelier-img-lbl{position:absolute;bottom:2rem;right:2rem;font-family:var(--fu);font-size:.58rem;letter-spacing:.3em;color:rgba(196,180,150,.28);text-transform:uppercase}
-
-/* ARTISAN */
-.artisan{padding:9rem 0;background:var(--charbon);position:relative;overflow:hidden}
-.artisan::before{content:'EWEN';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--fd);font-size:28vw;color:rgba(255,255,255,.013);letter-spacing:.15em;pointer-events:none;user-select:none;white-space:nowrap}
-.artisan-inner{max-width:1200px;margin:0 auto;padding:0 5rem;display:grid;grid-template-columns:5fr 1px 7fr;gap:6rem;align-items:center}
-.artisan-portrait
-{
-  position:relative;
-  aspect-ratio:3/4;
-  background:
-        linear-gradient(rgba(0,0,0,.15),rgba(0,0,0,.55)),
-        url("images/ewen.jpg") center top/cover no-repeat;
-  overflow:hidden
-}
-.artisan-portrait::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(15,15,15,.85) 100%)}
-.portrait-lbl{position:absolute;bottom:1.5rem;left:1.5rem;z-index:2;font-family:var(--fu);font-size:.58rem;letter-spacing:.28em;color:rgba(196,180,150,.38);text-transform:uppercase}
-.artisan-div{background:rgba(138,101,53,.25);align-self:stretch}
-.artisan-txt{position:relative;z-index:2}
-.artisan-quote{font-family:var(--fb);font-size:clamp(1.4rem,2.2vw,2rem);font-weight:300;font-style:italic;color:var(--creme);line-height:1.65;margin-bottom:2.8rem}
-.artisan-quote::before{content:'\201C';font-family:var(--fd);font-size:3.8rem;color:var(--bronze);line-height:0;vertical-align:-1.1rem;margin-right:.25rem}
-.artisan-bio{font-family:var(--fb);font-size:1.08rem;font-weight:300;line-height:1.95;color:var(--acier)}
-.artisan-sig{margin-top:2.8rem;font-family:var(--fb);font-size:2rem;font-style:italic;color:var(--bronze-clair);font-weight:300}
-
-/* PERSO TEASER */
-.perso{padding:0;background:var(--void);border-top:1px solid rgba(138,101,53,.14);border-bottom:1px solid rgba(138,101,53,.14)}
-.perso-inner{display:grid;grid-template-columns:1fr 1fr;min-height:56vh}
-.perso-img
-{
-  background:
-        linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.55)),
-        url("images/personnalisation.png") center center/cover no-repeat;
-  position:relative;
-  overflow:hidden}
-.perso-img::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 42% 52%,rgba(175,115,35,.14) 0%,transparent 58%)}
-.perso-img-knife{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-20deg);width:90%;opacity:.07;pointer-events:none}
-.perso-txt{padding:6rem;display:flex;flex-direction:column;justify-content:center}
-.perso-txt p{font-family:var(--fb);font-size:1.1rem;font-weight:300;line-height:1.9;color:var(--acier);margin-top:2rem}
-.btn{display:inline-flex;align-items:center;gap:1rem;margin-top:3rem;padding:.85rem 2.8rem;border:1px solid var(--bronze);font-family:var(--fu);font-size:.68rem;font-weight:300;letter-spacing:.3em;color:var(--creme);text-decoration:none;text-transform:uppercase;transition:background .4s,color .4s;align-self:flex-start;cursor:none}
-.btn:hover{background:var(--bronze);color:var(--void)}
-.btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;transition:transform .3s}
-.btn:hover svg{transform:translateX(4px)}
-
-/* AUTRES MODELES TEASER */
-.autres-teaser{padding:6rem 5rem;background:var(--surface);text-align:center;border-top:1px solid rgba(138,101,53,.12)}
-.autres-teaser p{font-family:var(--fb);font-size:1.05rem;font-style:italic;color:var(--acier);margin-top:1.5rem;max-width:600px;margin-left:auto;margin-right:auto}
-.autres-teaser .btn{margin:2.5rem auto 0}
-
-/* CONTACT */
-.contact{max-width:1200px;margin:0 auto;padding:9rem 5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:4.5rem}
-.c-block-title{font-family:var(--fu);font-size:.6rem;letter-spacing:.38em;color:var(--bronze-clair);text-transform:uppercase;margin-bottom:1.6rem}
-.c-block p{font-family:var(--fb);font-size:1rem;font-weight:300;color:var(--acier);line-height:1.95}
-.c-block a{color:var(--acier);text-decoration:none;transition:color .3s}
-.c-block a:hover{color:var(--bronze-clair)}
-
-/* FOOTER */
-footer{border-top:1px solid rgba(138,101,53,.18);padding:2.8rem 3.5rem;display:flex;align-items:center;justify-content:space-between;background:var(--void)}
-.f-logo{font-family:var(--fd);font-size:.78rem;letter-spacing:.42em;color:var(--creme)}
-.f-tag{font-family:var(--fb);font-size:.9rem;font-style:italic;color:var(--acier);font-weight:300}
-.f-social{display:flex;gap:1.2rem;align-items:center}
-.f-social a{width:36px;height:36px;border:1px solid rgba(138,101,53,.28);display:flex;align-items:center;justify-content:center;transition:border-color .3s,background .3s;cursor:none}
-.f-social a:hover{border-color:var(--bronze-clair);background:rgba(138,101,53,.1)}
-.f-social svg{width:15px;height:15px;fill:var(--acier);transition:fill .3s}
-.f-social a:hover svg{fill:var(--bronze-clair)}
-.f-copy{font-family:var(--fu);font-size:.58rem;letter-spacing:.15em;color:rgba(196,180,150,.22);text-align:center;padding:.8rem 3.5rem 1.6rem;background:var(--void)}
-
-/* RESPONSIVE */
-@media(max-width:1100px){
-  .models-grid{grid-template-columns:1fr}
-  .mcard{aspect-ratio:16/7}
-  .atelier{grid-template-columns:1fr}
-  .atelier-img{min-height:50vw}
-  .artisan-inner{grid-template-columns:1fr;padding:0 2rem}
-  .artisan-div{display:none}
-  .artisan-portrait{aspect-ratio:16/9}
-  .perso-inner{grid-template-columns:1fr}
-  .perso-img{min-height:45vw}
-  .contact{grid-template-columns:1fr;gap:3rem;padding:6rem 2.5rem}
-}
-@media(max-width:768px){
-  nav{padding:1.4rem 1.5rem}
-  nav.on{padding:1rem 1.5rem}
-  .nav-links{display:none}
-  .hero{padding-bottom:6rem}
-  .atelier-txt{padding:5rem 2rem}
-  .perso-txt{padding:4rem 2rem}
-  .autres-teaser{padding:5rem 2rem}
-  footer{flex-direction:column;gap:1.8rem;padding:2rem 1.5rem;text-align:center}
-}
-.mcard-bg,
-.atelier-img,
-.artisan-portrait,
-.perso-img{
-
-    transition:transform 8s ease;
-}
-
-.mcard:hover .mcard-bg,
-.atelier:hover .atelier-img,
-.artisan:hover .artisan-portrait,
-.perso:hover .perso-img{
-
-    transform:scale(1.08);
-
-}
-</style>
+  <!-- Feuilles de style -->
+  <link rel="stylesheet" href="css/base.css">   <!-- styles communs -->
+  <link rel="stylesheet" href="css/index.css">  <!-- styles de cette page -->
 </head>
 <body>
 
-<!-- CURSOR -->
-<div class="cur" id="cur"></div>
-<div class="cur-ring" id="curR"></div>
+  <!-- ================================================
+       CURSEUR PERSONNALISÉ
+       Deux <div> vides positionnés par JavaScript.
+       #cur   = le point central
+       #curR  = l'anneau qui suit avec retard
+  ================================================ -->
+  <div id="cur"  class="cur"></div>
+  <div id="curR" class="cur-ring"></div>
 
-<!-- LOADER -->
-<div id="loader">
-  <div class="ld-logo">EWEN·M·ATELIER</div><img src="images/ME-logo.png" alt="" style="width:10%;height:10%;object-fit:cover;object-position:center">
-  <div class="ld-bar"></div>
-</div>
-
-<!-- NAV -->
-<nav id="nav">
-  <a href="index.html" class="nav-logo">EWEN·M·ATELIER</a>
-  <ul class="nav-links">
-    <li><a href="#modeles">Modèles</a></li>
-    <li><a href="personnalisation.html">Personnalisation</a></li>
-    <li><a href="#artisan">L'Artisan</a></li>
-    <li><a href="autres-modeles.html">Autres Créations</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">Thiers · Capitale de la Coutellerie · Artisanat d'Art</div>
-    <h1 class="hero-title">L'Art<br><em>du Tranchant</em></h1>
-    <p class="hero-sub">Couteaux fabriqués à la main · Pièces uniques</p>
-    <div class="hero-scroll">
-      <span class="scroll-txt">Découvrir</span>
-      <div class="scroll-line"></div>
-    </div>
+  <!-- ================================================
+       ÉCRAN DE CHARGEMENT (LOADER)
+       Recouvre toute la page au démarrage.
+       main.js le masque après 2,1 secondes.
+  ================================================ -->
+  <div id="loader">
+    <div class="ld-logo">EWEN·M·ATELIER</div>
+    <div class="ld-bar"></div>
   </div>
-</section>
 
-<!-- MARQUEE -->
-<div class="marquee">
-  <div class="mq-track">
-    <span class="mq-item">Thiers</span><span class="mq-dot"></span>
-    <span class="mq-item">Capitale Française de la Coutellerie</span><span class="mq-dot"></span>
-    <span class="mq-item">Artisanat d'Art</span><span class="mq-dot"></span>
-    <span class="mq-item">Pièces Uniques sur Mesure</span><span class="mq-dot"></span>
-    <span class="mq-item">Savoir-Faire ancestral</span><span class="mq-dot"></span>
-    <span class="mq-item">Thiers</span><span class="mq-dot"></span>
-    <span class="mq-item">Capitale Française de la Coutellerie</span><span class="mq-dot"></span>
-    <span class="mq-item">Artisanat d'Art</span><span class="mq-dot"></span>
-    <span class="mq-item">Couteaux Fabriqués à la Main</span><span class="mq-dot"></span>
-    <span class="mq-item">Pièces Uniques sur Mesure</span><span class="mq-dot"></span>
-    <span class="mq-item">Savoir-Faire ancestral</span><span class="mq-dot"></span>
-  </div>
-</div>
+  <!-- ================================================
+       NAVIGATION PRINCIPALE
+       id="nav" → main.js ajoute la classe "on" au défilement
+  ================================================ -->
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">EWEN·M·ATELIER</a>
+    <ul class="nav-links">
+      <li><a href="#modeles">Modèles</a></li>
+      <li><a href="personnalisation.html">Personnalisation</a></li>
+      <li><a href="#artisan">L'Artisan</a></li>
+      <li><a href="autres-modeles.html">Autres créations</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-<!-- MODELS -->
-<section class="models" id="modeles">
-  <div class="models-hd reveal">
-    <span class="s-num">01 · Les Modèles</span>
-    <h2 class="s-title">Trois <em>caractères</em></h2>
-    <div class="deco-line deco-center"></div>
-  </div>
-  <div class="models-grid">
+  <!-- ================================================
+       HERO — Section d'entrée plein écran
+  ================================================ -->
+  <section class="hero">
 
-    <!-- Le Sgian Dubh -->
-    <a href="sgian-dubh.html" class="mcard">
-      <div class="mcard-bg"></div>
-      <div class="mcard-ov"></div>
-      <div class="mcard-arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="mcard-content">
-        <span class="mcard-tag">Modèle · 01</span>
-        <div class="mcard-name">Le Sgian Dubh</div>
-        <div class="mcard-desc">Synthèse de la tradition gaélique et du savoir-faire thiernois</div>  
+    <!-- Fond atmosphérique : dégradé + halos -->
+    <div class="hero-bg"></div>
+
+    <!-- Couteau SVG en filigrane (quasi-invisible, décoratif) -->
+    <svg class="hero-knife" viewBox="0 0 700 130" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="hblade" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"  stop-color="#8a8e96"/>
+          <stop offset="45%" stop-color="#c8ccd4"/>
+          <stop offset="100%" stop-color="#a0a4ac"/>
+        </linearGradient>
+      </defs>
+      <path d="M22 56 L130 51 L130 79 L22 76 Q14 72 14 66 Q14 60 22 56Z" fill="#5a3820"/>
+      <circle cx="52" cy="65" r="5.5" fill="#c4a040"/><circle cx="52" cy="65" r="3" fill="#e0bc60"/>
+      <circle cx="90" cy="64" r="5.5" fill="#c4a040"/><circle cx="90" cy="64" r="3" fill="#e0bc60"/>
+      <path d="M128 45 L142 45 L142 85 L128 85 Q122 76 122 65 Q122 54 128 45Z" fill="#9aa0aa"/>
+      <rect x="118" y="50" width="10" height="30" rx="1.5" fill="#888e98"/>
+      <path d="M142 62 L660 46 Q685 57 660 68 L142 68Z" fill="url(#hblade)"/>
+      <path d="M160 63 Q420 56 630 58" stroke="rgba(70,75,85,.9)" stroke-width="1.5"/>
+    </svg>
+
+    <!-- Texte centré du hero -->
+    <div class="hero-content">
+      <p class="hero-eyebrow">Thiers · Capitale de la Coutellerie · Artisanat d'Art</p>
+      <h1 class="hero-title">L'Art<br><em>du Tranchant</em></h1>
+      <p class="hero-sub">Couteaux forgés à la main · Pièces uniques</p>
+      <!-- Indicateur de défilement -->
+      <div class="hero-scroll">
+        <span class="scroll-txt">Découvrir</span>
+        <div class="scroll-line"></div>
       </div>
-    </a>
+    </div>
 
-    <!-- LE PATAUD -->
-    <a href="pataud.html" class="mcard">
-      <div class="mcard-bg"></div>
-      
-      <div class="mcard-ov"></div>
-      <div class="mcard-arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="mcard-content">
-        <span class="mcard-tag">Modèle · 02</span>
-        <div class="mcard-name">Le Pataud</div>
-        <div class="mcard-desc">Hommage aux maîtres thiernois, héritage du tranchant</div>
-      </div>
-    </a>
+  </section>
 
-    <!-- LE SABAL -->
-    <a href="sabal.html" class="mcard">
-      <div class="mcard-bg"></div>
-      <div class="mcard-ov"></div>
-      <div class="mcard-arr"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="mcard-content">
-        <span class="mcard-tag">Modèle · 03</span>
-        <div class="mcard-name">Le Sabal</div>
-        <div class="mcard-desc">Lame à forte personnalité, pour les esprits affûtés</div>
-      </div>
-    </a>
-
-  </div>
-</section>
-
-<!-- ATELIER -->
-<section class="atelier">
-  <div class="atelier-txt reveal">
-    <span class="s-num">02 · L'Atelier</span>
-    <h2 class="s-title">Thiers,<br><em>au cœur du métal</em></h2>
-    <div class="deco-line"></div>
-    <p>À Thiers, <span class="hl">capitale française de la coutellerie depuis le Moyen Âge</span>, l'art de forger le métal se transmet de génération en génération. C'est dans ce berceau de l'excellence que l'atelier Ewen-M prend racine, perpétuant un savoir-faire pataud avec un regard tourné vers la création contemporaine.</p>
-    <p>Chaque couteau naît d'un dialogue entre <span class="hl">le feu, l'acier et la main</span>. Du choix du métal brut à la dernière finition du manche, chaque geste est réfléchi, chaque courbe pensée. Rien n'est laissé au hasard.</p>
-    <div class="atelier-facts">
-      <div class="fact"><div class="fact-dot"></div><span class="fact-txt">Forge artisanale à Thiers, Puy-de-Dôme</span></div>
-      <div class="fact"><div class="fact-dot"></div><span class="fact-txt">Aciers haute performance forgés à la main</span></div>
-      <div class="fact"><div class="fact-dot"></div><span class="fact-txt">Pièces uniques — fabrication sur commande</span></div>
-      <div class="fact"><div class="fact-dot"></div><span class="fact-txt">Trempé, affiné et poli dans l'atelier</span></div>
+  <!-- ================================================
+       MARQUEE — Bandeau de texte défilant en boucle
+  ================================================ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="mq-track">
+      <!-- Le texte est dupliqué pour un défilement continu sans saut -->
+      <span class="mq-item">Thiers</span><span class="mq-dot"></span>
+      <span class="mq-item">Capitale Française de la Coutellerie</span><span class="mq-dot"></span>
+      <span class="mq-item">Artisanat d'Art</span><span class="mq-dot"></span>
+      <span class="mq-item">Acier Forgé à la Main</span><span class="mq-dot"></span>
+      <span class="mq-item">Pièces Uniques sur Mesure</span><span class="mq-dot"></span>
+      <span class="mq-item">Savoir-Faire Ancestral</span><span class="mq-dot"></span>
+      <!-- Copie pour la boucle -->
+      <span class="mq-item">Thiers</span><span class="mq-dot"></span>
+      <span class="mq-item">Capitale Française de la Coutellerie</span><span class="mq-dot"></span>
+      <span class="mq-item">Artisanat d'Art</span><span class="mq-dot"></span>
+      <span class="mq-item">Acier Forgé à la Main</span><span class="mq-dot"></span>
+      <span class="mq-item">Pièces Uniques sur Mesure</span><span class="mq-dot"></span>
+      <span class="mq-item">Savoir-Faire Ancestral</span><span class="mq-dot"></span>
     </div>
   </div>
-  <div class="atelier-img">
-    <div class="forge"></div>
-    <div class="atelier-img-lbl">Atelier · Thiers, Puy-de-Dôme</div>
-  </div>
-</section>
 
-<!-- ARTISAN -->
-<section class="artisan" id="artisan">
-  <div class="artisan-inner">
-    <div class="artisan-portrait reveal">
-      <span class="portrait-lbl">Ewen · Maître Coutelier</span>
-    </div>
-    <div class="artisan-div"></div>
-    <div class="artisan-txt reveal r2">
-      <span class="s-num">03 · L'Artisan</span>
-      <blockquote class="artisan-quote">Fabriquer un couteau, c'est donner une âme au métal. Chaque pièce porte en elle l'empreinte de la main qui l'a créée.</blockquote>
-      <p class="artisan-bio">Formé dans la tradition thiernoise, Ewen a consacré sa vie à la coutellerie d'art. Après des années à perfectionner son geste auprès des grands maîtres de la forge, il a créé son propre atelier où chaque lame est une signature, chaque manche une œuvre singulière.</p>
-      <p class="artisan-bio" style="margin-top:1.1rem">Sa philosophie : allier la rigueur de la tradition à une sensibilité esthétique contemporaine. Chaque couteau qu'il forge est à la fois outil de précision et objet de collection, fait pour durer des générations.</p>
-      <div class="artisan-sig">Ewen</div>
-    </div>
-  </div>
-</section>
+  <!-- ================================================
+       LES 3 MODÈLES — Grille cliquable
+       Chaque carte pointe vers la page du modèle.
+       id="modeles" = ancre du lien de navigation
+  ================================================ -->
+  <section class="models" id="modeles">
 
-<!-- PERSO TEASER -->
-<section class="perso">
-  <div class="perso-inner">
-    <div class="perso-img">
-      <svg class="perso-img-knife" viewBox="0 0 600 110" xmlns="http://www.w3.org/2000/svg" fill="none">
-        <defs><linearGradient id="pb" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#6a7070"/><stop offset="50%" stop-color="#b8bcc0"/><stop offset="100%" stop-color="#8090a0"/></linearGradient></defs>
-        <path d="M20 52 L118 47 L118 73 L20 69 Q12 65 12 60 Q12 55 20 52Z" fill="#5a3820"/>
-        <circle cx="50" cy="60" r="5" fill="#a07030"/><circle cx="50" cy="60" r="2.5" fill="#c09050"/>
-        <circle cx="84" cy="59" r="5" fill="#a07030"/><circle cx="84" cy="59" r="2.5" fill="#c09050"/>
-        <path d="M116 42 L130 42 L130 79 L116 79 Q111 70 111 60 Q111 51 116 42Z" fill="#907850"/>
-        <rect x="106" y="47" width="10" height="26" rx="1.5" fill="#806840"/>
-        <path d="M130 59 L565 43 Q588 52 563 63 L130 64Z" fill="url(#pb)"/>
-      </svg>
+    <div class="models-hd reveal">
+      <span class="s-num">01 · Les Modèles</span>
+      <h2 class="s-title">Trois <em>caractères</em></h2>
+      <div class="deco-line deco-center"></div>
     </div>
-    <div class="perso-txt reveal">
-      <span class="s-num">04 · Sur Mesure</span>
-      <h2 class="s-title">Chaque couteau<br><em>est unique</em></h2>
+
+    <div class="models-grid">
+
+      <!-- Modèle 01 : Le Sgian Dubh -->
+      <a href="sgian-dubh.html" class="mcard">
+        <div class="mcard-bg"></div>
+        <!-- Couteau SVG en filigrane sur la carte -->
+        <svg class="mcard-knife" viewBox="0 0 580 110" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true">
+          <defs><linearGradient id="b1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#8a8e96"/><stop offset="50%" stop-color="#d0d4dc"/><stop offset="100%" stop-color="#9ca0a8"/></linearGradient></defs>
+          <path d="M20 50 L115 46 L115 72 L20 68 Q12 64 12 59 Q12 54 20 50Z" fill="#4a2e18"/>
+          <circle cx="48" cy="59" r="5" fill="#c4a040"/><circle cx="48" cy="59" r="2.5" fill="#e0bc60"/>
+          <circle cx="80" cy="58" r="5" fill="#c4a040"/><circle cx="80" cy="58" r="2.5" fill="#e0bc60"/>
+          <path d="M113 41 L126 41 L126 77 L113 77 Q108 68 108 59 Q108 50 113 41Z" fill="#9aa0aa"/>
+          <rect x="104" y="46" width="9" height="26" rx="1.5" fill="#888e98"/>
+          <path d="M126 57 L545 44 Q565 53 543 62 L126 63Z" fill="url(#b1)"/>
+        </svg>
+        <div class="mcard-ov"></div>
+        <!-- Flèche → apparaît au survol -->
+        <div class="mcard-arr" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="mcard-content">
+          <span class="mcard-tag">Modèle · 01</span>
+          <div class="mcard-name">Le Sgian Dubh</div>
+          <div class="mcard-desc">Lame à forte personnalité, pour les esprits affûtés</div>
+        </div>
+      </a>
+
+      <!-- Modèle 02 : Le Pataud -->
+      <a href="pataud.html" class="mcard">
+        <div class="mcard-bg"></div>
+        <svg class="mcard-knife" viewBox="0 0 600 110" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true">
+          <defs><linearGradient id="b2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a8088"/><stop offset="50%" stop-color="#c8ccca"/><stop offset="100%" stop-color="#9098a0"/></linearGradient></defs>
+          <path d="M20 52 L118 47 L118 74 L20 70 Q12 66 12 61 Q12 56 20 52Z" fill="#3a2410"/>
+          <circle cx="50" cy="61" r="5" fill="#b8953a"/><circle cx="50" cy="61" r="2.5" fill="#d4ae58"/>
+          <circle cx="84" cy="60" r="5" fill="#b8953a"/><circle cx="84" cy="60" r="2.5" fill="#d4ae58"/>
+          <path d="M116 42 L130 42 L130 79 L116 79 Q111 70 111 60 Q111 51 116 42Z" fill="#8a9098"/>
+          <rect x="106" y="47" width="10" height="26" rx="1.5" fill="#808890"/>
+          <path d="M130 59 L570 43 Q592 52 568 63 L130 64Z" fill="url(#b2)"/>
+          <path d="M560 45 Q592 52 568 63 L560 55Z" fill="#a8acb4"/>
+        </svg>
+        <div class="mcard-ov"></div>
+        <div class="mcard-arr" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="mcard-content">
+          <span class="mcard-tag">Modèle · 02</span>
+          <div class="mcard-name">Le Pataud</div>
+          <div class="mcard-desc">Élégance du chasseur, précision du maître forgeron</div>
+        </div>
+      </a>
+
+      <!-- Modèle 03 : Le Sabal -->
+      <a href="sabal.html" class="mcard">
+        <div class="mcard-bg"></div>
+        <svg class="mcard-knife" viewBox="0 0 560 110" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true">
+          <defs><linearGradient id="b3" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7a8870"/><stop offset="50%" stop-color="#b8c4a0"/><stop offset="100%" stop-color="#909e80"/></linearGradient></defs>
+          <path d="M20 51 L112 47 L112 73 L20 69 Q12 65 12 60 Q12 55 20 51Z" fill="#2a3818"/>
+          <circle cx="48" cy="60" r="5" fill="#4a6a2a"/><circle cx="48" cy="60" r="2.5" fill="#6a9040"/>
+          <circle cx="78" cy="59" r="5" fill="#4a6a2a"/><circle cx="78" cy="59" r="2.5" fill="#6a9040"/>
+          <path d="M110 43 L124 43 L124 77 L110 77 Q105 68 105 60 Q105 52 110 43Z" fill="#5a7040"/>
+          <rect x="100" y="48" width="10" height="24" rx="1.5" fill="#4e6038"/>
+          <path d="M124 58 L530 43 Q552 53 528 63 L124 63Z" fill="url(#b3)"/>
+        </svg>
+        <div class="mcard-ov"></div>
+        <div class="mcard-arr" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="mcard-content">
+          <span class="mcard-tag">Modèle · 03</span>
+          <div class="mcard-name">Le Sabal</div>
+          <div class="mcard-desc">Hommage à la résilience naturelle</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ================================================
+       L'ATELIER — Présentation + image atmosphérique
+  ================================================ -->
+  <section class="atelier">
+
+    <!-- Colonne texte -->
+    <div class="atelier-txt reveal">
+      <span class="s-num">02 · L'Atelier</span>
+      <h2 class="s-title">Thiers,<br><em>au cœur du métal</em></h2>
       <div class="deco-line"></div>
-      <p>Du choix de l'acier à la finition du manche, chaque paramètre peut être personnalisé pour créer un couteau à votre image. Aciers inoxydables ou damas, bois précieux ou carbone, mitres bronze ou damas, ressort guilloché — votre sensibilité est l'unique limite.</p>
-      <a href="personnalisation.html" class="btn">Explorer les personnalisations<svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <p>À Thiers, <span class="hl">capitale française de la coutellerie depuis le Moyen Âge</span>, l'art de forger le métal se transmet de génération en génération. C'est dans ce berceau de l'excellence que l'atelier Ewen-M prend racine.</p>
+      <p>Chaque couteau naît d'un dialogue entre <span class="hl">le feu, l'acier et la main</span>. Du choix du métal brut à la dernière finition du manche, chaque geste est réfléchi.</p>
+      <div class="atelier-facts">
+        <div class="fact"><div class="fact-dot"></div><span class="fact-txt">Forge artisanale à Thiers, Puy-de-Dôme</span></div>
+        <div class="fact"><div class="fact-dot"></div><span class="fact-txt">Aciers haute performance forgés à la main</span></div>
+        <div class="fact"><div class="fact-dot"></div><span class="fact-txt">Pièces uniques — fabrication sur commande</span></div>
+        <div class="fact"><div class="fact-dot"></div><span class="fact-txt">Trempé, affiné et poli dans l'atelier</span></div>
+      </div>
     </div>
-  </div>
-</section>
 
-<!-- AUTRES MODÈLES TEASER -->
-<section class="autres-teaser">
-  <div class="reveal">
-    <span class="s-num" style="text-align:center;display:block">05 · En Création</span>
-    <h2 class="s-title">La collection<br><em>s'agrandit</em></h2>
-    <p>De nouveaux modèles naissent à l'atelier comme Le Vendetta ou d'autres créations sont visibles ici.</p>
-    <a href="autres-modeles.html" class="btn">Découvrir les prochaines créations<svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-  </div>
-</section>
+    <!-- Colonne image : fond forge animé
+         → Remplacer par une vraie photo :
+         <img src="images/atelier-forge.jpg" alt="Atelier de forge à Thiers"> -->
+    <div class="atelier-img">
+      <div class="forge"></div><!-- lueur animée -->
+      <span class="atelier-img-lbl">Atelier · Thiers, Puy-de-Dôme</span>
+    </div>
 
-<!-- CONTACT -->
-<div class="contact" id="contact">
-  <div class="c-block reveal">
-    <div class="c-block-title">Atelier</div>
-    <p>Ewen-M-Atelier<br>Thiers, Puy-de-Dôme<br>Auvergne-Rhône-Alpes<br>France</p>
-  </div>
-  <div class="c-block reveal r1">
-    <div class="c-block-title">Contact</div>
-    <p><a href="mailto:ewenm.atelier@gmail.com">ewenm.atelier@gmail.com</a><br><a href="tel:+33600000000">+33 (0)6 00 00 00 00</a><br><br><em style="font-style:italic;font-size:.9rem;color:var(--acier)">Sur rendez-vous uniquement</em></p>
-  </div>
-  <div class="c-block reveal r2">
-    <div class="c-block-title">Suivre l'Atelier</div>
-    <p>
-      <a href="https://instagram.com/ewenm.atelier" target="_blank">@ewenm.atelier</a> — Instagram<br>
-      <a href="https://facebook.com/ewenm.atelier" target="_blank">EwenM.Atelier</a> — Facebook<br><br>
-      <em style="font-style:italic;font-size:.9rem;color:var(--acier)">Photos, actualités, autres créations</em>
-    </p>
-  </div>
-</div>
+  </section>
 
-<div class="social">
-<a href="https://www.instagram.com/ewenm.atelier/" target="_blank" aria-label="Instagram">
-    <i class="fa-brands fa-instagram"></i></a>
-<a href="https://www.facebook.com/ewenm.atelier" target="_blank" aria-label="Facebook">
-    <i class="fa-brands fa-facebook"></i></a>
-</div>
+  <!-- ================================================
+       L'ARTISAN — Portrait et biographie
+       id="artisan" = ancre du lien de navigation
+  ================================================ -->
+  <section class="artisan" id="artisan">
+    <div class="artisan-inner">
 
-<!-- FOOTER -->
-<footer>
-  <div class="f-logo">EWEN·M·ATELIER</div>
-  <div class="f-tag">Coutellerie d'art · Thiers, France</div>
-  <div class="f-social">
-    <a href="https://instagram.com/ewenm.atelier" target="_blank" aria-label="Instagram">
-      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-    </a>
-    <a href="https://facebook.com/ewenm.atelier" target="_blank" aria-label="Facebook">
-      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-    </a>
-  </div>
-</footer>
-<div class="f-copy">© 2026 Ewen-M-Atelier · Tous droits réservés · Thiers, France</div>
+      <!-- Portrait : remplacer le fond par une vraie photo
+           <img src="images/ewen-portrait.jpg" alt="Ewen, maître coutelier"> -->
+      <div class="artisan-portrait reveal">
+        <span class="portrait-lbl">Ewen · Maître Coutelier</span>
+      </div>
 
-<script>
-// CURSOR
-const cur=document.getElementById('cur'),curR=document.getElementById('curR');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
-(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop)})();
+      <!-- Séparateur vertical -->
+      <div class="artisan-div" aria-hidden="true"></div>
 
-// LOADER
-window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('out'),2100));
+      <!-- Texte biographie -->
+      <div class="artisan-txt reveal r2">
+        <span class="s-num">03 · L'Artisan</span>
+        <blockquote class="artisan-quote">
+          Forger un couteau, c'est donner une âme au métal. Chaque pièce porte en elle l'empreinte de la main qui l'a créée.
+        </blockquote>
+        <p class="artisan-bio">Formé dans la tradition thiernoise, Ewen a consacré sa vie à la coutellerie d'art. Après des années à perfectionner son geste auprès des grands maîtres de la forge, il a créé son propre atelier où chaque lame est une signature.</p>
+        <p class="artisan-bio" style="margin-top:1.1rem">Sa philosophie : allier la rigueur de la tradition à une sensibilité esthétique contemporaine. Chaque couteau est à la fois outil de précision et objet de collection.</p>
+        <div class="artisan-sig">Ewen</div>
+      </div>
 
-// NAV
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('on',window.scrollY>70));
+    </div>
+  </section>
 
-// REVEAL
-const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-</script>
+  <!-- ================================================
+       TEASER PERSONNALISATION
+  ================================================ -->
+  <section class="perso">
+    <div class="perso-inner">
+
+      <!-- Image gauche -->
+      <div class="perso-img">
+        <svg class="perso-img-knife" viewBox="0 0 600 110" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true">
+          <defs><linearGradient id="pb" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#6a7070"/><stop offset="50%" stop-color="#b8bcc0"/><stop offset="100%" stop-color="#8090a0"/></linearGradient></defs>
+          <path d="M20 52 L118 47 L118 73 L20 69 Q12 65 12 60 Q12 55 20 52Z" fill="#5a3820"/>
+          <circle cx="50" cy="60" r="5" fill="#a07030"/><circle cx="50" cy="60" r="2.5" fill="#c09050"/>
+          <circle cx="84" cy="59" r="5" fill="#a07030"/><circle cx="84" cy="59" r="2.5" fill="#c09050"/>
+          <path d="M116 42 L130 42 L130 79 L116 79 Q111 70 111 60 Q111 51 116 42Z" fill="#907850"/>
+          <rect x="106" y="47" width="10" height="26" rx="1.5" fill="#806840"/>
+          <path d="M130 59 L565 43 Q588 52 563 63 L130 64Z" fill="url(#pb)"/>
+        </svg>
+      </div>
+
+      <!-- Texte droite -->
+      <div class="perso-txt reveal">
+        <span class="s-num">04 · Sur Mesure</span>
+        <h2 class="s-title">Chaque couteau<br><em>est unique</em></h2>
+        <div class="deco-line"></div>
+        <p>Du choix de l'acier à la finition du manche, chaque paramètre peut être personnalisé. Aciers exotiques, bois précieux, mitres bronze ou damas, ressort guilloché — votre sensibilité est l'unique limite.</p>
+        <a href="personnalisation.html" class="btn">
+          Explorer les personnalisations
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================
+       TEASER AUTRES CRÉATIONS
+  ================================================ -->
+  <section class="autres-teaser">
+    <div class="reveal">
+      <span class="s-num" style="text-align:center;display:block">05 · En Création</span>
+      <h2 class="s-title">La collection<br><em>s'agrandit</em></h2>
+      <p>De nouveaux modèles naissent à l'atelier. Le Vendetta et d'autres créations en cours de forge seront bientôt révélés.</p>
+      <a href="autres-modeles.html" class="btn">
+        Découvrir les prochaines créations
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ================================================
+       CONTACT — 3 colonnes d'information
+       id="contact" = ancre du lien de navigation
+  ================================================ -->
+  <section class="contact" id="contact">
+    <div class="c-block reveal">
+      <div class="c-block-title">Atelier</div>
+      <p>Ewen-M-Atelier<br>Thiers, Puy-de-Dôme<br>Auvergne-Rhône-Alpes<br>France</p>
+    </div>
+    <div class="c-block reveal r1">
+      <div class="c-block-title">Contact</div>
+      <p>
+        <a href="mailto:contact@ewen-m-atelier.fr">contact@ewen-m-atelier.fr</a><br>
+        <a href="tel:+33600000000">+33 (0)6 00 00 00 00</a><br><br>
+        <em style="font-style:italic;font-size:.9rem">Sur rendez-vous uniquement</em>
+      </p>
+    </div>
+    <div class="c-block reveal r2">
+      <div class="c-block-title">Suivre l'Atelier</div>
+      <p>
+        <a href="https://instagram.com/ewen_m_atelier" target="_blank" rel="noopener">@ewen_m_atelier</a> — Instagram<br>
+        <a href="https://facebook.com/ewenmatelier" target="_blank" rel="noopener">Ewen-M-Atelier</a> — Facebook<br><br>
+        <em style="font-style:italic;font-size:.9rem">Photos, actualités, créations en cours</em>
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================================
+       FOOTER
+  ================================================ -->
+  <footer>
+    <div class="f-logo">EWEN·M·ATELIER</div>
+    <div class="f-tag">Coutellerie d'art · Thiers, France</div>
+    <div class="f-social">
+      <a href="https://instagram.com/ewen_m_atelier" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://facebook.com/ewenmatelier" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+    </div>
+  </footer>
+  <div class="f-copy">© 2024 Ewen-M-Atelier · Tous droits réservés · Thiers, France</div>
+
+  <!-- Script commun (curseur, loader, nav, reveal) -->
+  <script src="js/main.js"></script>
+
 </body>
 </html>

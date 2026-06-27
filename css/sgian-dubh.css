@@ -1,0 +1,43 @@
+/* =====================================================
+   sgian-dubh.css — Couleurs et fond propres au Sgian Dubh
+   Chargé APRÈS base.css ET modele.css
+   =====================================================
+   Le Sgian Dubh (poignard écossais) : identité froide,
+   acier bleuté, sobre et précis. Accent bleu-nuit. */
+
+/* --- Variables d'accent ----------------------------- */
+:root {
+    --accent-h: #10101a;   /* noir bleu très foncé (fond hero) */
+    --accent-m: #181828;   /* bleu nuit (second plan) */
+}
+
+/* --- Hero ------------------------------------------- */
+.hero-bg {
+    background: linear-gradient(160deg,
+        var(--accent-h) 0%, var(--accent-m) 40%, #0c0c14 70%, var(--void) 100%);
+}
+.hero-bg::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(60,80,180,.07) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 30%, rgba(138,101,53,.06) 0%, transparent 45%);
+}
+.h-title em    { color: var(--acier-vif); }
+.h-eyebrow     { color: var(--bronze-clair); }
+
+/* --- Section récit ---------------------------------- */
+.story-img {
+    background: linear-gradient(155deg, var(--accent-h) 0%, var(--accent-m) 45%, #0e0e18 100%);
+}
+.story-img::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 40% 50%, rgba(60,80,180,.08) 0%, transparent 55%);
+}
+
+/* --- Galerie ---------------------------------------- */
+.gallery-grid { grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 400px; }
+.gal-item:nth-child(1) { background: linear-gradient(145deg, var(--accent-h) 0%, var(--accent-m) 55%, var(--void) 100%); }
+.gal-item:nth-child(2) { background: linear-gradient(145deg, #0e0e18 0%, #181828 55%, #0a0a14 100%); }
+.gal-item:nth-child(3) { background: linear-gradient(145deg, #12121e 0%, #1c1c2c 55%, #0c0c18 100%); }

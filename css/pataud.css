@@ -1,0 +1,64 @@
+/* =====================================================
+   pataud.css — Couleurs et fond propres au Pataud
+   Chargé APRÈS base.css ET modele.css
+   =====================================================
+   Le Pataud : chaleur du bois, bronze ambré, lumière
+   de forge. Accent brun-doré, ambiance atelier. */
+
+/* --- Variables d'accent ----------------------------- */
+:root {
+    --accent-h: #130e04;   /* brun très foncé (fond hero) */
+    --accent-m: #1e1608;   /* ocre nuit (second plan) */
+}
+
+/* --- Hero ------------------------------------------- */
+.hero-bg {
+    background: linear-gradient(160deg,
+        var(--accent-h) 0%, var(--accent-m) 40%, #16100a 70%, var(--void) 100%);
+}
+.hero-bg::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse at 28% 55%, rgba(138,101,53,.12) 0%, transparent 55%),
+        radial-gradient(ellipse at 75% 25%, rgba(180,130,60,.05) 0%, transparent 45%);
+}
+.h-title em { color: var(--acier-vif); }
+
+/* --- Section récit (image à gauche pour le Pataud) -- */
+/* Le Pataud inverse la disposition : image | texte */
+.story { direction: rtl; }          /* inverse l'ordre des colonnes */
+.story-txt { direction: ltr; }      /* remet le texte à l'endroit */
+.story-img { direction: ltr; }
+
+.story-img {
+    background: linear-gradient(155deg, var(--accent-h) 0%, var(--accent-m) 45%, #1a1408 100%);
+}
+.story-img::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 55% 50%, rgba(138,101,53,.10) 0%, transparent 55%);
+}
+
+/* Lueur de forge animée dans l'image */
+.forge-light {
+    position: absolute;
+    bottom: 25%; right: 20%;
+    width: 55%; height: 45%;
+    background: radial-gradient(ellipse, rgba(160,95,20,.12) 0%, transparent 70%);
+    animation: fl 5s ease-in-out infinite;
+}
+@keyframes fl {
+    0%,100% { opacity: .7; }
+    40%      { opacity: 1; }
+    70%      { opacity: .5; }
+}
+
+/* --- Bande de détails (spécifique au Pataud) -------- */
+/* Le Pataud utilise la detail-strip définie dans modele.css */
+
+/* --- Galerie ---------------------------------------- */
+.gallery-grid { grid-template-columns: 1fr 2fr 1fr; grid-template-rows: 400px; }
+.gal-item:nth-child(1) { background: linear-gradient(145deg, var(--accent-h) 0%, var(--accent-m) 55%, var(--void) 100%); }
+.gal-item:nth-child(2) { background: linear-gradient(145deg, #1a1208 0%, #241a0c 55%, #140e06 100%); }
+.gal-item:nth-child(3) { background: linear-gradient(145deg, #100c04 0%, #181408 55%, #0c0a04 100%); }

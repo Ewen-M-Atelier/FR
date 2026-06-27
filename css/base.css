@@ -1,0 +1,503 @@
+/* =====================================================
+   base.css — Styles communs à TOUTES les pages
+   Ewen-M-Atelier · Coutellerie d'art · Thiers
+   =====================================================
+
+   Ce fichier est chargé EN PREMIER dans chaque page HTML.
+   Il contient :
+     1. Les variables de couleurs et de polices (:root)
+     2. Le reset (annulation des styles par défaut des navigateurs)
+     3. Les styles de base (html, body)
+     4. Le curseur personnalisé
+     5. L'écran de chargement
+     6. La barre de navigation
+     7. Le footer
+     8. Les animations d'apparition (reveal)
+     9. Les classes utilitaires réutilisables
+    10. Les media queries communes (responsive)
+
+   Comment l'inclure dans une page HTML :
+     <link rel="stylesheet" href="css/base.css">
+===================================================== */
+
+
+/* -------------------------------------------------------
+   1. VARIABLES CSS (PALETTE ET TYPOGRAPHIE)
+   -------------------------------------------------------
+   Les variables CSS (préfixées par --) sont définies une
+   seule fois ici et réutilisées dans tous les fichiers CSS.
+   Pour changer une couleur sur tout le site, il suffit de
+   la modifier ici.
+
+   :root = la racine du document HTML (équivalent de html)
+   C'est là où l'on déclare les variables globales.
+------------------------------------------------------- */
+
+:root {
+    /* --- Couleurs principales --- */
+    --void:          #060606;   /* noir profond : fond général du site */
+    --charbon:       #0f0f0f;   /* noir légèrement moins profond : sections alternées */
+    --surface:       #161616;   /* gris très foncé : surfaces secondaires */
+    --acier:         #b4bac2;   /* gris acier clair : textes secondaires */
+    --acier-vif:     #d8dde3;   /* gris acier lumineux : textes en italique */
+    --bronze:        #8a6535;   /* bronze foncé : ligne décorative, bordures */
+    --bronze-clair:  #b8874a;   /* bronze clair : labels, accents */
+    --or:            #d4aa6e;   /* dorée : curseur, icônes actives */
+    --bois:          #3a2518;   /* brun bois foncé : référence bois de manche */
+    --bois-clair:    #6b4226;   /* brun bois clair */
+    --creme:         #f5f0e8;   /* crème : textes principaux sur fond noir */
+    --blanc:         #faf8f5;   /* blanc cassé */
+
+    /* --- Polices (chargées depuis Google Fonts dans le HTML) ---
+       --fd : Cinzel        → titres de marque, numéros, logo
+       --fb : Cormorant Garamond → textes éditoriaux, corps, citations
+       --fu : Raleway       → labels, navigation, éléments d'interface */
+    --fd: 'Cinzel', serif;
+    --fb: 'Cormorant Garamond', serif;
+    --fu: 'Raleway', sans-serif;
+
+    /* --- Hauteur de la navigation (utilisée pour les éléments sticky) ---
+       Recalculée en JavaScript dans les pages qui en ont besoin */
+    --nav-h: 83px;
+}
+
+
+/* -------------------------------------------------------
+   2. RESET — Remise à zéro des styles par défaut
+   -------------------------------------------------------
+   Chaque navigateur applique ses propres marges et paddings
+   par défaut. Ce reset les annule pour partir d'une base
+   identique sur tous les navigateurs.
+
+   box-sizing: border-box = la largeur/hauteur inclut le
+   padding et la bordure (plus intuitif pour le calcul des tailles).
+------------------------------------------------------- */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* -------------------------------------------------------
+   3. BASE — Styles fondamentaux de la page
+------------------------------------------------------- */
+
+html {
+    font-size: 16px;           /* 1rem = 16px sur tout le site */
+    scroll-behavior: smooth;   /* défilement animé lors des liens ancres (#) */
+}
+
+body {
+    background: var(--void);   /* fond noir profond */
+    color: var(--creme);       /* texte crème par défaut */
+    font-family: var(--fb);    /* Cormorant Garamond par défaut */
+    overflow-x: hidden;        /* empêche le défilement horizontal accidentel */
+    cursor: none;              /* masque le curseur natif (remplacé plus bas) */
+}
+
+
+/* -------------------------------------------------------
+   4. CURSEUR PERSONNALISÉ
+   -------------------------------------------------------
+   Deux éléments <div> dans le HTML jouent le rôle du curseur :
+     #cur   → petit point doré, réagit immédiatement
+     #curR  → anneau qui suit avec un léger retard (voir main.js)
+
+   position:fixed   = reste à l'écran même quand on défile
+   transform        = déplace l'élément de moitié sur X et Y
+                      pour que le centre du point soit sur la souris
+   pointer-events:none = le curseur ne bloque pas les clics
+   z-index: 9999    = au-dessus de tout le reste de la page
+------------------------------------------------------- */
+
+.cur, .cur-ring {
+    position: fixed;
+    border-radius: 50%;          /* forme ronde */
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);  /* centrage sur la position de la souris */
+}
+
+/* Le point central — petit et plein */
+.cur {
+    width: 6px;
+    height: 6px;
+    background: var(--or);       /* couleur dorée */
+    transition: width .2s, height .2s;
+}
+
+/* L'anneau extérieur — creux avec bordure */
+.cur-ring {
+    width: 26px;
+    height: 26px;
+    border: 1px solid rgba(212, 170, 110, .45);  /* bronze semi-transparent */
+    transition: width .3s, height .3s, border-color .3s;
+}
+
+/* Agrandissement de l'anneau au survol d'un lien ou bouton */
+body:has(a:hover) .cur-ring,
+body:has(button:hover) .cur-ring {
+    width: 40px;
+    height: 40px;
+    border-color: var(--or);
+}
+
+
+/* -------------------------------------------------------
+   5. ÉCRAN DE CHARGEMENT (LOADER)
+   -------------------------------------------------------
+   Recouvre toute la page au démarrage.
+   Le JavaScript ajoute la classe "out" après 2,1 secondes
+   → la transition CSS fait disparaître l'écran progressivement.
+------------------------------------------------------- */
+
+#loader {
+    position: fixed;
+    inset: 0;                    /* couvre toute la fenêtre (top/right/bottom/left:0) */
+    background: var(--void);
+    z-index: 9998;               /* juste sous le curseur (9999), au-dessus de tout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    transition: opacity .9s ease, visibility .9s ease;
+}
+
+/* Classe ajoutée par main.js : rend l'écran invisible */
+#loader.out {
+    opacity: 0;
+    visibility: hidden;          /* retire aussi l'élément des interactions */
+}
+
+/* Le nom de l'atelier qui apparaît dans le loader */
+.ld-logo {
+    font-family: var(--fd);
+    font-size: .8rem;
+    letter-spacing: .5em;
+    color: var(--creme);
+    opacity: 0;
+    animation: fdIn .5s ease .4s forwards;  /* apparaît 0,4s après le chargement */
+}
+
+/* La ligne qui s'étend sous le logo */
+.ld-bar {
+    width: 0;
+    height: 1px;
+    background: var(--bronze-clair);
+    animation: grow 1.4s cubic-bezier(.4, 0, .2, 1) .6s forwards;
+}
+
+/* Animation : apparition par opacité */
+@keyframes fdIn { to { opacity: 1; } }
+
+/* Animation : la barre s'étend de gauche à droite (de 0 à 80px) */
+@keyframes grow  { to { width: 80px; } }
+
+
+/* -------------------------------------------------------
+   6. NAVIGATION
+   -------------------------------------------------------
+   La barre de navigation est fixée en haut de l'écran
+   (position:fixed) et reste visible lors du défilement.
+
+   Au départ, elle est transparente (fond:transparent,
+   bordure:transparent) pour se fondre dans le hero.
+   Quand l'utilisateur défile (classe "on" ajoutée par JS),
+   elle acquiert un fond sombre semi-transparent.
+------------------------------------------------------- */
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;                /* au-dessus du contenu, sous le curseur */
+    padding: 2rem 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Transitions pour rendre le changement de style fluide */
+    transition: background .5s, padding .4s, border-color .5s;
+    border-bottom: 1px solid transparent;
+}
+
+/* État actif de la nav (après défilement) */
+nav.on {
+    background: rgba(6, 6, 6, .94);    /* fond noir presque opaque */
+    backdrop-filter: blur(14px);        /* flou de l'arrière-plan (effet verre) */
+    padding: 1.2rem 3.5rem;            /* padding réduit : la nav rétrécit */
+    border-bottom-color: rgba(138, 101, 53, .18);  /* fine ligne bronze */
+}
+
+/* Le logo de l'atelier dans la nav (lien cliquable) */
+.nav-logo {
+    font-family: var(--fd);
+    font-size: .78rem;
+    letter-spacing: .42em;
+    color: var(--creme);
+    text-decoration: none;
+}
+
+/* La liste des liens de navigation */
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;  /* supprime les puces de liste */
+}
+
+/* Chaque lien de navigation */
+.nav-links a {
+    font-family: var(--fu);
+    font-size: .67rem;
+    font-weight: 300;
+    letter-spacing: .22em;
+    color: var(--acier);
+    text-decoration: none;
+    text-transform: uppercase;
+    position: relative;          /* nécessaire pour positionner le ::after */
+    transition: color .3s;
+}
+
+/* Ligne soulignée qui apparaît au survol (élément pseudo) */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;                    /* invisible au départ */
+    height: 1px;
+    background: var(--bronze-clair);
+    transition: width .35s;      /* s'étend lors du survol */
+}
+
+.nav-links a:hover { color: var(--creme); }
+.nav-links a:hover::after { width: 100%; }   /* la ligne atteint 100% au survol */
+
+/* Lien actif (page courante) */
+.nav-links a.active { color: var(--or); }
+
+
+/* -------------------------------------------------------
+   7. FOOTER
+------------------------------------------------------- */
+
+footer {
+    border-top: 1px solid rgba(138, 101, 53, .18);
+    padding: 2.8rem 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--void);
+}
+
+/* Logo dans le footer */
+.f-logo {
+    font-family: var(--fd);
+    font-size: .78rem;
+    letter-spacing: .42em;
+    color: var(--creme);
+}
+
+/* Tagline "Coutellerie d'art · Thiers" */
+.f-tag {
+    font-family: var(--fb);
+    font-size: .9rem;
+    font-style: italic;
+    color: var(--acier);
+    font-weight: 300;
+}
+
+/* Groupe des icônes réseaux sociaux */
+.f-social {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+}
+
+/* Chaque icône sociale (carré avec bordure) */
+.f-social a {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(138, 101, 53, .28);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color .3s, background .3s;
+    cursor: none;
+}
+
+.f-social a:hover {
+    border-color: var(--bronze-clair);
+    background: rgba(138, 101, 53, .1);
+}
+
+/* Les SVG des icônes (Instagram, Facebook) */
+.f-social svg {
+    width: 15px;
+    height: 15px;
+    fill: var(--acier);
+    transition: fill .3s;
+}
+
+.f-social a:hover svg { fill: var(--bronze-clair); }
+
+/* Ligne de copyright sous le footer */
+.f-copy {
+    font-family: var(--fu);
+    font-size: .58rem;
+    letter-spacing: .15em;
+    color: rgba(196, 180, 150, .22);
+    text-align: center;
+    padding: .8rem 3.5rem 1.6rem;
+    background: var(--void);
+}
+
+
+/* -------------------------------------------------------
+   8. ANIMATIONS D'APPARITION (REVEAL)
+   -------------------------------------------------------
+   Tous les éléments avec la classe "reveal" partent :
+     - invisibles (opacity: 0)
+     - décalés vers le bas (translateY: 28px)
+   Quand le JavaScript ajoute la classe "vis", une
+   transition CSS les ramène à leur position normale.
+
+   Les classes r1, r2, r3 ajoutent un délai croissant,
+   utile pour faire apparaître plusieurs éléments en cascade.
+------------------------------------------------------- */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .85s ease, transform .85s ease;
+}
+
+.reveal.vis {
+    opacity: 1;
+    transform: none;  /* translateY(0) */
+}
+
+/* Délais en cascade pour les groupes d'éléments */
+.r1 { transition-delay: .1s; }
+.r2 { transition-delay: .2s; }
+.r3 { transition-delay: .3s; }
+
+
+/* -------------------------------------------------------
+   9. CLASSES UTILITAIRES RÉUTILISABLES
+   -------------------------------------------------------
+   Ces classes sont utilisées sur plusieurs pages.
+------------------------------------------------------- */
+
+/* Numéro de section (ex : "01 · Les Modèles") */
+.s-num {
+    font-family: var(--fu);
+    font-size: .62rem;
+    letter-spacing: .35em;
+    color: var(--bronze-clair);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 1.1rem;
+}
+
+/* Titre de section principal */
+.s-title {
+    font-family: var(--fb);
+    font-size: clamp(2.1rem, 4vw, 3.6rem);  /* s'adapte à la taille de l'écran */
+    font-weight: 300;
+    color: var(--creme);
+    letter-spacing: .04em;
+    line-height: 1.1;
+}
+
+/* Les <em> dans les titres sont en italique et légèrement différents */
+.s-title em { font-style: italic; color: var(--acier-vif); }
+
+/* Ligne décorative bronze (séparateur visuel) */
+.deco-line {
+    width: 52px;
+    height: 1px;
+    background: var(--bronze);
+    margin: 1.8rem 0;
+}
+
+/* Variante centrée de la ligne décorative */
+.deco-center { margin: 1.8rem auto; }
+
+/* Alias court utilisé dans les pages modèles */
+.deco {
+    width: 52px;
+    height: 1px;
+    background: var(--bronze);
+    margin: 1.8rem 0;
+}
+
+/* Bouton principal (lien stylisé en bouton) */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: .85rem 2.8rem;
+    border: 1px solid var(--bronze);
+    font-family: var(--fu);
+    font-size: .68rem;
+    font-weight: 300;
+    letter-spacing: .3em;
+    color: var(--creme);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background .4s, color .4s;
+    cursor: none;
+}
+
+.btn:hover {
+    background: var(--bronze);
+    color: var(--void);  /* texte noir sur fond bronze */
+}
+
+/* Icône flèche à l'intérieur du bouton */
+.btn svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;  /* hérite la couleur du texte du bouton */
+    fill: none;
+    stroke-width: 1.5;
+    transition: transform .3s;
+}
+
+/* La flèche glisse vers la droite au survol */
+.btn:hover svg { transform: translateX(4px); }
+
+/* Variante transparente du bouton (contour seulement) */
+.btn-outline { border-color: rgba(138, 101, 53, .4); }
+
+
+/* -------------------------------------------------------
+   10. MEDIA QUERIES — Responsive commun
+   -------------------------------------------------------
+   Ces règles s'appliquent sur tous les petits écrans.
+   Les media queries spécifiques à chaque page sont dans
+   leurs fichiers CSS respectifs.
+
+   max-width: 768px = tablettes et téléphones
+------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    /* La nav rétrécit sur mobile */
+    nav     { padding: 1.4rem 1.5rem; }
+    nav.on  { padding: 1rem 1.5rem; }
+
+    /* Les liens de nav disparaissent (menu hamburger à implémenter si besoin) */
+    .nav-links { display: none; }
+
+    /* Le footer passe en colonne sur mobile */
+    footer {
+        flex-direction: column;
+        gap: 1.8rem;
+        padding: 2rem 1.5rem;
+        text-align: center;
+    }
+}
