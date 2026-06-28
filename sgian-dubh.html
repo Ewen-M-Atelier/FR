@@ -118,6 +118,7 @@ footer{border-top:1px solid rgba(138,101,53,.18);padding:2.8rem 3.5rem;display:f
 @media(max-width:1100px){.story{grid-template-columns:1fr}.story-img{min-height:50vw}.gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}.gal-item:first-child{grid-column:1/-1;height:300px}.gal-item:not(:first-child){height:220px}.perso-cta{grid-template-columns:1fr;gap:3rem}.specs-bar{grid-template-columns:repeat(3,1fr);gap:2rem}}
 @media(max-width:768px){nav{padding:1.4rem 1.5rem}.nav-links{display:none}.specs-bar{grid-template-columns:1fr 1fr;padding:2rem 1.5rem}.story-txt{padding:5rem 2rem}.gallery{padding:4rem 1.5rem}.perso-cta{padding:5rem 2rem}footer{flex-direction:column;gap:1.5rem;text-align:center;padding:2rem 1.5rem}}
 </style>
+  <link rel="stylesheet" href="css/carousel.css">
 </head>
 <body>
 <div class="cur" id="cur"></div>
@@ -150,6 +151,64 @@ footer{border-top:1px solid rgba(138,101,53,.18);padding:2.8rem 3.5rem;display:f
 </section>
 
 <!-- SPECS -->
+
+<!-- ================================================
+     CARROUSEL DE PHOTOS — Le Sgian Dubh
+     · Les photos sont listées dans photos.json
+     · photos.json est généré automatiquement par
+       GitHub Actions à chaque push vers le dépôt.
+     · Pour ajouter des photos : déposez-les dans
+       photos-sgian-dubh/  puis faites un push.
+     · Tous formats acceptés : jpg png webp heic…
+================================================ -->
+<section class="photo-carousel" data-model="sgian-dubh" aria-label="Galerie — Le Sgian Dubh">
+
+  <!-- Zone de défilement + flèches gauche/droite -->
+  <div class="carousel-stage">
+
+    <!-- Les <div class="c-page"> sont créés ici par carousel.js -->
+    <div class="carousel-track"></div>
+
+    <button class="carousel-btn carousel-btn-prev" aria-label="Photos précédentes">
+      <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="carousel-btn carousel-btn-next" aria-label="Photos suivantes">
+      <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+    </button>
+
+    <!-- Affiché si le dossier photos-sgian-dubh/ est vide -->
+    <div class="carousel-empty">
+      <p>Aucune photo disponible pour ce modèle.</p>
+      <p>Déposez vos photos dans <code>photos-sgian-dubh/</code><br>et poussez sur GitHub.</p>
+    </div>
+
+  </div>
+
+  <!-- Points de navigation (générés automatiquement) -->
+  <div class="carousel-dots"></div>
+
+</section>
+
+<!-- ================================================
+     LIGHTBOX — agrandissement au clic sur une photo
+     (ne pas dupliquer : une seule lightbox par page)
+================================================ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo agrandie">
+  <button class="lb-close" aria-label="Fermer (Échap)">
+    <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <button class="lb-prev" aria-label="Photo précédente (←)">
+    <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <div class="lb-body">
+    <img class="lb-img" src="" alt="">
+  </div>
+  <button class="lb-next" aria-label="Photo suivante (→)">
+    <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <div class="lb-counter"></div>
+</div>
+
 <div class="specs-bar">
   <div class="spec"><span class="spec-label">Longueur lame</span><div class="spec-val">11 <em>cm</em></div></div>
   <div class="spec"><span class="spec-label">Longueur totale</span><div class="spec-val">24 <em>cm</em></div></div>

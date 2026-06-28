@@ -1,0 +1,179 @@
+/* =====================================================
+   carousel.css — Carrousel de photos + Lightbox
+   Ewen-M-Atelier · Pages modèles (sgian-dubh, pataud, sabal)
+   Charger après base.css dans chaque page modèle.
+
+   ★ Pour changer la hauteur du carrousel, modifiez :
+       --carousel-h ci-dessous.
+     Exemples :
+       calc(50vh - 120px)  adaptatif (recommandé)
+       400px               fixe compact
+       55vh                large
+===================================================== */
+
+:root {
+  --carousel-h:     calc(50vh - 120px); /* hauteur de la zone photos */
+  --carousel-h-min: 280px;              /* hauteur minimale absolue */
+}
+
+/* ── Section ─────────────────────────────────────── */
+.photo-carousel {
+  background: var(--charbon);
+  border-bottom: 1px solid rgba(138,101,53,.12);
+  position: relative;
+}
+
+/* ── Zone de défilement ──────────────────────────── */
+.carousel-stage {
+  position: relative;
+  width: 100%;
+  height: var(--carousel-h);
+  min-height: var(--carousel-h-min);
+  overflow: hidden;
+}
+
+/* ── Track (fil des pages) ───────────────────────── */
+.carousel-track { width: 100%; height: 100%; }
+
+/* ── Page (groupe de photos côte à côte) ─────────── */
+.c-page { height: 100%; align-items: stretch; }
+
+/* ── Photo individuelle ──────────────────────────── */
+.c-slide {
+  overflow: hidden;
+  height: 100%;
+  background: var(--void);
+  flex-shrink: 0;
+}
+.c-slide img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform .6s ease, opacity .3s ease;
+  opacity: .88;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.c-slide:hover img { opacity: 1; transform: scale(1.025); }
+
+/* ── Flèches ─────────────────────────────────────── */
+.carousel-btn {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  z-index: 10;
+  width: 44px; height: 44px;
+  background: rgba(6,6,6,.65);
+  border: 1px solid rgba(212,170,110,.3);
+  display: flex; align-items: center; justify-content: center;
+  cursor: none;
+  transition: background .3s, border-color .3s, transform .3s;
+  backdrop-filter: blur(4px);
+}
+.carousel-btn:hover {
+  background: rgba(138,101,53,.85);
+  border-color: var(--or);
+  transform: translateY(-50%) scale(1.1);
+}
+.carousel-btn-prev { left: 1rem; }
+.carousel-btn-next { right: 1rem; }
+.carousel-btn svg {
+  width: 20px; height: 20px;
+  stroke: var(--creme); fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* ── Dots de navigation ──────────────────────────── */
+.carousel-dots {
+  display: flex; justify-content: center; align-items: center;
+  gap: .5rem; padding: .7rem 0 .6rem;
+  background: var(--charbon);
+  min-height: 28px;
+}
+.c-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(180,186,194,.3);
+  border: none; cursor: none;
+  transition: background .3s, transform .3s;
+  padding: 0;
+}
+.c-dot.active { background: var(--bronze-clair); transform: scale(1.5); }
+.c-dot:hover  { background: var(--acier); }
+
+/* ── Message si aucune photo ─────────────────────── */
+.carousel-empty {
+  display: none;
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: .6rem;
+  height: var(--carousel-h); min-height: var(--carousel-h-min);
+  padding: 3rem; text-align: center;
+}
+.carousel-empty p {
+  font-family: var(--fb); font-size: 1rem; font-style: italic;
+  color: rgba(180,186,194,.35); line-height: 1.8;
+}
+.carousel-empty code {
+  font-family: monospace; font-size: .8rem;
+  color: var(--bronze-clair);
+  background: rgba(138,101,53,.1); padding: .2rem .5rem;
+}
+
+/* ── LIGHTBOX ────────────────────────────────────── */
+.lightbox {
+  display: none;
+  position: fixed; inset: 0; z-index: 9000;
+  background: rgba(0,0,0,.96);
+  align-items: center; justify-content: center;
+}
+.lightbox.open { display: flex; animation: lbIn .2s ease; }
+@keyframes lbIn { from { opacity:0; } to { opacity:1; } }
+
+.lb-body {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%;
+  padding: 5rem 5.5rem;
+}
+.lb-img {
+  max-width: 100%; max-height: 100%;
+  object-fit: contain; display: block;
+  user-select: none;
+  box-shadow: 0 0 80px rgba(0,0,0,.7);
+}
+.lb-close {
+  position: absolute; top: 1.2rem; right: 1.2rem;
+  width: 40px; height: 40px;
+  background: rgba(6,6,6,.8); border: 1px solid rgba(180,186,194,.2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: none; transition: background .3s, border-color .3s; z-index: 2;
+}
+.lb-close:hover { background: rgba(138,101,53,.7); border-color: var(--or); }
+.lb-close svg { width: 18px; height: 18px; stroke: var(--creme); fill: none; stroke-width: 2; }
+.lb-prev, .lb-next {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 48px; height: 48px;
+  background: rgba(6,6,6,.7); border: 1px solid rgba(180,186,194,.18);
+  display: flex; align-items: center; justify-content: center;
+  cursor: none; transition: background .3s, border-color .3s; z-index: 2;
+}
+.lb-prev:hover, .lb-next:hover { background: rgba(138,101,53,.7); border-color: var(--or); }
+.lb-prev { left: 1.2rem; } .lb-next { right: 1.2rem; }
+.lb-prev svg, .lb-next svg {
+  width: 22px; height: 22px; stroke: var(--creme); fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.lb-counter {
+  position: absolute; bottom: 1.2rem; left: 50%; transform: translateX(-50%);
+  font-family: var(--fu); font-size: .62rem; letter-spacing: .3em;
+  color: rgba(180,186,194,.45); pointer-events: none;
+}
+
+/* ── Responsive ──────────────────────────────────── */
+@media (max-width: 1024px) { :root { --carousel-h: calc(40vh - 80px); } }
+@media (max-width: 640px) {
+  :root { --carousel-h: 65vw; --carousel-h-min: 240px; }
+  .carousel-btn { width: 36px; height: 36px; }
+  .carousel-btn svg { width: 16px; height: 16px; }
+  .lb-body { padding: 4rem 1rem; }
+  .lb-prev { left: .4rem; } .lb-next { right: .4rem; }
+}

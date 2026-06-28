@@ -1,0 +1,17 @@
+PHOTOS — LE SABAL
+==================================================
+
+Déposez vos photos dans ce dossier.
+
+Formats acceptés : JPG · PNG · WebP · HEIC · GIF · AVIF
+Pas de règle de nom : toutes les photos seront affichées.
+
+AJOUTER UNE PHOTO :
+  1. Copiez votre photo dans ce dossier (photos-sabal/)
+  2. Dans GitHub Desktop :
+       Commit → "Ajout photo Le Sabal"  →  Push
+  3. GitHub Actions régénère photos.json en ~1 minute.
+  4. La photo apparaît dans le carrousel automatiquement.
+
+Conseil : format portrait (comme Instagram), fond sombre,
+éclairage latéral pour faire ressortir le tranchant.

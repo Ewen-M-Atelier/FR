@@ -196,6 +196,7 @@ footer{border-top:1px solid rgba(58,110,58,.18);padding:2.8rem 3.5rem;display:fl
   footer{flex-direction:column;gap:1.5rem;text-align:center;padding:2rem 1.5rem}
 }
 </style>
+  <link rel="stylesheet" href="css/carousel.css">
 </head>
 <body>
 <div class="cur" id="cur"></div>
@@ -260,6 +261,64 @@ footer{border-top:1px solid rgba(58,110,58,.18);padding:2.8rem 3.5rem;display:fl
 </section>
 
 <!-- SPECS BAR -->
+
+<!-- ================================================
+     CARROUSEL DE PHOTOS — Le Sabal
+     · Les photos sont listées dans photos.json
+     · photos.json est généré automatiquement par
+       GitHub Actions à chaque push vers le dépôt.
+     · Pour ajouter des photos : déposez-les dans
+       photos-sabal/  puis faites un push.
+     · Tous formats acceptés : jpg png webp heic…
+================================================ -->
+<section class="photo-carousel" data-model="sabal" aria-label="Galerie — Le Sabal">
+
+  <!-- Zone de défilement + flèches gauche/droite -->
+  <div class="carousel-stage">
+
+    <!-- Les <div class="c-page"> sont créés ici par carousel.js -->
+    <div class="carousel-track"></div>
+
+    <button class="carousel-btn carousel-btn-prev" aria-label="Photos précédentes">
+      <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="carousel-btn carousel-btn-next" aria-label="Photos suivantes">
+      <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+    </button>
+
+    <!-- Affiché si le dossier photos-sabal/ est vide -->
+    <div class="carousel-empty">
+      <p>Aucune photo disponible pour ce modèle.</p>
+      <p>Déposez vos photos dans <code>photos-sabal/</code><br>et poussez sur GitHub.</p>
+    </div>
+
+  </div>
+
+  <!-- Points de navigation (générés automatiquement) -->
+  <div class="carousel-dots"></div>
+
+</section>
+
+<!-- ================================================
+     LIGHTBOX — agrandissement au clic sur une photo
+     (ne pas dupliquer : une seule lightbox par page)
+================================================ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo agrandie">
+  <button class="lb-close" aria-label="Fermer (Échap)">
+    <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <button class="lb-prev" aria-label="Photo précédente (←)">
+    <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <div class="lb-body">
+    <img class="lb-img" src="" alt="">
+  </div>
+  <button class="lb-next" aria-label="Photo suivante (→)">
+    <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <div class="lb-counter"></div>
+</div>
+
 <div class="specs-bar">
   <div class="spec"><span class="spec-label">Longueur lame</span><div class="spec-val">10 <em>cm</em></div></div>
   <div class="spec"><span class="spec-label">Longueur totale</span><div class="spec-val">22 <em>cm</em></div></div>
