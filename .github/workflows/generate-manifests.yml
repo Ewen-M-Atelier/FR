@@ -1,0 +1,64 @@
+# .github/workflows/generate-manifests.yml
+#
+# S'exécute automatiquement à chaque push contenant
+# de nouvelles photos dans les dossiers photos-*/
+#
+# ── ACTIVATION (une seule fois) ──────────────────────
+# Sur GitHub → votre dépôt → Settings
+#   → Actions → General → Workflow permissions
+#   → Cocher "Read and write permissions" → Save
+# ─────────────────────────────────────────────────────
+
+name: Mise à jour catalogue photos
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'photos-sgian-dubh/**'
+      - 'photos-pataud/**'
+      - 'photos-sabal/**'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Générer photos.json
+        run: |
+          python3 - << 'PYEOF'
+          import json, os
+
+          DOSSIERS = {
+              'sgian-dubh': 'photos-sgian-dubh',
+              'pataud':     'photos-pataud',
+              'sabal':      'photos-sabal',
+          }
+          # Tous les formats image courants
+          EXT = {'.jpg','.jpeg','.png','.webp','.gif','.heic','.heif','.avif','.bmp'}
+
+          manifest = {}
+          for cle, dossier in DOSSIERS.items():
+              if os.path.isdir(dossier):
+                  files = sorted([f for f in os.listdir(dossier)
+                                   if os.path.splitext(f.lower())[1] in EXT])
+                  manifest[cle] = files
+                  print(f"  {cle}: {len(files)} photo(s)")
+              else:
+                  manifest[cle] = []
+                  print(f"  {cle}: dossier absent")
+
+          with open('photos.json', 'w', encoding='utf-8') as fh:
+              json.dump(manifest, fh, indent=2, ensure_ascii=False)
+          print("photos.json généré !")
+          PYEOF
+
+      - name: Publier photos.json
+        run: |
+          git config user.name  "Catalogue auto"
+          git config user.email "actions@github.com"
+          git add photos.json
+          git diff --staged --quiet \
+            && echo "Pas de changement." \
+            || (git commit -m "📷 Catalogue photos mis à jour" && git push)
