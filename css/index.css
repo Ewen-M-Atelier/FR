@@ -237,7 +237,7 @@
 .mcard {
     position: relative;
     overflow: hidden;
-    aspect-ratio: 4/3;   /* format paysage (était 3/4 portrait) — cartes bien moins hautes */
+    aspect-ratio: 3/4;   /* format paysage (était 3/4 portrait) — cartes bien moins hautes */
     text-decoration: none;
     display: block;
 }
