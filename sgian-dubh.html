@@ -45,8 +45,15 @@ nav.on{background:rgba(6,6,6,.94);backdrop-filter:blur(14px);padding:1.2rem 3.5r
 .h-title{font-family:var(--fb);font-size:clamp(4rem,9vw,8rem);font-weight:300;line-height:.9;color:var(--creme);letter-spacing:.03em;animation:up .7s ease 2.1s both}
 .h-title em{font-style:italic;color:var(--acier-vif)}
 .h-sub{font-family:var(--fu);font-size:.68rem;letter-spacing:.32em;color:var(--acier);text-transform:uppercase;margin-top:1.6rem;animation:up .7s ease 2.3s both}
-.h-scroll{display:flex;flex-direction:column;align-items:center;gap:.8rem;margin-top:1.8rem;animation:up .7s ease 2.6s both} /* margin-top réduit (était 3.5rem) */
-.h-scroll-line{width:1px;height:34px;background:linear-gradient(to bottom,var(--bronze),transparent)}
+.h-scroll{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.8rem;
+  margin-top:1rem; /* 1.8 -> 1*/
+  animation:up .7s ease 2.6s both
+} /* margin-top réduit (était 3.5rem) */
+.h-scroll-line{width:1px;height:54px;background:linear-gradient(to bottom,var(--bronze),transparent)}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
 /* SPECS BAR */
