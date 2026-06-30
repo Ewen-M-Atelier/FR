@@ -98,12 +98,21 @@ class ModelCarousel {
   /* -------------------------------------------------
      Crée un élément <div class="c-slide"> pour une photo
      globalIdx = position réelle dans this.photos (pour la lightbox)
+
+     ★ La case n'a plus de largeur fixe en % : elle adopte
+     automatiquement la largeur réelle de la photo une fois
+     celle-ci mise à la hauteur du carrousel (height:100%).
+     Cela élimine les bandes noires causées par object-fit:contain
+     quand une photo portrait est placée dans une case plus large
+     qu'elle (cas précédent avec widthPct fixe).
   ------------------------------------------------- */
-  makeSlide(globalIdx, widthPct) {
+  makeSlide(globalIdx) {
     const file = this.photos[globalIdx];
     const s = document.createElement('div');
     s.className = 'c-slide';
-    if (widthPct) s.style.flex = `0 0 ${widthPct}%`;
+    // flex:0 0 auto → la case prend exactement la largeur de son
+    // contenu (l'image), ni plus, ni moins.
+    s.style.flex = '0 0 auto';
 
     const img = document.createElement('img');
     img.src       = `photos-${this.model}/${file}`;
@@ -138,11 +147,11 @@ class ModelCarousel {
     layer.className = 'c-layer';
     Object.assign(layer.style, {
       position: 'absolute', inset: '0',
-      display: 'flex', gap: '2px',
+      display: 'flex', gap: '2px', justifyContent: 'center',
       opacity: animate ? '0' : '1',
       transition: `opacity ${CFG.transitionDuration}ms ease`,
     });
-    this.windowAt(startIdx).forEach(gi => layer.appendChild(this.makeSlide(gi, 100 / v)));
+    this.windowAt(startIdx).forEach(gi => layer.appendChild(this.makeSlide(gi)));
 
     // Empile la nouvelle couche au-dessus, puis fait disparaître l'ancienne
     const old = track.querySelector('.c-layer');
@@ -168,29 +177,39 @@ class ModelCarousel {
 
     // Ruban = toutes les photos + clones des v premières (boucle fluide en avant)
     this.slideTotal = n + v;
-    const widthPct  = 100 / this.slideTotal;     // largeur d'une case, en % du ruban
 
     Object.assign(track.style, {
       display: 'flex',
-      width: `${(this.slideTotal / v) * 100}%`,   // le ruban est plus large que la scène
+      width: 'max-content',  // le ruban épouse la somme des largeurs réelles des photos
       height: '100%',
       transition: 'none',
       transform: 'translateX(0)',
     });
     track.innerHTML = '';
 
-    for (let i = 0; i < n; i++) track.appendChild(this.makeSlide(i, widthPct));
-    for (let i = 0; i < v; i++) track.appendChild(this.makeSlide(i, widthPct)); // clones de fin
+    for (let i = 0; i < n; i++) track.appendChild(this.makeSlide(i));
+    for (let i = 0; i < v; i++) track.appendChild(this.makeSlide(i)); // clones de fin
 
     this.trackPos = 0; // position visuelle actuelle dans le ruban (0..n-1, ou n = zone clone)
   }
 
-  /* Déplace le ruban d'EXACTEMENT une case (slide) */
+  /* Déplace le ruban d'EXACTEMENT une case (slide).
+     ★ Les cases ayant des largeurs variables (auto, selon le ratio
+     de chaque photo), le déplacement est calculé en PIXELS réels
+     mesurés sur le DOM, et non plus en pourcentage uniforme. */
   slideTo(pos, animate) {
-    const track = this.el.querySelector('.carousel-track');
-    const dur   = animate ? CFG.transitionDuration : 0;
+    const track  = this.el.querySelector('.carousel-track');
+    const slides = track.querySelectorAll('.c-slide');
+    const dur    = animate ? CFG.transitionDuration : 0;
+
+    // Somme des largeurs (+ gap 2px) des cases avant la position "pos"
+    let offsetPx = 0;
+    for (let i = 0; i < pos && i < slides.length; i++) {
+      offsetPx += slides[i].getBoundingClientRect().width + 2; // +2px = gap
+    }
+
     track.style.transition = `transform ${dur}ms cubic-bezier(.25,.46,.45,.94)`;
-    track.style.transform  = `translateX(-${(100 / this.slideTotal) * pos}%)`;
+    track.style.transform  = `translateX(-${offsetPx}px)`;
   }
 
   /* ===================================================
