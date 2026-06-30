@@ -339,5 +339,8 @@ window.addEventListener('scroll',()=>nav.classList.toggle('on',window.scrollY>70
 const obs=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('vis')}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
+
+<script src="js/carousel.js" defer></script>
+
 </body>
 </html>
