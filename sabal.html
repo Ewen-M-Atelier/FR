@@ -44,7 +44,7 @@ nav.on{background:rgba(6,6,6,.94);backdrop-filter:blur(14px);padding:1.2rem 3.5r
 .nav-links a:hover{color:var(--creme)}.nav-links a:hover::after{width:100%}
 
 /* HERO */
-.hero{height:100vh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.hero{height:70vh;min-height:560px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden} /* hauteur réduite (était 100vh) pour rapprocher le titre du carrousel */
 .hero-bg{position:absolute;inset:0;background:linear-gradient(165deg,var(--accent-h) 0%,var(--accent-m) 35%,#0c1408 60%,var(--void) 100%)}
 .hero-bg::before{content:'';position:absolute;inset:0;
   background:
@@ -72,7 +72,7 @@ nav.on{background:rgba(6,6,6,.94);backdrop-filter:blur(14px);padding:1.2rem 3.5r
 .h-title{font-family:var(--fb);font-size:clamp(4rem,9vw,8rem);font-weight:300;line-height:.9;color:var(--creme);letter-spacing:.03em;animation:up .7s ease 2.1s both}
 .h-title em{font-style:italic;color:var(--vert-pale)}
 .h-sub{font-family:var(--fu);font-size:.68rem;letter-spacing:.32em;color:var(--acier);text-transform:uppercase;margin-top:1.6rem;animation:up .7s ease 2.3s both}
-.h-scroll{display:flex;flex-direction:column;align-items:center;gap:.8rem;margin-top:3.5rem;animation:up .7s ease 2.6s both}
+.h-scroll{display:flex;flex-direction:column;align-items:center;gap:.8rem;margin-top:1.8rem;animation:up .7s ease 2.6s both} /* margin-top réduit (était 3.5rem) */
 .h-scroll-line{width:1px;height:54px;background:linear-gradient(to bottom,var(--vert),transparent)}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
@@ -117,7 +117,7 @@ nav.on{background:rgba(6,6,6,.94);backdrop-filter:blur(14px);padding:1.2rem 3.5r
 /* ORIGIN BLOCK — histoire du nom */
 .origin{background:var(--surface);border-top:1px solid rgba(58,110,58,.12);border-bottom:1px solid rgba(58,110,58,.12);padding:5rem;display:grid;grid-template-columns:1fr 2px 1fr;gap:5rem;align-items:center}
 .origin-div{background:rgba(58,110,58,.2)}
-/*.origin-left{}*/
+.origin-left{}
 .origin-eyebrow{font-family:var(--fu);font-size:.6rem;letter-spacing:.35em;color:var(--vert-clair);text-transform:uppercase;margin-bottom:1.2rem;display:block}
 .origin-title{font-family:var(--fb);font-size:clamp(1.6rem,2.5vw,2.2rem);font-weight:300;color:var(--creme);line-height:1.2;margin-bottom:1.8rem}
 .origin-title em{font-style:italic;color:var(--vert-pale)}
@@ -494,8 +494,5 @@ window.addEventListener('scroll',()=>nav.classList.toggle('on',window.scrollY>70
 const obs=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('vis')}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
-
-<script src="js/carousel.js" defer></script>
-
 </body>
 </html>

@@ -30,7 +30,7 @@ nav.on{background:rgba(6,6,6,.94);backdrop-filter:blur(14px);padding:1.2rem 3.5r
 .nav-links a:hover{color:var(--creme)}.nav-links a:hover::after{width:100%}
 
 /* HERO */
-.hero{height:70vh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.hero{height:70vh;min-height:560px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden} /* hauteur réduite (était 100vh) pour rapprocher le titre du carrousel */
 .hero-bg{position:absolute;inset:0;background:linear-gradient(160deg,var(--accent-h) 0%,var(--accent-m) 40%,#0c0c14 70%,var(--void) 100%)}
 .hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(60,80,180,.07) 0%,transparent 55%),radial-gradient(ellipse at 80% 30%,rgba(138,101,53,.06) 0%,transparent 45%)}
 .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,6,6,.3) 0%,transparent 40%,rgba(6,6,6,.7) 85%,rgba(6,6,6,1) 100%)}
@@ -45,8 +45,8 @@ nav.on{background:rgba(6,6,6,.94);backdrop-filter:blur(14px);padding:1.2rem 3.5r
 .h-title{font-family:var(--fb);font-size:clamp(4rem,9vw,8rem);font-weight:300;line-height:.9;color:var(--creme);letter-spacing:.03em;animation:up .7s ease 2.1s both}
 .h-title em{font-style:italic;color:var(--acier-vif)}
 .h-sub{font-family:var(--fu);font-size:.68rem;letter-spacing:.32em;color:var(--acier);text-transform:uppercase;margin-top:1.6rem;animation:up .7s ease 2.3s both}
-.h-scroll{display:flex;flex-direction:column;align-items:center;gap:.8rem;margin-top:.5rem;animation:up .7s ease 2.6s both}
-.h-scroll-line{width:1px;height:10px;background:linear-gradient(to bottom,var(--bronze),transparent)}
+.h-scroll{display:flex;flex-direction:column;align-items:center;gap:.8rem;margin-top:1.8rem;animation:up .7s ease 2.6s both} /* margin-top réduit (était 3.5rem) */
+.h-scroll-line{width:1px;height:54px;background:linear-gradient(to bottom,var(--bronze),transparent)}
 @keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
 /* SPECS BAR */
@@ -299,8 +299,5 @@ window.addEventListener('scroll',()=>nav.classList.toggle('on',window.scrollY>70
 const obs=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('vis')}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
-
-<script src="js/carousel.js" defer></script>
-
 </body>
 </html>
