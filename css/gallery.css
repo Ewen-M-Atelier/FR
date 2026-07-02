@@ -1,0 +1,135 @@
+/* =====================================================
+   gallery.css — Galerie photo en grille + lightbox
+   Ewen-M-Atelier · à charger APRÈS base.css
+
+   Utilisé par : autres-modeles.html, couteaux-disponibles.html
+   (et toute autre page qui inclut un <section class="photo-gallery">)
+===================================================== */
+
+/* --- Grille de vignettes ---------------------------- */
+.photo-gallery { width: 100%; }
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 3px;
+}
+
+.gallery-item {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border: none;
+    padding: 0;
+    background: var(--charbon);
+    cursor: zoom-in;
+    display: block;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: .88;
+    transition: transform .7s cubic-bezier(.25,.46,.45,.94), opacity .4s ease;
+}
+
+.gallery-item::after {
+    content: '';
+    position: absolute; inset: 0;
+    border: 1px solid rgba(138, 101, 53, 0);
+    transition: border-color .4s;
+    pointer-events: none;
+}
+
+.gallery-item:hover img   { transform: scale(1.06); opacity: 1; }
+.gallery-item:hover::after { border-color: rgba(184, 135, 74, .4); }
+
+/* --- État vide (aucune photo dans le dossier) ------- */
+.gallery-empty {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: .7rem;
+    padding: 5rem 2rem;
+    text-align: center;
+    border: 1px dashed rgba(138, 101, 53, .25);
+}
+.gallery-empty p {
+    font-family: var(--fb);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--acier);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+.gallery-empty code {
+    font-family: var(--fu);
+    font-size: .78rem;
+    font-style: normal;
+    color: var(--bronze-clair);
+}
+
+/* --- Lightbox (agrandissement plein écran) ---------- */
+.lightbox {
+    position: fixed; inset: 0;
+    z-index: 9997;
+    background: rgba(6, 6, 6, .97);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .4s ease, visibility .4s ease;
+}
+.lightbox.open { opacity: 1; visibility: visible; }
+
+.lb-body  { max-width: 88vw; max-height: 82vh; }
+.lb-img   { max-width: 88vw; max-height: 82vh; object-fit: contain; display: block; }
+
+.lb-close, .lb-prev, .lb-next {
+    position: absolute;
+    background: transparent;
+    border: 1px solid rgba(138, 101, 53, .3);
+    color: var(--creme);
+    cursor: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color .3s, background .3s;
+}
+.lb-close svg, .lb-prev svg, .lb-next svg {
+    width: 16px; height: 16px;
+    stroke: currentColor; fill: none;
+}
+.lb-close:hover, .lb-prev:hover, .lb-next:hover {
+    border-color: var(--bronze-clair);
+    background: rgba(138, 101, 53, .12);
+}
+
+.lb-close { top: 2rem; right: 2rem; width: 42px; height: 42px; }
+.lb-prev  { left: 2rem; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; }
+.lb-next  { right: 2rem; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; }
+
+.lb-counter {
+    position: absolute;
+    bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--fu);
+    font-size: .62rem;
+    letter-spacing: .25em;
+    color: var(--acier);
+    text-transform: uppercase;
+}
+
+/* --- Responsive -------------------------------------- */
+@media (max-width: 768px) {
+    .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 2px; }
+    .lb-prev, .lb-next { width: 38px; height: 38px; }
+    .lb-prev svg, .lb-next svg { width: 13px; height: 13px; }
+    .lb-close { top: 1.2rem; right: 1.2rem; width: 36px; height: 36px; }
+    .lb-prev  { left: .8rem; }
+    .lb-next  { right: .8rem; }
+    .lb-counter { bottom: 1.2rem; font-size: .56rem; }
+}

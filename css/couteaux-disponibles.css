@@ -1,0 +1,55 @@
+/* =====================================================
+   couteaux-disponibles.css — Page "Couteaux disponibles"
+   Chargé APRÈS base.css (et avant gallery.css)
+===================================================== */
+
+/* --- Hero ------------------------------------------ */
+.hero {
+    height: 60vh; position: relative;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-end;
+    padding-bottom: 6rem; overflow: hidden;
+}
+.hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(165deg, #08080c 0%, #0e0c10 35%, #0c0a0a 65%, var(--void) 100%);
+}
+.hero-bg::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 55%, rgba(138,101,53,.07) 0%, transparent 48%),
+        radial-gradient(ellipse at 82% 30%, rgba(80,60,120,.05) 0%, transparent 42%);
+}
+.hero-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(6,6,6,.25) 0%, transparent 35%, rgba(6,6,6,.75) 82%, rgba(6,6,6,1) 100%);
+}
+.hero-grid { position:absolute; inset:0; overflow:hidden; opacity:.022; pointer-events:none; }
+.hero-grid::before { content:''; position:absolute; inset:-5%; background: repeating-linear-gradient(0deg,transparent 0%,transparent 49px,rgba(200,190,160,.9) 49px,rgba(200,190,160,.9) 50px),repeating-linear-gradient(90deg,transparent 0%,transparent 49px,rgba(200,190,160,.9) 49px,rgba(200,190,160,.9) 50px); }
+
+.hero-content { text-align:center; position:relative; z-index:2; }
+.h-eyebrow { font-family:var(--fu); font-size:.67rem; letter-spacing:.45em; color:var(--bronze-clair); text-transform:uppercase; margin-bottom:1.6rem; animation:up .7s ease .4s both; }
+.h-title   { font-family:var(--fb); font-size:clamp(3rem,7vw,5.8rem); font-weight:300; line-height:.95; color:var(--creme); letter-spacing:.03em; animation:up .7s ease .6s both; }
+.h-title em { font-style:italic; color:var(--acier-vif); }
+.h-sub     { font-family:var(--fb); font-size:1.1rem; font-style:italic; font-weight:300; color:var(--acier); margin-top:1.4rem; animation:up .7s ease .8s both; }
+@keyframes up { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
+
+/* --- Intro texte ------------------------------------ */
+.intro { max-width:740px; margin:0 auto; padding:6rem 5rem 4rem; text-align:center; }
+.intro p { font-family:var(--fb); font-size:1.15rem; font-weight:300; line-height:1.9; color:var(--acier); }
+.intro em { font-style:italic; color:var(--creme); }
+
+/* --- Section galerie --------------------------------- */
+.gallery-section { padding:2rem 5rem 9rem; background:var(--void); }
+.gallery-header { text-align:center; margin-bottom:4rem; }
+
+/* --- Note contact en bas de page ---------------------- */
+.contact-cta { padding:6rem 5rem 8rem; text-align:center; border-top:1px solid rgba(138,101,53,.1); }
+.contact-cta p { max-width:520px; margin:0 auto 2rem; font-family:var(--fb); font-size:1.05rem; font-style:italic; color:var(--acier); line-height:1.85; }
+
+/* --- Responsive --------------------------------------- */
+@media (max-width:768px) {
+    .intro { padding:4rem 2rem 3rem; }
+    .gallery-section { padding:1rem 2rem 6rem; }
+    .contact-cta { padding:4rem 2rem 5rem; }
+}

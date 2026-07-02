@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Autres Créations — Ewen-M-Atelier</title>
+<title>Mes autres créations — Ewen-M-Atelier</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
@@ -203,6 +203,7 @@ footer{border-top:1px solid rgba(138,101,53,.18);padding:2.8rem 3.5rem;display:f
   footer{flex-direction:column;gap:1.5rem;text-align:center;padding:2rem 1.5rem}
 }
 </style>
+<link rel="stylesheet" href="css/gallery.css"> <!-- galerie photo en grille -->
 </head>
 <body>
 <div class="cur" id="cur"></div>
@@ -216,6 +217,7 @@ footer{border-top:1px solid rgba(138,101,53,.18);padding:2.8rem 3.5rem;display:f
     <!--li><a href="personnalisation.html">Personnalisation</a></li-->
     <li><a href="index.html#artisan">L'Artisan</a></li>
     <li><a href="autres-modeles.html" class="active">Autres créations</a></li>
+    <li><a href="couteaux-disponibles.html">Couteaux disponibles</a></li>
     <li><a href="index.html#contact">Contact</a></li>
   </ul>
 </nav>
@@ -226,7 +228,7 @@ footer{border-top:1px solid rgba(138,101,53,.18);padding:2.8rem 3.5rem;display:f
   <div class="hero-grid"></div>
   <div class="hero-content">
     <div class="h-eyebrow">Ewen-M-Atelier · L'Atelier en mouvement</div>
-    <h1 class="h-title">Autres<br><em>Créations</em></h1>
+    <h1 class="h-title">Mes autres<br><em>créations</em></h1>
     <p class="h-sub">L'imagination concrétisée</p>
   </div>
 </section>
@@ -236,6 +238,48 @@ footer{border-top:1px solid rgba(138,101,53,.18);padding:2.8rem 3.5rem;display:f
   <div class="deco"></div>
   <p>Un coutelier ne s'arrête jamais. Entre deux commandes, dans les marges du temps, <em>de nouvelles formes émergent</em>. Esquisses au crayon sur papier kraft, silhouettes imaginées dans la lueur du four, profils qui hantent l'esprit jusqu'à ce qu'ils trouvent leur acier. Voici ce qui se crée, lentement, à l'atelier.</p>
   <div class="deco"></div>
+</div>
+
+<!-- ================================================
+     GALERIE — Créations en cours
+     · Les photos sont listées dans photos.json
+     · photos.json est généré automatiquement par
+       GitHub Actions à chaque push vers le dépôt.
+     · Pour ajouter une photo : déposez-la dans
+       photos-autres-modeles/  puis faites un push.
+       La page se met à jour toute seule.
+     · Tous formats acceptés : jpg png webp heic…
+================================================ -->
+<section class="others-section">
+  <div class="others-header reveal" style="text-align:center;margin-bottom:3.5rem">
+    <span class="s-num" style="display:block;text-align:center;margin-bottom:1rem">Carnet d'atelier</span>
+    <h2 class="s-title" style="text-align:center">Ce qui prend forme<br><em>en ce moment</em></h2>
+  </div>
+
+  <section class="photo-gallery reveal" data-model="autres-modeles" data-label="Créations en cours à l'atelier" aria-label="Galerie des créations en cours">
+    <div class="gallery-grid"></div>
+    <div class="gallery-empty">
+      <p>Aucune photo pour le moment.</p>
+      <p>Déposez vos photos dans <code>photos-autres-modeles/</code><br>et poussez sur GitHub.</p>
+    </div>
+  </section>
+</section>
+
+<!-- ================================================
+     LIGHTBOX — agrandissement au clic sur une photo
+================================================ -->
+<div class="lightbox" id="gallery-lightbox" role="dialog" aria-modal="true" aria-label="Photo agrandie">
+  <button class="lb-close" aria-label="Fermer (Échap)">
+    <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <button class="lb-prev" aria-label="Photo précédente (←)">
+    <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <div class="lb-body"><img class="lb-img" src="" alt=""></div>
+  <button class="lb-next" aria-label="Photo suivante (→)">
+    <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <div class="lb-counter"></div>
 </div>
 
 <!-- NOTIFICATION -->
@@ -305,5 +349,6 @@ window.addEventListener('scroll',()=>nav.classList.toggle('on',window.scrollY>70
 const obs=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('vis')}),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
+<script src="js/gallery.js" defer></script>
 </body>
 </html>

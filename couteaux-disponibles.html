@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<!--
+  =====================================================
+  couteaux-disponibles.html — Galerie des couteaux disponibles
+  Ewen-M-Atelier · Coutellerie d'Art · Thiers
+  =====================================================
+  CSS chargés (dans l'ordre) :
+    1. base.css                  → styles communs à tout le site
+    2. couteaux-disponibles.css  → styles propres à cette page
+    3. gallery.css                → composant galerie + lightbox
+  JS chargé en fin de page :
+    1. main.js     → curseur, loader, nav, reveal
+    2. gallery.js  → lecture de photos.json, grille, lightbox
+  =====================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Couteaux disponibles — Ewen-M-Atelier</title>
+  <meta name="description" content="Couteaux disponibles à la commande — Ewen-M-Atelier, coutellerie d'art à Thiers.">
+
+  <!-- Polices Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@400;500&family=Raleway:wght@200;300;400&display=swap" rel="stylesheet">
+
+  <!-- Feuilles de style -->
+  <link rel="stylesheet" href="css/base.css">                   <!-- styles communs -->
+  <link rel="stylesheet" href="css/couteaux-disponibles.css">   <!-- styles de cette page -->
+  <link rel="stylesheet" href="css/gallery.css">                <!-- galerie photo en grille -->
+</head>
+<body>
+
+  <div id="cur"  class="cur"></div>
+  <div id="curR" class="cur-ring"></div>
+
+  <div id="loader">
+    <div class="ld-logo">EWEN·M·ATELIER</div>
+    <div class="ld-bar"></div>
+  </div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">EWEN·M·ATELIER</a>
+    <ul class="nav-links">
+      <li><a href="index.html#modeles">Modèles</a></li>
+      <li><a href="index.html#artisan">L'Artisan</a></li>
+      <li><a href="autres-modeles.html">Autres créations</a></li>
+      <li><a href="couteaux-disponibles.html" class="active">Couteaux disponibles</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="h-eyebrow">Ewen-M-Atelier · La Collection</div>
+      <h1 class="h-title">Couteaux<br><em>disponibles</em></h1>
+      <p class="h-sub">Pièces prêtes à trouver leur propriétaire</p>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <div class="intro reveal">
+    <p>Chaque lame présentée ici a déjà trouvé sa forme définitive. Forgée, trempée, montée et polie à l'atelier, elle n'attend plus <em>que sa prochaine main</em>. Cliquez sur une photo pour l'agrandir.</p>
+    <div class="deco"></div>
+  </div>
+
+  <!-- ================================================
+       GALERIE — Couteaux disponibles
+       · Les photos sont listées dans photos.json
+       · photos.json est généré automatiquement par
+         GitHub Actions à chaque push vers le dépôt.
+       · Pour ajouter une photo : déposez-la dans
+         photos-couteaux-disponibles/  puis faites un push.
+         La page se met à jour toute seule.
+       · Tous formats acceptés : jpg png webp heic…
+  ================================================ -->
+  <section class="gallery-section">
+    <div class="gallery-header reveal">
+      <span class="s-num" style="text-align:center;display:block">La Collection</span>
+      <h2 class="s-title">Prêts à<br><em>être commandés</em></h2>
+      <div class="deco-line deco-center"></div>
+    </div>
+
+    <section class="photo-gallery reveal" data-model="couteaux-disponibles" data-label="Couteau disponible" aria-label="Galerie des couteaux disponibles">
+      <div class="gallery-grid"></div>
+      <div class="gallery-empty">
+        <p>Aucune photo pour le moment.</p>
+        <p>Déposez vos photos dans <code>photos-couteaux-disponibles/</code><br>et poussez sur GitHub.</p>
+      </div>
+    </section>
+  </section>
+
+  <!-- CONTACT CTA -->
+  <section class="contact-cta reveal">
+    <p>Un modèle retient votre attention ? L'atelier ne vend pas en ligne — chaque commande se prépare sur mesure, par échange direct.</p>
+    <a href="index.html#contact" class="btn">
+      Contacter l'atelier
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </section>
+
+  <!-- ================================================
+       LIGHTBOX — agrandissement au clic sur une photo
+  ================================================ -->
+  <div class="lightbox" id="gallery-lightbox" role="dialog" aria-modal="true" aria-label="Photo agrandie">
+    <button class="lb-close" aria-label="Fermer (Échap)">
+      <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <button class="lb-prev" aria-label="Photo précédente (←)">
+      <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="lb-body"><img class="lb-img" src="" alt=""></div>
+    <button class="lb-next" aria-label="Photo suivante (→)">
+      <svg viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6"/></svg>
+    </button>
+    <div class="lb-counter"></div>
+  </div>
+
+  <footer>
+    <div class="f-logo">EWEN·M·ATELIER</div>
+    <div class="f-tag">Coutellerie d'art · Thiers, France</div>
+    <div class="f-social">
+      <a href="https://instagram.com/ewenm.atelier" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <a href="https://facebook.com/ewenmatelier" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+    </div>
+  </footer>
+  <div class="f-copy">© 2024 Ewen-M-Atelier · Tous droits réservés · Thiers, France</div>
+
+  <!-- Scripts communs -->
+  <script src="js/main.js"></script>
+  <script src="js/gallery.js" defer></script>
+
+</body>
+</html>
