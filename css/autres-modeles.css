@@ -5,10 +5,10 @@
 
 /* --- Hero ------------------------------------------ */
 .hero {
-    height: 72vh; position: relative;
+    height: 30vh; position: relative;
     display: flex; flex-direction: column;
     align-items: center; justify-content: flex-end;
-    padding-bottom: 8rem; overflow: hidden;
+    padding-bottom: 2rem; overflow: hidden;
 }
 .hero-bg {
     position: absolute; inset: 0;
@@ -36,7 +36,7 @@
 @keyframes up { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:none} }
 
 /* --- Intro texte ----------------------------------- */
-.intro { max-width:780px; margin:0 auto; padding:8rem 5rem; text-align:center; }
+.intro { max-width:780px; margin:0 auto; padding:4rem 3rem; text-align:center; }
 .intro p { font-family:var(--fb); font-size:1.18rem; font-weight:300; line-height:1.95; color:var(--acier); }
 .intro em { font-style:italic; color:var(--creme); }
 .deco { width:52px; height:1px; background:var(--bronze); margin:2rem auto; }
@@ -44,7 +44,7 @@
 /* --- Modèle vedette (Le Vendetta) ------------------ */
 .featured {
     display: grid; grid-template-columns:1fr 1fr;
-    min-height: 85vh;
+    min-height: 30vh;
     border-top: 1px solid rgba(138,101,53,.12);
 }
 /* Colonne visuelle gauche */
@@ -88,8 +88,8 @@
 
 
 /* --- Grille des autres créations en cours ---------- */
-.others-section { padding:9rem 5rem; background:var(--void); border-top:1px solid rgba(138,101,53,.1); }
-.others-header  { margin-bottom:5rem; }
+.others-section { padding:4rem 3rem; background:var(--void); border-top:1px solid rgba(138,101,53,.1); }
+.others-header  { margin-bottom:3rem; }
 .others-grid    { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
 
 /* Chaque carte de création */
@@ -116,13 +116,13 @@
 
 
 /* --- Timeline de l'atelier ------------------------- */
-.timeline { padding:7rem 5rem; background:var(--charbon); border-top:1px solid rgba(138,101,53,.1); }
+.timeline { padding:5rem 3rem; background:var(--charbon); border-top:1px solid rgba(138,101,53,.1); }
 .timeline-inner { max-width:900px; margin:0 auto; }
 .tl-header { text-align:center; margin-bottom:5rem; }
 /* Le trait vertical de la timeline */
 .tl-track { position:relative; padding-left:3rem; }
 .tl-track::before { content:''; position:absolute; left:0; top:0; bottom:0; width:1px; background:linear-gradient(to bottom,rgba(138,101,53,.4) 0%,rgba(138,101,53,.15) 80%,transparent 100%); }
-.tl-item { position:relative; padding:0 0 4rem 3.5rem; }
+.tl-item { position:relative; padding:0 0 2rem 2rem; }
 .tl-item:last-child { padding-bottom:0; }
 /* Point sur le trait */
 .tl-dot { position:absolute; left:-5px; top:.4rem; width:11px; height:11px; border-radius:50%; border:1px solid var(--bronze-clair); background:var(--void); }
