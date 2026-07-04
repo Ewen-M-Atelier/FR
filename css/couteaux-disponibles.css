@@ -5,10 +5,18 @@
 
 /* --- Hero ------------------------------------------ */
 .hero {
-    height: 50vh; position: relative;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: flex-end;
-    padding-bottom: 4rem; overflow: hidden;
+    height: auto;               /* plus de hauteur fixe : le titre seul détermine la hauteur */
+    padding-top: 6rem;
+    padding-right: 3rem;
+    padding-bottom: 3rem;
+    padding-left: 3rem;
+    /*height: 60vh; padding-bottom: 5rem; */
+    position: relative;
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    justify-content: flex-end;
+    overflow: hidden;
 }
 .hero-bg {
     position: absolute; inset: 0;
