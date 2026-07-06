@@ -5,7 +5,7 @@
 
 /* --- Hero ------------------------------------------ */
 .hero {
-    height: auto;               /* plus de hauteur fixe : le titre seul détermine la hauteur */
+    height: 30vh;               /* plus de hauteur fixe : le titre seul détermine la hauteur */
     padding-top: 3rem;
     padding-right: 3rem;
     padding-bottom: 0.5rem;
