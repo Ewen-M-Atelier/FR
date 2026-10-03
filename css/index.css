@@ -253,29 +253,29 @@
 .mcard:nth-child(1) .mcard-bg {
     background:
         linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.65)),
-        url("../images/sgian-dubh.jpg") center/cover no-repeat;
+        url("../photos-sgian-dubh/sgian-dubh-pour-index.jpg") center/cover no-repeat;
 }
 .mcard:nth-child(2) .mcard-bg {
     background:
         linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.65)),
-        url("../images/pataud.jpg") center/cover no-repeat;
+        url("../photos-pataud/pataud-pour-index.jpg") center/cover no-repeat;
 }
 .mcard:nth-child(3) .mcard-bg {
     background:
         linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.65)),
         url("../photos-sabal/sabal-pour-index.jpg") center/cover no-repeat;
 }
-.mcard:nth-child(3) .mcard-bg {
+.mcard:nth-child(4) .mcard-bg {
     background:
         linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.65)),
         url("../photos-seurre/seurre-pour-index.jpg") center/cover no-repeat;
 }
-.mcard:nth-child(3) .mcard-bg {
+.mcard:nth-child(5) .mcard-bg {
     background:
         linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.65)),
         url("../photos-solognot/solognot-pour-index.jpg") center/cover no-repeat;
 }
-.mcard:nth-child(3) .mcard-bg {
+.mcard:nth-child(6) .mcard-bg {
     background:
         linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.65)),
         url("../photos-diderot/diderot-pour-index.jpg") center/cover no-repeat;
