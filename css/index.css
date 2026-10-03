@@ -263,7 +263,22 @@
 .mcard:nth-child(3) .mcard-bg {
     background:
         linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.65)),
-        url("../images/sabal.jpg") center/cover no-repeat;
+        url("../photos-sabal/sabal-pour-index.jpg") center/cover no-repeat;
+}
+.mcard:nth-child(3) .mcard-bg {
+    background:
+        linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.65)),
+        url("../photos-seurre/seurre-pour-index.jpg") center/cover no-repeat;
+}
+.mcard:nth-child(3) .mcard-bg {
+    background:
+        linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.65)),
+        url("../photos-solognot/solognot-pour-index.jpg") center/cover no-repeat;
+}
+.mcard:nth-child(3) .mcard-bg {
+    background:
+        linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.65)),
+        url("../photos-diderot/diderot-pour-index.jpg") center/cover no-repeat;
 }
 
 /* Reflet métallique diagonal sur le fond */
