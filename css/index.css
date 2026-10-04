@@ -24,7 +24,8 @@
 ------------------------------------------------------- */
 
 .hero {
-    height: 100vh;               /* toute la hauteur de la fenêtre */
+    /*height: 100vh;               /* toute la hauteur de la fenêtre */
+    height: 95vh;               /* toute la hauteur de la fenêtre */
     position: relative;
     display: flex;
     flex-direction: column;
@@ -647,11 +648,19 @@
 ------------------------------------------------------- */
 
 .autres-teaser {
-    padding: 6rem 5rem;
+    adding: 6rem 5rem;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
     background: var(--surface);
     text-align: center;
     border-top: 1px solid rgba(138,101,53,.12);
 }
+
+/*.autres-teaser > .reveal {
+    max-width: 800px;
+    margin: 0 auto;
+}*/
 
 .autres-teaser p {
     font-family: var(--fb);
@@ -663,6 +672,12 @@
     margin-left: auto;
     margin-right: auto;
 }
+.autres-teaser > .reveal {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
 
 /* Le bouton est centré dans cette section */
 .autres-teaser .btn { margin: 2.5rem auto 0; }
@@ -671,9 +686,18 @@
 /* -------------------------------------------------------
    SECTION CONTACT — 3 blocs d'informations
 ------------------------------------------------------- */
-
 .contact {
-    max-width: 1200px;
+    max-width: 1700px;
+    margin: 0 auto;
+    padding: 9rem 5rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4.5rem;
+}
+
+/*.contact {
+    /*max-width: 1200px; 04-10
+    max-width: 1800px;
     margin: 0 auto;
     padding: 9rem 5rem;
     display: grid;
