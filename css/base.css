@@ -270,9 +270,9 @@ nav.on {
     display: flex;
     gap: 2.5rem;
     list-style: none;
-}
+}*/
 
-#nav .nav-links { /* 04-10*/
+.nav-links { /* 04-10*/
     grid-area: links;
 
     display: flex;
