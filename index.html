@@ -53,16 +53,39 @@
        id="nav" → main.js ajoute la classe "on" au défilement
   ================================================ -->
   <nav id="nav">
-    <a href="index.html" class="nav-logo">EWEN·M·ATELIER</a>
+    <a href="index.html" class="nav-logo">
+      EWEN·M·ATELIER
+    </a>
+    
     <ul class="nav-links">
-      <li><a href="#modeles">Modèles</a></li>
-      <!--li><a href="personnalisation.html">Personnalisation</a></li-->
+      <li><a href="#modeles">La Gamme</a></li>
+      <li><a href="couteaux-disponibles.html">Couteaux Disponibles</a></li>
+      <li><a href="autres-modeles.html">Autres Créations</a></li>
       <li><a href="#artisan">L'Artisan</a></li>
-      <li><a href="autres-modeles.html">Autres créations</a></li>
-      <li><a href="couteaux-disponibles.html">Couteaux disponibles</a></li>
       <li><a href="#contact">Contact</a></li>
+      <!--li><a href="personnalisation.html">Personnalisation</a></li-->
     </ul>
+
+    <!-- ================================================
+       MARQUEE — Bandeau de texte défilant en boucle
+  ================================================ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="mq-track">
+      <!-- Le texte est dupliqué pour un défilement continu sans saut -->
+      <span class="mq-item">Venez découvrir mes créations : </span><span class="mq-dot"></span>
+      <span class="mq-item">Salon de la Durolle aux couteaux (10&11 Oct 26)</span><span class="mq-dot"></span>
+      <span class="mq-item">Salon du couteau d'art d'Annecy (29 Nov 26)</span><span class="mq-dot"></span>
+      <span class="mq-item">Euro Knife Show (13&14 Fev 27)</span><span class="mq-dot"></span>
+      <!-- Copie pour la boucle -->
+      <span class="mq-item">Venez découvrir mes créations : </span><span class="mq-dot"></span>
+      <span class="mq-item">Salon de la Durolle aux couteaux (10&11 Oct 26)</span><span class="mq-dot"></span>
+      <span class="mq-item">Salon du couteau d'art d'Annecy (29 Nov 26)</span><span class="mq-dot"></span>
+      <span class="mq-item">Euro Knife Show (13&14 Fev 27)</span><span class="mq-dot"></span>
+    </div>
+  </div>
   </nav>
+
+  
 
   <!-- ================================================
        HERO — Section d'entrée plein écran
@@ -104,26 +127,7 @@
 
   </section>
 
-  <!-- ================================================
-       MARQUEE — Bandeau de texte défilant en boucle
-  ================================================ -->
-  <div class="marquee" aria-hidden="true">
-    <div class="mq-track">
-      <!-- Le texte est dupliqué pour un défilement continu sans saut -->
-      <span class="mq-item">Thiers</span><span class="mq-dot"></span>
-      <span class="mq-item">Capitale Française de la Coutellerie</span><span class="mq-dot"></span>
-      <span class="mq-item">Artisanat d'Art</span><span class="mq-dot"></span>
-      <span class="mq-item">Pièces Uniques sur Mesure</span><span class="mq-dot"></span>
-      <span class="mq-item">Savoir-Faire Ancestral</span><span class="mq-dot"></span>
-      <!-- Copie pour la boucle -->
-      <span class="mq-item">Thiers</span><span class="mq-dot"></span>
-      <span class="mq-item">Capitale Française de la Coutellerie</span><span class="mq-dot"></span>
-      <span class="mq-item">Artisanat d'Art</span><span class="mq-dot"></span>
-      <span class="mq-item">Pièces Uniques sur Mesure</span><span class="mq-dot"></span>
-      <span class="mq-item">Savoir-Faire Ancestral</span><span class="mq-dot"></span>
-    </div>
-  </div>
-
+  
   <!-- ================================================
        LES 3 MODÈLES — Grille cliquable
        Chaque carte pointe vers la page du modèle.

@@ -749,7 +749,11 @@
 
 /* Mobile */
 @media (max-width: 768px) {
-    .hero { padding-bottom: 6rem; }
+    .hero { /* 04-10 */
+        padding-top: 105px;
+        box-sizing: border-box;
+        padding-bottom: 6rem;
+     }
     .atelier-txt { padding: 5rem 2rem; }
     .perso-txt { padding: 4rem 2rem; }
     .autres-teaser { padding: 5rem 2rem; }
