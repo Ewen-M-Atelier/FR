@@ -40,9 +40,10 @@
     --surface:       #161616;   /* gris très foncé : surfaces secondaires */
     --acier:         #b4bac2;   /* gris acier clair : textes secondaires */
     --acier-vif:     #d8dde3;   /* gris acier lumineux : textes en italique */
-    --bronze:        #8a6535;   /* bronze foncé : ligne décorative, bordures */
-    --bronze-clair:  #b8874a;   /* bronze clair : labels, accents */
-    --or:            #d4aa6e;   /* dorée : curseur, icônes actives */
+    /*--bronze:        #8a6535;   /* bronze foncé : ligne décorative, bordures */
+    /*--bronze-clair:  #b8874a;   /* bronze clair : labels, accents */
+     --bronze:        #40131b;   /* bordeaux foncé : ligne décorative, bordures */
+    --bronze-clair:  #803140;   /* bordeaux clair : labels, accents */--or:            #d4aa6e;   /* dorée : curseur, icônes actives */
     --bois:          #3a2518;   /* brun bois foncé : référence bois de manche */
     --bois-clair:    #6b4226;   /* brun bois clair */
     --creme:         #f5f0e8;   /* crème : textes principaux sur fond noir */
