@@ -181,8 +181,8 @@
 
 .mq-item {
     font-family: var(--fu);
-    font-size: .62rem;
-    font-weight: 300;
+    font-size: .8rem; /*.62*/
+    font-weight: 400; /*300*/
     letter-spacing: .3em;
     color: var(--creme);
     padding: 0 3rem;

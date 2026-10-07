@@ -260,7 +260,9 @@ nav.on {
     grid-area: logo; /* 04-10*/
 
     font-family: var(--fd);
-    font-size: .78rem;
+    /*font-size: .78rem;*/
+    font-size: 1.2rem;
+    font-weight: 500;
     letter-spacing: .42em;
     color: var(--creme);
     text-decoration: none;
@@ -295,8 +297,9 @@ nav.on {
 /* Chaque lien de navigation */
 .nav-links a {
     font-family: var(--fu);
-    font-size: .67rem;
-    font-weight: 300;
+    /*font-size: .67rem;*/
+    font-size: .8rem;
+    font-weight: 400;
     letter-spacing: .22em;
     color: var(--acier);
     text-decoration: none;
