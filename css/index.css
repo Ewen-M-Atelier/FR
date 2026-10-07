@@ -297,8 +297,13 @@
 .mcard-ov {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(6,6,6,.97) 0%, rgba(6,6,6,.45) 38%, rgba(6,6,6,.1) 65%, transparent 100%);
+/*    background: linear-gradient(to top, rgba(6,6,6,.97) 0%, rgba(6,6,6,.45) 38%, rgba(6,6,6,.1) 65%, transparent 100%); */
+    background: linear-gradient(to top, rgba(6,6,6,.97) 0%, rgba(6,6,6,.15) 38%, rgba(6,6,6,.3) 65%, transparent 100%);
     z-index: 1;
+}
+.mcard:hover .mcard-ov {
+    opacity: 0;
+    transition: opacity 0.4s ease;
 }
 
 /* SVG du couteau en filigrane dans la carte */
@@ -677,11 +682,8 @@
     margin: 0 auto;
 }
 
-
-
 /* Le bouton est centré dans cette section */
 .autres-teaser .btn { margin: 2.5rem auto 0; }
-
 
 /* -------------------------------------------------------
    SECTION CONTACT — 3 blocs d'informations
@@ -689,20 +691,10 @@
 .contact {
     max-width: 1700px;
     margin: 0 auto;
-    padding: 9rem 5rem;
+    padding: 4rem 3rem;          /* padding vertical réduit (était 9rem) */
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 4.5rem;
-}
-
-/*.contact {
-    /*max-width: 1200px; 04-10
-    max-width: 1800px;
-    margin: 0 auto;
-    padding: 9rem 5rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4.5rem;
+    gap: 2rem;                   /* gap réduit (était 4.5rem) : 2.5rem de plus par colonne */
 }
 
 /* Titre de chaque bloc (Atelier, Contact, Réseaux) */
